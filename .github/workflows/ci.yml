@@ -1,0 +1,29 @@
+name: ci
+on:
+  push:
+    branches:
+      - main
+
+env:
+  CI: 1
+
+jobs:
+  deploy:
+    if: github.event.pull_request.head.repo.fork == false
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+      - name: Install dependencies
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          pip install git+https://${GH_TOKEN}@github.com/squidfunk/mkdocs-material-insiders.git
+          pip install -r requirements.txt
+      - name: Build documentation
+        run: |
+          mkdocs gh-deploy --force

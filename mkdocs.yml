@@ -1,0 +1,134 @@
+site_name: The Internals of Spark on Kubernetes
+site_url: https://jaceklaskowski.github.io/spark-kubernetes-book
+site_author: Jacek Laskowski
+site_description: Demystifying inner-workings of Spark on Kubernetes
+
+repo_name: spark-kubernetes-book
+repo_url: https://github.com/jaceklaskowski/spark-kubernetes-book
+
+copyright: |
+  Copyright &copy; 2021 <a href="https://twitter.com/jaceklaskowski" target="_blank" rel="noopener">Jacek Laskowski</a>
+
+theme:
+  name: material
+  language: en
+  icon:
+    logo: material/book-open-page-variant
+    repo: fontawesome/brands/github
+  features:
+    - navigation.tabs
+    - navigation.instant
+    - search.suggest
+    - search.highlight
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+    - scheme: slate
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+
+markdown_extensions:
+  - admonition
+  - codehilite
+  - footnotes
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.inlinehilite
+  - pymdownx.magiclink
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tabbed
+  - pymdownx.tilde
+
+plugins:
+  - search
+  - minify:
+      minify_html: true
+  - git-revision-date:
+      enabled_if_env: CI
+  - awesome-pages
+  - macros
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/jaceklaskowski
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/jaceklaskowski
+    - icon: fontawesome/brands/linkedin
+      link: https://linkedin.com/in/jaceklaskowski
+  spark:
+    version: 3.0.1
+    github: https://github.com/apache/spark/blob/v3.0.1
+    doc: http://spark.apache.org/docs/3.0.1
+  java:
+    version: 11
+    api: https://docs.oracle.com/en/java/javase/11/docs/api
+  k8s:
+    version: 4.9.2
+    api: https://www.javadoc.io/doc/io.fabric8/kubernetes-client/4.9.2
+    doc: https://kubernetes.io/docs
+  book:
+    spark_core: https://books.japila.pl/apache-spark-internals
+
+nav:
+  - Home:
+    - Welcome: index.md
+    - Overview: overview.md
+    - Configuration Properties: configuration-properties.md
+    - KubernetesClusterManager: KubernetesClusterManager.md
+    - KubernetesClusterSchedulerBackend: KubernetesClusterSchedulerBackend.md
+    - KubernetesDriverEndpoint: KubernetesDriverEndpoint.md
+    - KubernetesClientApplication: KubernetesClientApplication.md
+    - SparkKubernetesClientFactory: SparkKubernetesClientFactory.md
+    - K8SSparkSubmitOperation: K8SSparkSubmitOperation.md
+    - DriverCommandFeatureStep: DriverCommandFeatureStep.md
+    - KubernetesConf: KubernetesConf.md
+    - Client: Client.md
+    - ExecutorPodsLifecycleManager: ExecutorPodsLifecycleManager.md
+    - ExecutorPodsSnapshotsStore: ExecutorPodsSnapshotsStore.md
+    - KubernetesFeatureConfigStep: KubernetesFeatureConfigStep.md
+    - BasicDriverFeatureStep: BasicDriverFeatureStep.md
+    - BasicExecutorFeatureStep: BasicExecutorFeatureStep.md
+    - DriverServiceFeatureStep: DriverServiceFeatureStep.md
+    - PodTemplateConfigMapStep: PodTemplateConfigMapStep.md
+    - EnvSecretsFeatureStep: EnvSecretsFeatureStep.md
+    - MountSecretsFeatureStep: MountSecretsFeatureStep.md
+    - MountVolumesFeatureStep: MountVolumesFeatureStep.md
+    - ExecutorPodsWatchSnapshotSource: ExecutorPodsWatchSnapshotSource.md
+    - ExecutorPodsPollingSnapshotSource: ExecutorPodsPollingSnapshotSource.md
+    - ExecutorPodsSnapshotsStoreImpl: ExecutorPodsSnapshotsStoreImpl.md
+    - ExecutorPodsWatcher: ExecutorPodsWatcher.md
+    - ExecutorPodsAllocator: ExecutorPodsAllocator.md
+    - KubernetesDriverBuilder: KubernetesDriverBuilder.md
+    - KubernetesExecutorBuilder: KubernetesExecutorBuilder.md
+    - KubernetesDriverConf: KubernetesDriverConf.md
+    - KubernetesExecutorConf: KubernetesExecutorConf.md
+    - LoggingPodStatusWatcher: LoggingPodStatusWatcher.md
+    - LoggingPodStatusWatcherImpl: LoggingPodStatusWatcherImpl.md
+    - KubernetesUtils: KubernetesUtils.md
+    - PollRunnable: PollRunnable.md
+    - KubernetesVolumeUtils: KubernetesVolumeUtils.md
+    - ClientArguments: ClientArguments.md
+  - Demos:
+    - spark-shell on minikube: demo/spark-shell-on-minikube.md
+    - Running Spark Application on minikube: demo/running-spark-application-on-minikube.md
