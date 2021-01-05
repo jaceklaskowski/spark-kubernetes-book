@@ -4,6 +4,10 @@
 
 Apache Spark supports `Kubernetes` resource manager as a scheduler using [KubernetesClusterManager](KubernetesClusterManager.md) for **k8s://**-prefixed master URLs (that point at a [Kubernetes API server](https://kubernetes.io/docs/concepts/overview/components/#kube-apiserver)).
 
+## Spark 3.1.0
+
+As per [SPARK-33005 Kubernetes GA Preparation](https://issues.apache.org/jira/browse/SPARK-33005), Spark 3.1.0 comes with many improvements for Kubernetes support and is expected to get **General Availability (GA)** marker 🎉
+
 ## Demo
 
 1. [spark-shell on minikube](demo/spark-shell-on-minikube.md)
