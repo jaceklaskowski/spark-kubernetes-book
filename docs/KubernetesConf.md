@@ -141,3 +141,18 @@ In the end, `createDriverConf` creates a [KubernetesDriverConf](KubernetesDriver
 `createDriverConf` is used when:
 
 * `KubernetesClientApplication` is requested to [start](KubernetesClientApplication.md#start)
+
+## <span id="getResourceNamePrefix"> AppName-Based Unique Resource Name Prefix
+
+```scala
+getResourceNamePrefix(
+  appName: String): String
+```
+
+`getResourceNamePrefix`...FIXME
+
+`getResourceNamePrefix` is used when:
+
+* `KubernetesDriverConf` is requested for the [resourceNamePrefix](KubernetesDriverConf.md#resourceNamePrefix)
+* `KubernetesExecutorConf` is requested for the [resourceNamePrefix](KubernetesExecutorConf.md#resourceNamePrefix)
+* `KubernetesClusterManager` is requested to [createSchedulerBackend](KubernetesClusterManager.md#createSchedulerBackend)
