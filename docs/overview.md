@@ -1,8 +1,3 @@
----
-hide:
-  - toc        # Hide table of contents
----
-
 # Spark on Kubernetes
 
 [Kubernetes](https://kubernetes.io/) is an open-source system for automating deployment, scaling, and management of containerized applications.
@@ -12,6 +7,13 @@ Apache Spark supports `Kubernetes` resource manager as a scheduler using [Kubern
 ## Spark 3.1.0
 
 As per [SPARK-33005 Kubernetes GA Preparation](https://issues.apache.org/jira/browse/SPARK-33005), Spark 3.1.0 comes with many improvements for Kubernetes support and is expected to get **General Availability (GA)** marker 🎉
+
+## Dynamic Allocation of Executors
+
+Spark on Kubernetes supports **Dynamic Allocation of Executors** using [ExecutorPodsAllocator](ExecutorPodsAllocator.md).
+
+!!! tip "The Internals of Apache Spark"
+    Learn more about [Dynamic Allocation of Executors]({{ book.spark_core }}/dynamic-allocation/) in [The Internals of Apache Spark]({{ book.spark_core }}).
 
 ## Demo
 

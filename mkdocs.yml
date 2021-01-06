@@ -93,7 +93,8 @@ extra:
 nav:
   - Home:
     - Welcome: index.md
-    - Overview: overview.md
+  - Internals:
+    - Spark on Kubernetes: overview.md
     - Configuration Properties: configuration-properties.md
     - KubernetesClusterManager: KubernetesClusterManager.md
     - KubernetesClusterSchedulerBackend: KubernetesClusterSchedulerBackend.md

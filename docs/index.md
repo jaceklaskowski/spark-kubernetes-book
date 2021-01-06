@@ -1,6 +1,7 @@
 ---
 hide:
-  - toc        # Hide table of contents
+  - toc
+  - navigation
 ---
 
 # The Internals of Spark on Kubernetes (Apache Spark {{ spark.version }})
