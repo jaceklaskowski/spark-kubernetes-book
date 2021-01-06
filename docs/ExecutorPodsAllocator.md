@@ -1,5 +1,7 @@
 # ExecutorPodsAllocator
 
+`ExecutorPodsAllocator` is responsible for [executor pod allocation](#onNewSnapshots) (possibly [dynamic](#dynamicAllocationEnabled)) in a Spark application.
+
 `ExecutorPodsAllocator` is used to create a [KubernetesClusterSchedulerBackend](KubernetesClusterSchedulerBackend.md#podAllocator).
 
 ## Creating Instance
@@ -17,9 +19,16 @@
 
 * `KubernetesClusterManager` is requested for a [SchedulerBackend](KubernetesClusterManager.md#createSchedulerBackend)
 
+## <span id="dynamicAllocationEnabled"> spark.dynamicAllocation.enabled
+
+`ExecutorPodsAllocator` uses `spark.dynamicAllocation.enabled` configuration property to turn dynamic allocation of executors on and off.
+
+!!! tip "The Internals of Apache Spark"
+    Learn more about [Dynamic Allocation of Executors]({{ book.spark_core }}/dynamic-allocation/) in [The Internals of Apache Spark]({{ book.spark_core }}).
+
 ## <span id="podAllocationSize"> spark.kubernetes.allocation.batch.size
 
-`ExecutorPodsAllocator` uses [spark.kubernetes.allocation.batch.size](configuration-properties.md#spark.kubernetes.allocation.batch.size) configuration property as the minimum number of executor pods to allocate (request from Kubernetes) at once:
+`ExecutorPodsAllocator` uses [spark.kubernetes.allocation.batch.size](configuration-properties.md#spark.kubernetes.allocation.batch.size) configuration property in the following:
 
 * [onNewSnapshots](#onNewSnapshots)
 
@@ -41,13 +50,13 @@ start(
   applicationId: String): Unit
 ```
 
-`start` requests the [ExecutorPodsSnapshotsStore](#snapshotsStore) to [add a new subscriber](ExecutorPodsSnapshotsStore.md#addSubscriber) (with [podAllocationDelay](#podAllocationDelay)) to [intercept new snapshots](#onNewSnapshots).
+`start` requests the [ExecutorPodsSnapshotsStore](#snapshotsStore) to [subscribe](ExecutorPodsSnapshotsStore.md#addSubscriber) this `ExecutorPodsAllocator` to [be notified about new snapshots](#onNewSnapshots) (with pod allocation delay based on [spark.kubernetes.allocation.batch.delay](configuration-properties.md#spark.kubernetes.allocation.batch.delay) configuration property).
 
 `start` is used when:
 
 * `KubernetesClusterSchedulerBackend` is requested to [start](KubernetesClusterSchedulerBackend.md#start)
 
-## <span id="onNewSnapshots"> onNewSnapshots
+## <span id="onNewSnapshots"> Processing Executor Pods Snapshots
 
 ```scala
 onNewSnapshots(
@@ -89,7 +98,33 @@ Pod allocation status: [currentRunningCount] running, [currentPendingExecutors] 
 
 `onNewSnapshots`...FIXME
 
-## <span id="setTotalExpectedExecutors"> setTotalExpectedExecutors
+In the end, with DEBUG logging enabled or the input `snapshots` is empty, `onNewSnapshots` prints out the following DEBUG messages.
+
+With the number of the executor pods currently running higher than the [total expected executors](#totalExpectedExecutors) but no [dynamicAllocationEnabled](#dynamicAllocationEnabled), `onNewSnapshots` prints out the following:
+
+```text
+Current number of running executors is equal to the number of requested executors. Not scaling up further.
+```
+
+Otherwise, when there are executor pods pending (_outstanding_), `onNewSnapshots` prints out the following:
+
+```text
+Still waiting for [outstanding] executors before requesting more.
+```
+
+## <span id="totalExpectedExecutors"> Total Expected Executors
+
+```scala
+totalExpectedExecutors: AtomicInteger
+```
+
+`ExecutorPodsAllocator` uses a Java [AtomicInteger]({{ java.api }}/java.base/java/util/concurrent/atomic/AtomicInteger.html) to track the total expected number of executors.
+
+Starts from `0` and is set to a fixed number of the total expected executors in [setTotalExpectedExecutors](#setTotalExpectedExecutors)
+
+Used in [onNewSnapshots](#onNewSnapshots)
+
+### <span id="setTotalExpectedExecutors"> Changing Total Expected Executors
 
 ```scala
 setTotalExpectedExecutors(
@@ -113,18 +148,6 @@ newlyCreatedExecutors: Map[Long, Long]
 ```
 
 `ExecutorPodsAllocator` uses `newlyCreatedExecutors` internal registry to track executor IDs (with the timestamps they were created) that have been requested from Kubernetes but have not been detected in any snapshot yet.
-
-Used in [onNewSnapshots](#onNewSnapshots)
-
-### <span id="totalExpectedExecutors"> Total Expected Executors
-
-```scala
-totalExpectedExecutors: AtomicInteger
-```
-
-`ExecutorPodsAllocator` uses a Java [AtomicInteger]({{ java.api }}/java.base/java/util/concurrent/atomic/AtomicInteger.html) to track the total expected number of executors.
-
-Starts from `0` and is set to a fixed number of the total expected executors in [setTotalExpectedExecutors](#setTotalExpectedExecutors)
 
 Used in [onNewSnapshots](#onNewSnapshots)
 

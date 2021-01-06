@@ -1,4 +1,4 @@
-# Configuration Properties of Spark on Kubernetes
+# Configuration Properties
 
 ## <span id="spark.kubernetes.allocation.batch.size"><span id="KUBERNETES_ALLOCATION_BATCH_SIZE"> spark.kubernetes.allocation.batch.size
 
@@ -9,6 +9,16 @@ Default: `5`
 Used when:
 
 * `ExecutorPodsAllocator` is [created](ExecutorPodsAllocator.md#podAllocationSize)
+
+## <span id="spark.kubernetes.allocation.batch.delay"><span id="KUBERNETES_ALLOCATION_BATCH_DELAY"> spark.kubernetes.allocation.batch.delay
+
+Time (in millis) to wait between each round of executor allocation
+
+Default: `1s`
+
+Used when:
+
+* `ExecutorPodsAllocator` is [created](ExecutorPodsAllocator.md#podAllocationDelay)
 
 ## <span id="spark.kubernetes.container.image.pullPolicy"><span id="CONTAINER_IMAGE_PULL_POLICY"> spark.kubernetes.container.image.pullPolicy
 
@@ -176,16 +186,6 @@ Default: [spark.kubernetes.container.image](#spark.kubernetes.container.image)
 Used when:
 
 * `BasicExecutorFeatureStep` is requested for a [driverContainerImage](BasicExecutorFeatureStep.md#executorContainerImage)
-
-## <span id="spark.kubernetes.allocation.batch.delay"><span id="KUBERNETES_ALLOCATION_BATCH_DELAY"> spark.kubernetes.allocation.batch.delay
-
-Time (in millis) to wait between each round of executor allocation
-
-Default: `1s`
-
-Used when:
-
-* [ExecutorPodsAllocator](ExecutorPodsAllocator.md#podAllocationDelay) is created
 
 ## <span id="spark.kubernetes.driver.pod.name"><span id="KUBERNETES_DRIVER_POD_NAME"> spark.kubernetes.driver.pod.name
 
