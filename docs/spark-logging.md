@@ -1,3 +1,8 @@
+---
+hide:
+  - toc        # Hide table of contents
+---
+
 # Logging
 
 Spark uses [log4j](http://logging.apache.org/log4j) for logging.

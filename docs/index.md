@@ -1,3 +1,8 @@
+---
+hide:
+  - toc        # Hide table of contents
+---
+
 # The Internals of Spark on Kubernetes (Apache Spark {{ spark.version }})
 
 Welcome to **The Internals of Spark on Kubernetes** online book!

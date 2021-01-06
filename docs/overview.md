@@ -1,3 +1,8 @@
+---
+hide:
+  - toc        # Hide table of contents
+---
+
 # Spark on Kubernetes
 
 [Kubernetes](https://kubernetes.io/) is an open-source system for automating deployment, scaling, and management of containerized applications.
