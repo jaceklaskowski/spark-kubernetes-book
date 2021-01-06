@@ -1,5 +1,15 @@
 # Configuration Properties of Spark on Kubernetes
 
+## <span id="spark.kubernetes.allocation.batch.size"><span id="KUBERNETES_ALLOCATION_BATCH_SIZE"> spark.kubernetes.allocation.batch.size
+
+Minimum number of executor pods to allocate at once in each round of executor allocation
+
+Default: `5`
+
+Used when:
+
+* `ExecutorPodsAllocator` is [created](ExecutorPodsAllocator.md#podAllocationSize)
+
 ## <span id="spark.kubernetes.container.image.pullPolicy"><span id="CONTAINER_IMAGE_PULL_POLICY"> spark.kubernetes.container.image.pullPolicy
 
 Kubernetes image pull policy:
