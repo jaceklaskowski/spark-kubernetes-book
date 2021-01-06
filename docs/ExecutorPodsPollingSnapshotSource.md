@@ -1,5 +1,7 @@
 # ExecutorPodsPollingSnapshotSource
 
+`ExecutorPodsPollingSnapshotSource` manages [pollingFuture](#pollingFuture) (with a [PollRunnable](PollRunnable.md)) to synchronize executor pods state every [pollingInterval](#pollingInterval) (and requests the [ExecutorPodsSnapshotsStore](#snapshotsStore) to [replaceSnapshot](#replaceSnapshot)).
+
 ## Creating Instance
 
 `ExecutorPodsPollingSnapshotSource` takes the following to be created:
@@ -15,7 +17,7 @@
 
 ## <span id="pollingInterval"> spark.kubernetes.executor.apiPollingInterval
 
-`ExecutorPodsPollingSnapshotSource` uses [spark.kubernetes.executor.apiPollingInterval](configuration-properties.md#spark.kubernetes.executor.apiPollingInterval) configuration property when [started](#start) to schedule a [PollRunnable](PollRunnable.md).
+`ExecutorPodsPollingSnapshotSource` uses [spark.kubernetes.executor.apiPollingInterval](configuration-properties.md#spark.kubernetes.executor.apiPollingInterval) configuration property when [started](#start) (to schedule a [PollRunnable](PollRunnable.md) for regular executor pod state synchronization).
 
 ## <span id="pollingFuture"> pollingFuture
 

@@ -8,6 +8,14 @@ Apache Spark supports `Kubernetes` resource manager as a scheduler using [Kubern
 
 As per [SPARK-33005 Kubernetes GA Preparation](https://issues.apache.org/jira/browse/SPARK-33005), Spark 3.1.0 comes with many improvements for Kubernetes support and is expected to get **General Availability (GA)** marker 🎉
 
+## Executor Pods State Synchronization
+
+Spark on Kubernetes uses [ExecutorPodsPollingSnapshotSource](ExecutorPodsPollingSnapshotSource.md) for polling Kubernetes API server for executor pods state snapshot of a Spark application every polling interval (based on [spark.kubernetes.executor.apiPollingInterval](configuration-properties.md#spark.kubernetes.executor.apiPollingInterval) configuration property).
+
+`ExecutorPodsPollingSnapshotSource` is given an [ExecutorPodsSnapshotsStore](ExecutorPodsSnapshotsStore.md) that is requested to [replaceSnapshot](ExecutorPodsSnapshotsStore.md#replaceSnapshot) regularly.
+
+`ExecutorPodsSnapshotsStore` keeps track of executor pods state snapshots and allows [subscribers](ExecutorPodsSnapshotsStore.md#addSubscriber) to be regularly updated (e.g. [ExecutorPodsAllocator](ExecutorPodsAllocator.md) and [ExecutorPodsLifecycleManager](ExecutorPodsLifecycleManager.md)).
+
 ## Dynamic Allocation of Executors
 
 Spark on Kubernetes supports **Dynamic Allocation of Executors** using [ExecutorPodsAllocator](ExecutorPodsAllocator.md).
