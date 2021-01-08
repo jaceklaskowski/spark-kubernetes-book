@@ -11,32 +11,35 @@ Quoting the [official documentation]({{ spark.doc }}/running-on-kubernetes.html)
 ## Start Cluster
 
 ```text
-➜  ~ minikube start
-😄  minikube v1.15.1 na Darwin 11.0.1
+$ minikube start --cpus 4 --memory 8192
+😄  minikube v1.16.0 na Darwin 11.1
 ✨  Automatically selected the docker driver
 👍  Starting control plane node minikube in cluster minikube
-🔥  Creating docker container (CPUs=2, Memory=7916MB) ...
-🐳  Przygotowywanie Kubernetesa v1.19.4 na Docker 19.03.13...
+🔥  Creating docker container (CPUs=4, Memory=8192MB) ...
+🐳  Przygotowywanie Kubernetesa v1.20.0 na Docker 20.10.0...
+    ▪ Generating certificates and keys ...
+    ▪ Booting up control plane ...
+    ▪ Configuring RBAC rules ...
 🔎  Verifying Kubernetes components...
 🌟  Enabled addons: storage-provisioner, default-storageclass
 🏄  Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
 ```
 
 ```text
-➜  ~ kubectl cluster-info
-Kubernetes master is running at https://127.0.0.1:55008
-KubeDNS is running at https://127.0.0.1:55008/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+$ kubectl cluster-info
+Kubernetes control plane is running at https://127.0.0.1:55012
+KubeDNS is running at https://127.0.0.1:55012/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
 
 To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
 ```
 
 ```text
-➜  ~ kubectl config view
+$ kubectl config view
 apiVersion: v1
 clusters:
 - cluster:
     certificate-authority: /Users/jacek/.minikube/ca.crt
-    server: https://127.0.0.1:55008
+    server: https://127.0.0.1:55012
   name: minikube
 contexts:
 - context:
@@ -57,13 +60,13 @@ users:
 ```text
 $ kubectl get po -A
 NAMESPACE     NAME                               READY   STATUS    RESTARTS   AGE
-kube-system   coredns-f9fd979d6-nk292            1/1     Running   0          79s
-kube-system   etcd-minikube                      1/1     Running   0          84s
-kube-system   kube-apiserver-minikube            1/1     Running   0          84s
-kube-system   kube-controller-manager-minikube   1/1     Running   0          84s
-kube-system   kube-proxy-5h5xr                   1/1     Running   0          79s
-kube-system   kube-scheduler-minikube            0/1     Running   0          84s
-kube-system   storage-provisioner                1/1     Running   0          84s
+kube-system   coredns-74ff55c5b-45jjp            1/1     Running   0          65s
+kube-system   etcd-minikube                      1/1     Running   0          80s
+kube-system   kube-apiserver-minikube            1/1     Running   0          80s
+kube-system   kube-controller-manager-minikube   0/1     Running   0          80s
+kube-system   kube-proxy-mwvdq                   1/1     Running   0          65s
+kube-system   kube-scheduler-minikube            1/1     Running   0          80s
+kube-system   storage-provisioner                1/1     Running   1          80s
 ```
 
 ## Accessing Kubernetes Dashboard
@@ -74,7 +77,7 @@ $ minikube dashboard
 🤔  Weryfikowanie statusu dashboardu...
 🚀  Launching proxy ...
 🤔  Weryfikowanie statusu proxy...
-🎉  Opening http://127.0.0.1:61851/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/ in your default browser...
+🎉  Opening http://127.0.0.1:55601/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/ in your default browser...
 ```
 
 ## Building Spark Images
@@ -83,7 +86,8 @@ $ minikube dashboard
 cd $SPARK_HOME
 ```
 
-Go to `kubernetes/dockerfiles/spark` (in your Spark installation) or `resource-managers/kubernetes/docker` (in the Spark source code).
+!!! tip
+    Review `kubernetes/dockerfiles/spark` (in your Spark installation) or `resource-managers/kubernetes/docker` (in the Spark source code).
 
 Point the shell to minikube's Docker daemon.
 
@@ -91,34 +95,39 @@ Point the shell to minikube's Docker daemon.
 eval $(minikube -p minikube docker-env)
 ```
 
-Note `-m` option to use minikube's Docker daemon.
+Build and publish the Spark images. Note `-m` option to point the shell script to use minikube's Docker daemon.
 
 ```text
-$ ./bin/docker-image-tool.sh -m -t jacek-testing build
+$ ./bin/docker-image-tool.sh \
+  -m \
+  -b java_image_tag=11-jre-slim \
+  -r jaceklaskowski \
+  -t v3.0.1 \
+  build
 ...
-Successfully tagged spark:jacek-testing
+Successfully tagged jaceklaskowski/spark:v3.0.1
 ```
 
 List available images.
 
 ```text
 $ docker images
-REPOSITORY                                TAG             IMAGE ID       CREATED          SIZE
-spark                                     jacek-testing   30105efc8317   23 seconds ago   487MB
-openjdk                                   8-jre-slim      8c3c0e49c694   3 weeks ago      187MB
-k8s.gcr.io/kube-proxy                     v1.19.4         635b36f4d89f   4 weeks ago      118MB
-k8s.gcr.io/kube-controller-manager        v1.19.4         4830ab618586   4 weeks ago      111MB
-k8s.gcr.io/kube-apiserver                 v1.19.4         b15c6247777d   4 weeks ago      119MB
-k8s.gcr.io/kube-scheduler                 v1.19.4         14cd22f7abe7   4 weeks ago      45.7MB
-gcr.io/k8s-minikube/storage-provisioner   v3              bad58561c4be   3 months ago     29.7MB
-k8s.gcr.io/etcd                           3.4.13-0        0369cf4303ff   3 months ago     253MB
-kubernetesui/dashboard                    v2.0.3          503bc4b7440b   5 months ago     225MB
-k8s.gcr.io/coredns                        1.7.0           bfe3a36ebd25   5 months ago     45.2MB
-kubernetesui/metrics-scraper              v1.0.4          86262685d9ab   8 months ago     36.9MB
-k8s.gcr.io/pause                          3.2             80d28bedfe5d   10 months ago    683kB
+REPOSITORY                                TAG           IMAGE ID       CREATED          SIZE
+jaceklaskowski/spark                      v3.0.1        78f2f9f19236   22 seconds ago   504MB
+openjdk                                   11-jre-slim   57a8cfbe60f3   4 weeks ago      205MB
+kubernetesui/dashboard                    v2.1.0        9a07b5b4bfac   4 weeks ago      226MB
+k8s.gcr.io/kube-proxy                     v1.20.0       10cc881966cf   4 weeks ago      118MB
+k8s.gcr.io/kube-apiserver                 v1.20.0       ca9843d3b545   4 weeks ago      122MB
+k8s.gcr.io/kube-scheduler                 v1.20.0       3138b6e3d471   4 weeks ago      46.4MB
+k8s.gcr.io/kube-controller-manager        v1.20.0       b9fa1895dcaa   4 weeks ago      116MB
+gcr.io/k8s-minikube/storage-provisioner   v4            85069258b98a   5 weeks ago      29.7MB
+k8s.gcr.io/etcd                           3.4.13-0      0369cf4303ff   4 months ago     253MB
+k8s.gcr.io/coredns                        1.7.0         bfe3a36ebd25   6 months ago     45.2MB
+kubernetesui/metrics-scraper              v1.0.4        86262685d9ab   9 months ago     36.9MB
+k8s.gcr.io/pause                          3.2           80d28bedfe5d   10 months ago    683kB
 ```
 
-## Creating Namespace
+## (Optional) Creating Namespace
 
 !!! tip
     Learn more in [Creating a new namespace]({{ k8s.doc }}/tasks/administer-cluster/namespaces/#creating-a-new-namespace).
@@ -128,7 +137,22 @@ kubectl create namespace spark-demo
 ```
 
 ```text
-kubectl get namespace
+$ kubectl get namespace
+NAME                   STATUS   AGE
+default                Active   7m30s
+kube-node-lease        Active   7m31s
+kube-public            Active   7m31s
+kube-system            Active   7m31s
+kubernetes-dashboard   Active   5m51s
+spark-demo             Active   11s
+```
+
+Set the namespace as the default using [kubens](https://github.com/ahmetb/kubectx) tool.
+
+```text
+$ kubens spark-demo
+Context "minikube" modified.
+Active namespace is "spark-demo".
 ```
 
 ## Spark Logging
@@ -144,7 +168,7 @@ log4j.logger.org.apache.spark.scheduler.cluster.k8s=ALL
 
 Refer to [Logging](../spark-logging.md).
 
-## spark-shell
+## Launching spark-shell
 
 ```text
 cd $SPARK_HOME
@@ -157,7 +181,7 @@ K8S_SERVER=$(kubectl config view --output=jsonpath='{.clusters[].cluster.server}
 ```text
 ./bin/spark-shell \
   --master k8s://$K8S_SERVER \
-  --conf spark.kubernetes.container.image=spark:jacek-testing \
+  --conf spark.kubernetes.container.image=jaceklaskowski/spark:v3.0.1 \
   --conf spark.kubernetes.context=minikube \
   --conf spark.kubernetes.namespace=spark-demo \
   --verbose
@@ -205,8 +229,28 @@ scala> spark.version
 res0: String = 3.0.1
 
 scala> sc.master
-res1: String = k8s://https://127.0.0.1:55008
+res1: String = k8s://https://127.0.0.1:55012
 ```
+
+## web UIs
+
+Open web UI of the Spark application at http://localhost:4040/.
+
+Review the pods in the Kubernetes UI at http://127.0.0.1:55601/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/#/pod?namespace=spark-demo.
+
+## Scaling Executors Up and Down
+
+Just for some more fun, in `spark-shell`, request two more executors and observe the logs.
+
+```text
+sc.requestTotalExecutors(numExecutors = 4, localityAwareTasks = 0, hostToLocalTaskCount = Map.empty)
+```
+
+```text
+sc.killExecutors(Seq("1", "3"))
+```
+
+Review the number of executors at http://localhost:4040/executors/ and in the Kubernetes UI.
 
 ## Stopping Cluster
 
