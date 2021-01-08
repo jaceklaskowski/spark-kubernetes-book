@@ -14,7 +14,7 @@
 
 `KubernetesDriverConf` is created when:
 
-* `KubernetesClientApplication` is requested to [start](KubernetesClientApplication.md#start) (via [KubernetesConf utility](#createDriverConf))
+* `KubernetesClientApplication` is requested to [start](KubernetesClientApplication.md#start) (via [KubernetesConf utility](KubernetesConf.md#createDriverConf))
 
 ## <span id="volumes"> volumes
 

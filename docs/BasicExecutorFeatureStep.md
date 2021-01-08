@@ -1,6 +1,6 @@
 # BasicExecutorFeatureStep
 
-`BasicExecutorFeatureStep` is...FIXME
+`BasicExecutorFeatureStep` is a [KubernetesFeatureConfigStep](KubernetesFeatureConfigStep.md).
 
 ## <span id="executorContainerImage"> spark.kubernetes.executor.container.image
 

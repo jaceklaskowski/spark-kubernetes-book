@@ -5,6 +5,7 @@ site_description: Demystifying inner-workings of Spark on Kubernetes
 
 repo_name: spark-kubernetes-book
 repo_url: https://github.com/jaceklaskowski/spark-kubernetes-book
+edit_uri: edit/main/docs/
 
 copyright: |
   Copyright &copy; 2021 Jacek Laskowski
@@ -115,6 +116,8 @@ nav:
     - EnvSecretsFeatureStep: EnvSecretsFeatureStep.md
     - MountSecretsFeatureStep: MountSecretsFeatureStep.md
     - MountVolumesFeatureStep: MountVolumesFeatureStep.md
+    - LocalDirsFeatureStep: LocalDirsFeatureStep.md
+    - ExecutorKubernetesCredentialsFeatureStep: ExecutorKubernetesCredentialsFeatureStep.md
     - ExecutorPodsWatchSnapshotSource: ExecutorPodsWatchSnapshotSource.md
     - ExecutorPodsPollingSnapshotSource: ExecutorPodsPollingSnapshotSource.md
     - ExecutorPodsSnapshotsStoreImpl: ExecutorPodsSnapshotsStoreImpl.md

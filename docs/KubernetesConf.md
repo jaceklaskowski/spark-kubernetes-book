@@ -142,6 +142,22 @@ In the end, `createDriverConf` creates a [KubernetesDriverConf](KubernetesDriver
 
 * `KubernetesClientApplication` is requested to [start](KubernetesClientApplication.md#start)
 
+## <span id="createExecutorConf"> Creating KubernetesExecutorConf
+
+```scala
+createExecutorConf(
+  sparkConf: SparkConf,
+  executorId: String,
+  appId: String,
+  driverPod: Option[Pod]): KubernetesExecutorConf
+```
+
+`createExecutorConf` (_does nothing more but_) creates a [KubernetesExecutorConf](KubernetesExecutorConf.md) for the given input arguments.
+
+`createExecutorConf` is used when:
+
+* `ExecutorPodsAllocator` is requested to [onNewSnapshots](ExecutorPodsAllocator.md#onNewSnapshots) (and requests missing executors from Kubernetes)
+
 ## <span id="getResourceNamePrefix"> AppName-Based Unique Resource Name Prefix
 
 ```scala

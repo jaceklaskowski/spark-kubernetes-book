@@ -44,6 +44,16 @@ Used when:
 
 * `KubernetesUtils` is requested to [uploadFileUri](KubernetesUtils.md#uploadFileUri)
 
+## <span id="spark.kubernetes.local.dirs.tmpfs"><span id="KUBERNETES_LOCAL_DIRS_TMPFS"> spark.kubernetes.local.dirs.tmpfs
+
+If `true`, `emptyDir` volumes created to back `SPARK_LOCAL_DIRS` will have their medium set to `Memory` so that they will be created as tmpfs (i.e. RAM) backed volumes. This may improve performance but scratch space usage will count towards your pods memory limit so you may wish to request more memory.
+
+Default: `false`
+
+Used when:
+
+* `LocalDirsFeatureStep` is requested to [configure a pod](LocalDirsFeatureStep.md#configurePod)
+
 ## <span id="spark.kubernetes.report.interval"><span id="REPORT_INTERVAL"> spark.kubernetes.report.interval
 
 Interval between reports of the current app status in cluster mode
@@ -139,8 +149,8 @@ Default: (undefined)
 
 Used when:
 
-* `KubernetesClusterManager` is requested to [createSchedulerBackend](KubernetesClusterManager.md#createSchedulerBackend)
-* `KubernetesExecutorBuilder` is requested to [buildFromFeatures](KubernetesExecutorBuilder.md#buildFromFeatures)
+* `KubernetesClusterManager` is requested to [create a SchedulerBackend](KubernetesClusterManager.md#createSchedulerBackend)
+* `KubernetesExecutorBuilder` is requested to [build a SparkPod from features](KubernetesExecutorBuilder.md#buildFromFeatures)
 * `PodTemplateConfigMapStep` is [created](PodTemplateConfigMapStep.md#hasTemplate) and requested to [configurePod](PodTemplateConfigMapStep.md#configurePod), [getAdditionalPodSystemProperties](PodTemplateConfigMapStep.md#getAdditionalPodSystemProperties), [getAdditionalKubernetesResources](PodTemplateConfigMapStep.md#getAdditionalKubernetesResources)
 
 ## <span id="spark.kubernetes.driver.podTemplateContainerName"><span id="KUBERNETES_DRIVER_PODTEMPLATE_CONTAINER_NAME"> spark.kubernetes.driver.podTemplateContainerName
@@ -201,11 +211,22 @@ Must be provided if a Spark application is deployed using `spark-submit` in clus
 
 Default: `(undefined)`
 
+Unless defined, it is set explicitly when `KubernetesClusterManager` is requested to [create a SchedulerBackend](KubernetesClusterManager.md#createSchedulerBackend)
+
+Used when:
+
+* `KubernetesExecutorConf` is requested for the [resourceNamePrefix](KubernetesExecutorConf.md#resourceNamePrefix)
+
 ## <span id="spark.kubernetes.executor.podTemplateContainerName"><span id="KUBERNETES_EXECUTOR_PODTEMPLATE_CONTAINER_NAME"> spark.kubernetes.executor.podTemplateContainerName
 
 Container name to be used as a basis for executors in the given pod template
 
 Default: `(undefined)`
+
+Used when:
+
+* `KubernetesClusterManager` is requested to [create a SchedulerBackend](KubernetesClusterManager.md#createSchedulerBackend)
+* `KubernetesExecutorBuilder` is requested to [build an executor pod from features](KubernetesExecutorBuilder.md#buildFromFeatures)
 
 ## <span id="spark.kubernetes.authenticate.driver.mounted"><span id="KUBERNETES_AUTH_DRIVER_MOUNTED_CONF_PREFIX"> spark.kubernetes.authenticate.driver.mounted
 

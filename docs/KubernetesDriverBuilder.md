@@ -18,7 +18,7 @@
 * <span id="driverKubernetesResources"> Driver Resources
 * <span id="systemProperties"> System Properties
 
-## <span id="buildFromFeatures"> Building KubernetesDriverSpec from Features
+## <span id="buildFromFeatures"> Building KubernetesDriverSpec
 
 ```scala
 buildFromFeatures(
@@ -32,7 +32,7 @@ With [spark.kubernetes.driver.podTemplateFile](configuration-properties.md#spark
 
 `buildFromFeatures` builds a [KubernetesDriverSpec](#KubernetesDriverSpec) (with the initial driver pod specification).
 
-In the end, `buildFromFeatures` configures the driver pod specification using the following feature steps:
+In the end, `buildFromFeatures` [configures the driver pod specification](KubernetesFeatureConfigStep.md#configurePod) through a series of the feature steps:
 
 * [BasicDriverFeatureStep](BasicDriverFeatureStep.md)
 * DriverKubernetesCredentialsFeatureStep
