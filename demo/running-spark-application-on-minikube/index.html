@@ -31,25 +31,26 @@ k8s.gcr.io/pause                          3.2           80d28bedfe5d   10 months
 </code></pre></div> <h2 id=optional-creating-namespace>(Optional) Creating Namespace<a class=headerlink href=#optional-creating-namespace title="Permanent link">&para;</a></h2> <p>This step is optional, but gives a better exposure to the Kubernetes-related features supported by Apache Spark.</p> <div class=highlight><pre><span></span><code>kubectl create namespace spark-demo
 </code></pre></div> <div class="admonition tip"> <p class=admonition-title>Tip</p> <p>Use <code>kubens</code> (from <a href=https://github.com/ahmetb/kubectx>kubectx</a> project) to switch between Kubernetes namespaces smoothly.</p> </div> <div class=highlight><pre><span></span><code>kubens spark-demo
 </code></pre></div> <h2 id=create-service-account>Create Service Account<a class=headerlink href=#create-service-account title="Permanent link">&para;</a></h2> <p>Create a service account <code>spark</code> and a cluster role binding <code>spark-role</code>.</p> <div class="admonition tip"> <p class=admonition-title>Tip</p> <p>Learn more from the <a href=http://spark.apache.org/docs/latest/running-on-kubernetes.html#rbac>Spark official documentation</a>.</p> </div> <p>Without this step you could face the following exception message:</p> <div class=highlight><pre><span></span><code>Forbidden!Configured service account doesn&#39;t have access. Service account may have been revoked.
-</code></pre></div> <h3 id=declaratively>Declaratively<a class=headerlink href=#declaratively title="Permanent link">&para;</a></h3> <p>Use the following <code>rbac.yml</code> file.</p> <div class=highlight><pre><span></span><code>kind: ServiceAccount
+</code></pre></div> <h3 id=declaratively>Declaratively<a class=headerlink href=#declaratively title="Permanent link">&para;</a></h3> <p>Use the following <code>rbac.yml</code> file.</p> <div class=highlight><pre><span></span><code>---
 apiVersion: v1
+kind: ServiceAccount
 metadata:
-  namespace: spark-demo
   name: spark
+  namespace: spark-demo
 ---
-kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
 metadata:
   name: spark-role
   namespace: spark-demo
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: edit
 subjects:
   - kind: ServiceAccount
     name: spark
     namespace: spark-demo
+roleRef:
+  kind: ClusterRole
+  name: edit
+  apiGroup: rbac.authorization.k8s.io
 ---
 </code></pre></div> <p>Apply this configuration to your Kubernetes cluster.</p> <div class=highlight><pre><span></span><code>kubectl apply -f rbac.yml
 </code></pre></div> <div class="admonition tip"> <p class=admonition-title>Tip</p> <p>With declarative approach (using <code>rbac.yml</code>) cleaning up becomes as simple as <code>kubectl delete -f rbac.yml</code>.</p> </div> <h3 id=imperatively>Imperatively<a class=headerlink href=#imperatively title="Permanent link">&para;</a></h3> <div class=highlight><pre><span></span><code>kubectl create serviceaccount spark
