@@ -1,6 +1,6 @@
 # LoggingPodStatusWatcherImpl
 
-`LoggingPodStatusWatcherImpl` is a [LoggingPodStatusWatcher](LoggingPodStatusWatcher.md) that monitors and logs the application status.
+`LoggingPodStatusWatcherImpl` is a [LoggingPodStatusWatcher](LoggingPodStatusWatcher.md) that [monitors and logs the application status](#watchOrStop).
 
 ## Creating Instance
 
@@ -11,6 +11,51 @@
 `LoggingPodStatusWatcherImpl` is created when:
 
 * `KubernetesClientApplication` is requested to [start](KubernetesClientApplication.md#start)
+
+## <span id="watchOrStop"> watchOrStop
+
+```scala
+watchOrStop(
+  sId: String): Unit
+```
+
+`watchOrStop` is part of the [LoggingPodStatusWatcher](LoggingPodStatusWatcher.md#watchOrStop) abstraction.
+
+`watchOrStop` uses [spark.kubernetes.submission.waitAppCompletion](configuration-properties.md#spark.kubernetes.submission.waitAppCompletion) configuration property to control whether to wait for the Spark application to complete (`true`) or merely print out the following INFO message to the logs:
+
+```text
+Deployed Spark application [appName] with submission ID [sId] into Kubernetes
+```
+
+While waiting for the Spark application to complete, `watchOrStop` prints out the following INFO message to the logs:
+
+```text
+Waiting for application [appName] with submission ID [sId] to finish...
+```
+
+Until [podCompleted](#podCompleted) flag is `true`, `watchOrStop` waits [spark.kubernetes.report.interval](configuration-properties.md#spark.kubernetes.report.interval) configuration property and prints out the following INFO message to the logs:
+
+```text
+Application status for [appId] (phase: [phase])
+```
+
+Once [podCompleted](#podCompleted) flag is `true`, `watchOrStop` prints out the following INFO messages to the logs:
+
+```text
+Container final statuses:
+
+[containersDescription]
+```
+
+```text
+Application [appName] with submission ID [sId] finished
+```
+
+When no [pod](#pod) is available, `watchOrStop` prints out the following INFO message to the logs:
+
+```text
+No containers were found in the driver pod.
+```
 
 ## <span id="eventReceived"> eventReceived
 

@@ -6,7 +6,7 @@ hide:
 
 # The Internals of Spark on Kubernetes (Apache Spark {{ spark.version }})
 
-Welcome to **The Internals of Spark on Kubernetes** online book!
+Welcome to **The Internals of Spark on Kubernetes** online book! 🤙
 
 I'm [Jacek Laskowski](https://pl.linkedin.com/in/jaceklaskowski), an IT freelancer specializing in [Apache Spark](https://spark.apache.org/), [Delta Lake](https://delta.io/) and [Apache Kafka](https://kafka.apache.org/) (with brief forays into a wider data engineering space, e.g. [Trino](https://trino.io/) and [ksqlDB](https://ksqldb.io/), mostly during [Warsaw Data Engineering](https://www.meetup.com/Warsaw-Data-Engineering/) meetups).
 
@@ -20,4 +20,4 @@ I'm very excited to have you here and hope you will enjoy exploring the internal
 
 Expect text and code snippets from a variety of public sources. Attribution follows.
 
-Now, let me introduce you to [Spark on Kubernetes](overview.md).
+Now, let me introduce you to [Spark on Kubernetes](overview.md) 🔥
