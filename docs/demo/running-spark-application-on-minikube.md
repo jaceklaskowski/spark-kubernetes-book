@@ -80,12 +80,12 @@ kubectl create namespace spark-demo
     Use `kubens` (from [kubectx](https://github.com/ahmetb/kubectx) project) to switch between Kubernetes namespaces smoothly.
 
 ```text
-$ kubens spark-demo
-Context "minikube" modified.
-Active namespace is "spark-demo".
+kubens spark-demo
 ```
 
 ## Create Service Account
+
+Create a service account `spark` and a cluster role binding `spark-role`.
 
 !!! tip
     Learn more from the [Spark official documentation](http://spark.apache.org/docs/latest/running-on-kubernetes.html#rbac).
@@ -96,13 +96,48 @@ Without this step you could face the following exception message:
 Forbidden!Configured service account doesn't have access. Service account may have been revoked.
 ```
 
-Create a service account `spark`.
+### Declaratively
+
+Use the following `rbac.yml` file.
+
+```text
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: spark
+  namespace: spark-demo
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: spark-role
+  namespace: spark-demo
+subjects:
+  - kind: ServiceAccount
+    name: spark
+    namespace: spark-demo
+roleRef:
+  kind: ClusterRole
+  name: edit
+  apiGroup: rbac.authorization.k8s.io
+---
+```
+
+Apply this configuration to your Kubernetes cluster.
+
+```text
+kubectl apply -f rbac.yml
+```
+
+!!! tip
+    With declarative approach (using `rbac.yml`) cleaning up becomes as simple as `kubectl delete -f rbac.yml`.
+
+### Imperatively
 
 ```text
 kubectl create serviceaccount spark
 ```
-
-Create a cluster role binding `spark-role`.
 
 ```text
 kubectl create clusterrolebinding spark-role \

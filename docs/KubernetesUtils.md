@@ -31,7 +31,7 @@ Could not load pod from template file.
 * `KubernetesDriverBuilder` is requested to [buildFromFeatures](KubernetesDriverBuilder.md#buildFromFeatures)
 * `KubernetesExecutorBuilder` is requested to [buildFromFeatures](KubernetesExecutorBuilder.md#buildFromFeatures)
 
-## <span id="uploadAndTransformFileUris"> uploadAndTransformFileUris
+## <span id="uploadAndTransformFileUris"> Uploading Local Files to Hadoop DFS
 
 ```scala
 uploadAndTransformFileUris(
@@ -39,7 +39,9 @@ uploadAndTransformFileUris(
   conf: Option[SparkConf] = None): Iterable[String]
 ```
 
-`uploadAndTransformFileUris`...FIXME
+`uploadAndTransformFileUris` [uploads local files](#uploadFileUri) in the given `fileUris` to Hadoop DFS (based on [spark.kubernetes.file.upload.path](configuration-properties.md#spark.kubernetes.file.upload.path) configuration property).
+
+In the end, `uploadAndTransformFileUris` returns the target URIs.
 
 `uploadAndTransformFileUris` is used when:
 
@@ -53,7 +55,45 @@ uploadFileUri(
   conf: Option[SparkConf] = None): String
 ```
 
-`uploadFileUri`...FIXME
+`uploadFileUri` resolves the given `uri` to a well-formed `file` URI.
+
+`uploadFileUri` creates a new Hadoop `Configuration` and resolves the [spark.kubernetes.file.upload.path](configuration-properties.md#spark.kubernetes.file.upload.path) configuration property to a Hadoop `FileSystem`.
+
+`uploadFileUri` creates (_mkdirs_) the Hadoop DFS path to upload the file of the format:
+
+```text
+[spark.kubernetes.file.upload.path]/[spark-upload-[randomUUID]]
+```
+
+`uploadFileUri` prints out the following INFO message to the logs:
+
+```text
+Uploading file: [path] to dest: [targetUri]...
+```
+
+In the end, `uploadFileUri` uploads the file to the target location (using Hadoop DFS's [FileSystem.copyFromLocalFile]({{ hadoop.api }}/org/apache/hadoop/fs/FileSystem.html#copyFromLocalFile-boolean-boolean-org.apache.hadoop.fs.Path-org.apache.hadoop.fs.Path-)) and returns the target URI.
+
+### <span id="uploadFileUri-SparkException"> SparkExceptions
+
+`uploadFileUri` throws a `SparkException` when:
+
+1. Uploading the `uri` fails:
+
+    ```text
+    Uploading file [path] failed...
+    ```
+
+1. [spark.kubernetes.file.upload.path](configuration-properties.md#spark.kubernetes.file.upload.path) configuration property is not defined:
+
+    ```text
+    Please specify spark.kubernetes.file.upload.path property.
+    ```
+
+1. `SparkConf` is not defined:
+
+    ```text
+    Spark configuration is missing...
+    ```
 
 ## <span id="renameMainAppResource"> renameMainAppResource
 
@@ -94,3 +134,15 @@ isLocalDependency(
 ```
 
 An input `URI` is a **local dependency** when the scheme is `null` (undefined) or `file`.
+
+## Logging
+
+Enable `ALL` logging level for `org.apache.spark.deploy.k8s.KubernetesUtils` logger to see what happens inside.
+
+Add the following line to `conf/log4j.properties`:
+
+```text
+log4j.logger.org.apache.spark.deploy.k8s.KubernetesUtils=ALL
+```
+
+Refer to [Logging](spark-logging.md).

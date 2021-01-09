@@ -23,6 +23,10 @@ Spark on Kubernetes supports **Dynamic Allocation of Executors** using [Executor
 !!! tip "The Internals of Apache Spark"
     Learn more about [Dynamic Allocation of Executors]({{ book.spark_core }}/dynamic-allocation/) in [The Internals of Apache Spark]({{ book.spark_core }}).
 
+## Local Jars and Files
+
+In `cluster` deploy mode, local files (in `spark.jars` and `spark.files` configuration properties) are uploaded to a Hadoop DFS-compatible file system (defined by [spark.kubernetes.file.upload.path](configuration-properties.md#spark.kubernetes.file.upload.path) configuration property).
+
 ## <span id="spark-internal"> Internal Resource Marker
 
 Spark on Kubernetes uses **spark-internal** special name in `cluster` deploy mode for internal application resources (that are supposed to be part of an image).

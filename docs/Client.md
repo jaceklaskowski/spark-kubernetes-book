@@ -21,7 +21,7 @@
 run(): Unit
 ```
 
-`run` requests the [KubernetesDriverBuilder](#builder) to [build a KubernetesDriverSpec from features](KubernetesDriverBuilder.md#buildFromFeatures).
+`run` requests the [KubernetesDriverBuilder](#builder) to [build a KubernetesDriverSpec](KubernetesDriverBuilder.md#buildFromFeatures).
 
 `run` requests the [KubernetesDriverConf](#conf) for the [resourceNamePrefix](KubernetesDriverConf.md#resourceNamePrefix) and uses it for the name of the driver's config map:
 

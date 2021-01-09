@@ -32,21 +32,19 @@ With [spark.kubernetes.driver.podTemplateFile](configuration-properties.md#spark
 
 `buildFromFeatures` builds a [KubernetesDriverSpec](#KubernetesDriverSpec) (with the initial driver pod specification).
 
-In the end, `buildFromFeatures` [configures the driver pod specification](KubernetesFeatureConfigStep.md#configurePod) through a series of the feature steps:
+In the end, `buildFromFeatures` [configures the driver pod specification](KubernetesFeatureConfigStep.md#configurePod) (with [additional system properties](KubernetesFeatureConfigStep.md#getAdditionalPodSystemProperties) and [additional resources](KubernetesFeatureConfigStep.md#getAdditionalKubernetesResources)) through a series of the feature steps:
 
 * [BasicDriverFeatureStep](BasicDriverFeatureStep.md)
 * DriverKubernetesCredentialsFeatureStep
-* DriverServiceFeatureStep
-* MountSecretsFeatureStep
-* EnvSecretsFeatureStep
-* MountVolumesFeatureStep
+* [DriverServiceFeatureStep](DriverServiceFeatureStep.md)
+* [MountSecretsFeatureStep](MountSecretsFeatureStep.md)
+* [EnvSecretsFeatureStep](EnvSecretsFeatureStep.md)
+* [MountVolumesFeatureStep](MountVolumesFeatureStep.md)
 * [DriverCommandFeatureStep](DriverCommandFeatureStep.md)
 * HadoopConfDriverFeatureStep
 * KerberosConfDriverFeatureStep
 * [PodTemplateConfigMapStep](PodTemplateConfigMapStep.md)
-* LocalDirsFeatureStep
-
-`buildFromFeatures`...FIXME
+* [LocalDirsFeatureStep](LocalDirsFeatureStep.md)
 
 `buildFromFeatures` is used when:
 

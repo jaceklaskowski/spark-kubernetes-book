@@ -29,7 +29,10 @@ Name     | Value
  [spark.kubernetes.memoryOverheadFactor](configuration-properties.md#spark.kubernetes.memoryOverheadFactor) | [overheadFactor](#overheadFactor)
  `spark.app.id` | [appId](KubernetesDriverConf.md#appId) (of the [KubernetesDriverConf](#conf))
 
-`getAdditionalPodSystemProperties` [uploads local and resolvable files](KubernetesUtils.md#uploadAndTransformFileUris) (specified using `spark.jars` and `spark.files` configuration properties) to a Hadoop-compatible file system and adds them to the additional properties (as comma-separated file URIs).
+In the end, `getAdditionalPodSystemProperties` [uploads local files](KubernetesUtils.md#uploadAndTransformFileUris) (in `spark.jars` and `spark.files` configuration properties) to a Hadoop-compatible file system and adds their target Hadoop paths to the additional properties.
+
+!!! note "spark.kubernetes.file.upload.path Configuration Property"
+    The Hadoop DFS path to upload local files to is defined using [spark.kubernetes.file.upload.path](configuration-properties.md#spark.kubernetes.file.upload.path) configuration property.
 
 ## <span id="configurePod"> Configuring Pod for Driver
 
