@@ -63,11 +63,11 @@ renameMainAppResource(
   conf: SparkConf): String
 ```
 
-`renameMainAppResource` is converted to `spark-internal` internal name when the given `resource` [is local and resolvable](#isLocalAndResolvable). Otherwise, `renameMainAppResource` returns the given resource as-is.
+`renameMainAppResource` is converted to [spark-internal](overview.md#spark-internal) internal name when the given `resource` [is local and resolvable](#isLocalAndResolvable). Otherwise, `renameMainAppResource` returns the given resource as-is.
 
 `renameMainAppResource` is used when:
 
-* `DriverCommandFeatureStep` is requested for a [base container for drivers](DriverCommandFeatureStep.md#baseDriverContainer) (for a `JavaMainAppResource` application)
+* `DriverCommandFeatureStep` is requested for the [base driver container](DriverCommandFeatureStep.md#baseDriverContainer) (for a `JavaMainAppResource` application)
 
 ## <span id="isLocalAndResolvable"> isLocalAndResolvable
 
@@ -76,7 +76,10 @@ isLocalAndResolvable(
   resource: String): Boolean
 ```
 
-`isLocalAndResolvable` is `true` when the given `resource` is not internal and a [local dependency](#isLocalDependency) (after converting to a well-formed URI)
+`isLocalAndResolvable` is `true` when the given `resource` is:
+
+1. Not [internal](overview.md#spark-internal)
+1. [Uses either file or no URI scheme](#isLocalDependency) (after converting to a well-formed URI)
 
 `isLocalAndResolvable` is used when:
 

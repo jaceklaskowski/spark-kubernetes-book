@@ -23,6 +23,57 @@ Spark on Kubernetes supports **Dynamic Allocation of Executors** using [Executor
 !!! tip "The Internals of Apache Spark"
     Learn more about [Dynamic Allocation of Executors]({{ book.spark_core }}/dynamic-allocation/) in [The Internals of Apache Spark]({{ book.spark_core }}).
 
+## <span id="spark-internal"> Internal Resource Marker
+
+Spark on Kubernetes uses **spark-internal** special name in `cluster` deploy mode for internal application resources (that are supposed to be part of an image).
+
+Given [renameMainAppResource](KubernetesUtils.md#renameMainAppResource), `DriverCommandFeatureStep` will re-write local `file`-scheme-based primary application resources to `spark-internal` special name when requested for the [base driver container](DriverCommandFeatureStep.md#baseDriverContainer) (for a `JavaMainAppResource` application).
+
+### <span id="spark-internal-demo"> Demo
+
+This demo is a follow-up to [Demo: Running Spark Application on minikube](demo/running-spark-application-on-minikube.md). Run it first.
+
+Note `--deploy-mode cluster` and the application jar is "locally resolvable" (i.e. uses `file:` scheme indirectly).
+
+```text
+./bin/spark-submit \
+  --master k8s://$K8S_SERVER \
+  --deploy-mode cluster \
+  --name spark-docker-example \
+  --class meetup.SparkApp \
+  --conf spark.kubernetes.container.image=spark-docker-example:0.1.0 \
+  --conf spark.kubernetes.context=minikube \
+  --conf spark.kubernetes.namespace=spark-demo \
+  --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \
+  --conf spark.kubernetes.file.upload.path=/tmp/spark-k8s \
+  --verbose \
+  ~/dev/meetups/spark-meetup/spark-docker-example/target/scala-2.12/spark-docker-example_2.12-0.1.0.jar
+```
+
+```text
+$ kubectl get po -l spark-role=driver
+NAME                                           READY   STATUS   RESTARTS   AGE
+spark-docker-example-dfd7d076e7099718-driver   0/1     Error    0          7m25s
+```
+
+Note `spark-internal` in the below output.
+
+```text
+$ kubectl describe po spark-docker-example-dfd7d076e7099718-driver
+...
+Containers:
+  spark-kubernetes-driver:
+    ...
+    Args:
+      driver
+      --properties-file
+      /opt/spark/conf/spark.properties
+      --class
+      meetup.SparkApp
+      spark-internal
+...
+```
+
 ## Demo
 
 1. [spark-shell on minikube](demo/spark-shell-on-minikube.md)
