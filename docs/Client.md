@@ -23,7 +23,7 @@ run(): Unit
 
 `run` requests the [KubernetesDriverBuilder](#builder) to [build a KubernetesDriverSpec](KubernetesDriverBuilder.md#buildFromFeatures).
 
-`run` requests the [KubernetesDriverConf](#conf) for the [resourceNamePrefix](KubernetesDriverConf.md#resourceNamePrefix) and uses it for the name of the driver's config map:
+`run` requests the [KubernetesDriverConf](#conf) for the [resourceNamePrefix](KubernetesDriverConf.md#resourceNamePrefix) to be used for the name of the driver's config map:
 
 ```text
 [resourceNamePrefix]-driver-conf-map
@@ -54,7 +54,7 @@ addDriverOwnerReference(
 
 `addDriverOwnerReference`...FIXME
 
-### <span id="buildConfigMap"> buildConfigMap
+### <span id="buildConfigMap"> Building ConfigMap
 
 ```scala
 buildConfigMap(
@@ -62,4 +62,13 @@ buildConfigMap(
   conf: Map[String, String]): ConfigMap
 ```
 
-`buildConfigMap`...FIXME
+`buildConfigMap` builds a Kubernetes `ConfigMap` with the given `conf` key-value pairs stored as **spark.properties** data and the given `configMapName` name.
+
+The stored data uses an extra comment:
+
+```text
+Java properties built from Kubernetes config map with name: [configMapName]
+```
+
+!!! tip "Kubernetes Documentation"
+    Learn more about [ConfigMaps]({{ k8s.doc }}/concepts/configuration/configmap/) in the official [Kubernetes Documentation]({{ k8s.doc }}/home/).

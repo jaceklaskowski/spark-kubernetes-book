@@ -155,6 +155,8 @@ cd $SPARK_HOME
 K8S_SERVER=$(kubectl config view --output=jsonpath='{.clusters[].cluster.server}')
 ```
 
+Please note the [configuration properties](configuration-properties.md) (some not really necessary but make the demo easier to guide you through, e.g. [spark.kubernetes.driver.pod.name](configuration-properties.md#spark.kubernetes.driver.pod.name)).
+
 ```text
 ./bin/spark-submit \
   --master k8s://$K8S_SERVER \
@@ -162,6 +164,7 @@ K8S_SERVER=$(kubectl config view --output=jsonpath='{.clusters[].cluster.server}
   --name spark-docker-example \
   --class meetup.SparkApp \
   --conf spark.kubernetes.container.image=spark-docker-example:0.1.0 \
+  --conf spark.kubernetes.driver.pod.name=spark-demo-minikube \
   --conf spark.kubernetes.context=minikube \
   --conf spark.kubernetes.namespace=spark-demo \
   --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \
@@ -227,6 +230,84 @@ And then...
 	 termination reason: Completed
 ```
 
+## Accessing web UI
+
+Find the driver pod (`kubectl get po`)
+
+```text
+kubectl port-forward [driver-pod-name] 4040:4040
+```
+
+## Accessing Logs
+
+Access the logs of the driver.
+
+```text
+kubectl logs -f spark-demo-minikube
+```
+
+## Reviewing Spark Application Configuration (ConfigMap)
+
+!!! note
+    `k` is an alias of `kubectl`.
+
+```text
+k get cm
+```
+
+```text
+k describe cm [driver-pod]-conf-map
+```
+
+Describe the driver pod and review volumes (`.spec.volumes`) and volume mounts (`.spec.containers[].volumeMounts`).
+
+```text
+k describe po spark-demo-minikube
+```
+
+```text
+k get po spark-demo-minikube -o=jsonpath='{.spec.volumes}' | jq
+[
+  {
+    "emptyDir": {},
+    "name": "spark-local-dir-1"
+  },
+  {
+    "configMap": {
+      "defaultMode": 420,
+      "name": "spark-docker-example-f76bf776ec818be5-driver-conf-map"
+    },
+    "name": "spark-conf-volume"
+  },
+  {
+    "name": "spark-token-24krm",
+    "secret": {
+      "defaultMode": 420,
+      "secretName": "spark-token-24krm"
+    }
+  }
+]
+```
+
+```text
+$ k get po spark-demo-minikube -o=jsonpath='{.spec.containers[].volumeMounts}' | jq
+[
+  {
+    "mountPath": "/var/data/spark-b5d0a070-ff9a-41a3-91aa-82059ceba5b0",
+    "name": "spark-local-dir-1"
+  },
+  {
+    "mountPath": "/opt/spark/conf",
+    "name": "spark-conf-volume"
+  },
+  {
+    "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+    "name": "spark-token-24krm",
+    "readOnly": true
+  }
+]
+```
+
 ## Spark Application Management
 
 ```text
@@ -263,40 +344,6 @@ Application status (driver):
 $ kubectl get services
 NAME                                               TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)                      AGE
 spark-docker-example-3de43976e3a46fcf-driver-svc   ClusterIP   None         <none>        7078/TCP,7079/TCP,4040/TCP   101s
-```
-
-## Reviewing Logs
-
-Find the driver pod.
-
-```text
-kubectl get pod
-```
-
-Review the logs of the driver pod.
-
-```text
-
-```
-
-## Accessing web UI
-
-Find the driver pod.
-
-```text
-kubectl get pod
-```
-
-```text
-kubectl port-forward [driver-pod-name] 4040:4040
-```
-
-## Accessing Logs
-
-Access the logs.
-
-```text
-kubectl logs -f [driver-pod-name]
 ```
 
 ## Stopping Cluster

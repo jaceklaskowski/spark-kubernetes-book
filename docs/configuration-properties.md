@@ -46,7 +46,7 @@ Default: `IfNotPresent`
 
 Used when:
 
-* `KubernetesConf` is requested to [imagePullPolicy](KubernetesConf.md#imagePullPolicy)
+* `KubernetesConf` is requested for [imagePullPolicy](KubernetesConf.md#imagePullPolicy)
 
 ## <span id="spark.kubernetes.context"><span id="KUBERNETES_CONTEXT"> spark.kubernetes.context
 
@@ -101,6 +101,16 @@ Default: (undefined)
 Used when:
 
 * `KubernetesDriverBuilder` is requested to [buildFromFeatures](KubernetesDriverBuilder.md#buildFromFeatures)
+
+## <span id="spark.kubernetes.driver.request.cores"><span id="KUBERNETES_DRIVER_REQUEST_CORES"> spark.kubernetes.driver.request.cores
+
+Specify the `cpu` request for the driver pod
+
+Default: (undefined)
+
+Used when:
+
+* `BasicDriverFeatureStep` is requested to [configure a pod](BasicDriverFeatureStep.md#configurePod)
 
 ## <span id="spark.kubernetes.executor.apiPollingInterval"><span id="KUBERNETES_EXECUTOR_API_POLLING_INTERVAL"> spark.kubernetes.executor.apiPollingInterval
 
@@ -206,6 +216,11 @@ Used when:
 Must be a double between (0, 1.0)
 
 Default: `0.1`
+
+Used when:
+
+* `BasicDriverFeatureStep` is requested to [configure a pod](BasicDriverFeatureStep.md#configurePod)
+* `BasicExecutorFeatureStep` is requested to [configure a pod](BasicExecutorFeatureStep.md#configurePod)
 
 ## <span id="spark.kubernetes.namespace"><span id="KUBERNETES_NAMESPACE"> spark.kubernetes.namespace
 

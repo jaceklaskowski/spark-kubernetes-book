@@ -114,8 +114,8 @@ imagePullPolicy: String
 
 `imagePullPolicy` is used when:
 
-* `BasicDriverFeatureStep` is requested to [configurePod](BasicDriverFeatureStep.md#configurePod)
-* `BasicExecutorFeatureStep` is requested to [configurePod](BasicExecutorFeatureStep.md#configurePod)
+* `BasicDriverFeatureStep` is requested to [configure a pod](BasicDriverFeatureStep.md#configurePod)
+* `BasicExecutorFeatureStep` is requested to [configure a pod](BasicExecutorFeatureStep.md#configurePod)
 
 ## <span id="createDriverConf"> Creating KubernetesDriverConf
 

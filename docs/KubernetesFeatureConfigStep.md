@@ -36,7 +36,7 @@ Used when:
 getAdditionalPodSystemProperties(): Map[String, String]
 ```
 
-System properties to set on the JVM
+Additional system properties of a driver pod (to be used for a [ConfigMap](Client.md#buildConfigMap))
 
 Default: `empty`
 

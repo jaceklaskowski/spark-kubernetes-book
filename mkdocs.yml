@@ -20,7 +20,6 @@ theme:
     - navigation.tabs
     - navigation.instant
     - search.suggest
-    - search.highlight
   palette:
     - scheme: default
       primary: indigo
@@ -107,21 +106,10 @@ nav:
     - KubernetesClientApplication: KubernetesClientApplication.md
     - SparkKubernetesClientFactory: SparkKubernetesClientFactory.md
     - K8SSparkSubmitOperation: K8SSparkSubmitOperation.md
-    - DriverCommandFeatureStep: DriverCommandFeatureStep.md
     - KubernetesConf: KubernetesConf.md
     - Client: Client.md
     - ExecutorPodsLifecycleManager: ExecutorPodsLifecycleManager.md
     - ExecutorPodsSnapshotsStore: ExecutorPodsSnapshotsStore.md
-    - KubernetesFeatureConfigStep: KubernetesFeatureConfigStep.md
-    - BasicDriverFeatureStep: BasicDriverFeatureStep.md
-    - BasicExecutorFeatureStep: BasicExecutorFeatureStep.md
-    - DriverServiceFeatureStep: DriverServiceFeatureStep.md
-    - PodTemplateConfigMapStep: PodTemplateConfigMapStep.md
-    - EnvSecretsFeatureStep: EnvSecretsFeatureStep.md
-    - MountSecretsFeatureStep: MountSecretsFeatureStep.md
-    - MountVolumesFeatureStep: MountVolumesFeatureStep.md
-    - LocalDirsFeatureStep: LocalDirsFeatureStep.md
-    - ExecutorKubernetesCredentialsFeatureStep: ExecutorKubernetesCredentialsFeatureStep.md
     - ExecutorPodsWatchSnapshotSource: ExecutorPodsWatchSnapshotSource.md
     - ExecutorPodsPollingSnapshotSource: ExecutorPodsPollingSnapshotSource.md
     - ExecutorPodsSnapshotsStoreImpl: ExecutorPodsSnapshotsStoreImpl.md
@@ -136,6 +124,18 @@ nav:
     - PollRunnable: PollRunnable.md
     - ClientArguments: ClientArguments.md
     - Logging: spark-logging.md
+    - Kubernetes Pod Feature Steps:
+      - KubernetesFeatureConfigStep: KubernetesFeatureConfigStep.md
+      - BasicDriverFeatureStep: BasicDriverFeatureStep.md
+      - BasicExecutorFeatureStep: BasicExecutorFeatureStep.md
+      - DriverCommandFeatureStep: DriverCommandFeatureStep.md
+      - DriverServiceFeatureStep: DriverServiceFeatureStep.md
+      - EnvSecretsFeatureStep: EnvSecretsFeatureStep.md
+      - ExecutorKubernetesCredentialsFeatureStep: ExecutorKubernetesCredentialsFeatureStep.md
+      - LocalDirsFeatureStep: LocalDirsFeatureStep.md
+      - MountSecretsFeatureStep: MountSecretsFeatureStep.md
+      - MountVolumesFeatureStep: MountVolumesFeatureStep.md
+      - PodTemplateConfigMapStep: PodTemplateConfigMapStep.md
     - Utilities:
       - KubernetesUtils: KubernetesUtils.md
       - KubernetesVolumeUtils: KubernetesVolumeUtils.md

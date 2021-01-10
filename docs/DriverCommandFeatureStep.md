@@ -12,7 +12,7 @@
 
 * `KubernetesDriverBuilder` is requested to [build a KubernetesDriverSpec from features](KubernetesDriverBuilder.md#buildFromFeatures)
 
-## <span id="configurePod"> configurePod
+## <span id="configurePod"> Configuring Pod
 
 ```scala
 configurePod(
@@ -23,13 +23,13 @@ configurePod(
 
 `configurePod` branches off based on the [MainAppResource](KubernetesDriverConf.md#mainAppResource) (of the [KubernetesDriverConf](#conf)):
 
-* For `JavaMainAppResource`, `configurePod` [configureForJava](#configureForJava) with the primary resource (if defined) or uses `spark-internal` special value
+* For `JavaMainAppResource`, `configurePod` [configures a pod for Java](#configureForJava) with the primary resource (if defined) or uses `spark-internal` special value
 
-* For `PythonMainAppResource`, `configurePod` [configureForPython](#configureForPython) with the primary resource
+* For `PythonMainAppResource`, `configurePod` [configures a pod for Python](#configureForPython) with the primary resource
 
-* For `RMainAppResource`, `configurePod` [configureForR](#configureForR) with the primary resource
+* For `RMainAppResource`, `configurePod` [configures a pod for R](#configureForR) with the primary resource
 
-## <span id="configureForJava"> configureForJava
+### <span id="configureForJava"> Configuring Pod for Java Application
 
 ```scala
 configureForJava(
@@ -41,11 +41,7 @@ configureForJava(
 
 In the end, `configureForJava` creates another `SparkPod` (for the pod of the given `SparkPod`) and the driver container.
 
-`configureForJava` is used when:
-
-* `DriverCommandFeatureStep` is requested to [configurePod](#configurePod) for a `JavaMainAppResource` (based on the [mainAppResource](KubernetesDriverConf.md#mainAppResource) of the [KubernetesDriverConf](#conf))
-
-## <span id="configureForPython"> configureForPython
+### <span id="configureForPython"> Configuring Pod for Python Application
 
 ```scala
 configureForPython(
@@ -55,11 +51,7 @@ configureForPython(
 
 `configureForPython`...FIXME
 
-`configureForPython` is used when:
-
-* FIXME
-
-## <span id="configureForR"> configureForR
+### <span id="configureForR"> Configuring Pod for R Application
 
 ```scala
 configureForR(
@@ -69,11 +61,7 @@ configureForR(
 
 `configureForR`...FIXME
 
-`configureForR` is used when:
-
-* FIXME
-
-## <span id="baseDriverContainer"> baseDriverContainer
+### <span id="baseDriverContainer"> Base Driver ContainerBuilder
 
 ```scala
 baseDriverContainer(
@@ -81,19 +69,21 @@ baseDriverContainer(
   resource: String): ContainerBuilder
 ```
 
-`baseDriverContainer` [renames](KubernetesUtils.md#renameMainAppResource) the given primary resource when the [MainAppResource](KubernetesDriverConf.md#mainAppResource) is a `JavaMainAppResource`. Otherwise, `baseDriverContainer` leaves the primary resource as-is.
+`baseDriverContainer` [renames](KubernetesUtils.md#renameMainAppResource) the given primary `resource` if the [MainAppResource](KubernetesDriverConf.md#mainAppResource) is a `JavaMainAppResource`. Otherwise, `baseDriverContainer` leaves the primary resource as-is.
 
 `baseDriverContainer` creates a `ContainerBuilder` (for the pod of the given `SparkPod`) and adds the following arguments (in that order):
 
 1. `driver`
 1. `--properties-file` with `/opt/spark/conf/spark.properties`
 1. `--class` with the [mainClass](KubernetesDriverConf.md#mainClass) of the [KubernetesDriverConf](#conf)
-1. the primary resource (possibly renamed when a `MainAppResource`)
+1. the primary resource (possibly [renamed](KubernetesUtils.md#renameMainAppResource) if a `MainAppResource`)
 1. [appArgs](KubernetesDriverConf.md#appArgs) of the [KubernetesDriverConf](#conf)
 
 !!! note
     The arguments are then used by the default `entrypoint.sh` of the official Docker image of Apache Spark (in `resource-managers/kubernetes/docker/src/main/dockerfiles/spark/`).
 
-`baseDriverContainer` is used when:
+    Use the following `kubectl` command to see the arguments:
 
-* `DriverCommandFeatureStep` is requested to [configureForJava](#configureForJava), [configureForPython](#configureForPython), and [configureForR](#configureForR)
+    ```text
+    kubectl get po [driverPod] -o=jsonpath='{.spec.containers[0].args}'
+    ```
