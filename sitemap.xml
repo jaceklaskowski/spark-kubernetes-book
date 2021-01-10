@@ -28,6 +28,18 @@
      <lastmod>2021-01-10</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
+     <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/Client/</loc>
+     <lastmod>2021-01-10</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/KubernetesDriverBuilder/</loc>
+     <lastmod>2021-01-10</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/LoggingPodStatusWatcherImpl/</loc>
+     <lastmod>2021-01-10</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/SparkKubernetesClientFactory/</loc>
      <lastmod>2021-01-10</lastmod>
      <changefreq>daily</changefreq>
@@ -37,10 +49,6 @@
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/KubernetesConf/</loc>
-     <lastmod>2021-01-10</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/Client/</loc>
      <lastmod>2021-01-10</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
@@ -56,6 +64,10 @@
      <lastmod>2021-01-10</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
+     <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/ExecutorPodsWatcher/</loc>
+     <lastmod>2021-01-10</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/ExecutorPodsPollingSnapshotSource/</loc>
      <lastmod>2021-01-10</lastmod>
      <changefreq>daily</changefreq>
@@ -64,15 +76,7 @@
      <lastmod>2021-01-10</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/ExecutorPodsWatcher/</loc>
-     <lastmod>2021-01-10</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/ExecutorPodsAllocator/</loc>
-     <lastmod>2021-01-10</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/KubernetesDriverBuilder/</loc>
      <lastmod>2021-01-10</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
@@ -89,10 +93,6 @@
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/LoggingPodStatusWatcher/</loc>
-     <lastmod>2021-01-10</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/LoggingPodStatusWatcherImpl/</loc>
      <lastmod>2021-01-10</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
