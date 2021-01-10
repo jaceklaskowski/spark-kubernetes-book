@@ -1,6 +1,6 @@
 # KubernetesClientApplication
 
-`KubernetesClientApplication` is a `SparkApplication` (Apache Spark) in [Spark on Kubernetes](index.md) in `cluster` deploy mode.
+`KubernetesClientApplication` is a `SparkApplication` ([Apache Spark]({{ book.spark_core }}/tools/SparkApplication/)) in [Spark on Kubernetes](index.md) in `cluster` deploy mode.
 
 ## Creating Instance
 
@@ -8,7 +8,7 @@
 
 `KubernetesClientApplication` is created when:
 
-* `SparkSubmit` is requested to launch a Spark application (for kubernetes in cluster deploy mode]({{ book.spark_core }}/tools/SparkSubmit/#KubernetesClientApplication))
+* `SparkSubmit` is requested to launch a Spark application (for [kubernetes in cluster deploy mode]({{ book.spark_core }}/tools/SparkSubmit/#KubernetesClientApplication))
 
 ## <span id="start"> Starting Spark Application
 
@@ -18,7 +18,7 @@ start(
   conf: SparkConf): Unit
 ```
 
-`start` is part of the `SparkApplication` (Apache Spark) abstraction.
+`start` is part of the `SparkApplication` ([Apache Spark]({{ book.spark_core }}/tools/SparkApplication/#start)) abstraction.
 
 `start` [parses](ClientArguments.md#fromCommandLineArgs) the command-line arguments (`args`) and [runs](#run).
 

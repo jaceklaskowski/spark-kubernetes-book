@@ -1,7 +1,5 @@
 # ExecutorPodsWatchSnapshotSource
 
-`ExecutorPodsWatchSnapshotSource` is...FIXME
-
 ## Creating Instance
 
 `ExecutorPodsWatchSnapshotSource` takes the following to be created:

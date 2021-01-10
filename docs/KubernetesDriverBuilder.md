@@ -8,7 +8,7 @@
 
 `KubernetesDriverBuilder` is created when:
 
-* `KubernetesClientApplication` is requested to [run](KubernetesClientApplication.md#run)
+* `KubernetesClientApplication` is requested to [start](KubernetesClientApplication.md#start)
 
 ## <span id="KubernetesDriverSpec"> KubernetesDriverSpec
 

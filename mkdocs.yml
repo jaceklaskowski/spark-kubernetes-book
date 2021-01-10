@@ -103,24 +103,26 @@ nav:
     - KubernetesClusterManager: KubernetesClusterManager.md
     - KubernetesClusterSchedulerBackend: KubernetesClusterSchedulerBackend.md
     - KubernetesDriverEndpoint: KubernetesDriverEndpoint.md
-    - KubernetesClientApplication: KubernetesClientApplication.md
+    - Cluster Deploy Mode:
+      - KubernetesClientApplication: KubernetesClientApplication.md
+      - Client: Client.md
+      - KubernetesDriverBuilder: KubernetesDriverBuilder.md
+      - LoggingPodStatusWatcherImpl: LoggingPodStatusWatcherImpl.md
     - SparkKubernetesClientFactory: SparkKubernetesClientFactory.md
     - K8SSparkSubmitOperation: K8SSparkSubmitOperation.md
     - KubernetesConf: KubernetesConf.md
-    - Client: Client.md
     - ExecutorPodsLifecycleManager: ExecutorPodsLifecycleManager.md
     - ExecutorPodsSnapshotsStore: ExecutorPodsSnapshotsStore.md
-    - ExecutorPodsWatchSnapshotSource: ExecutorPodsWatchSnapshotSource.md
+    - Executor Pods Watchers:
+      - ExecutorPodsWatchSnapshotSource: ExecutorPodsWatchSnapshotSource.md
+      - ExecutorPodsWatcher: ExecutorPodsWatcher.md
     - ExecutorPodsPollingSnapshotSource: ExecutorPodsPollingSnapshotSource.md
     - ExecutorPodsSnapshotsStoreImpl: ExecutorPodsSnapshotsStoreImpl.md
-    - ExecutorPodsWatcher: ExecutorPodsWatcher.md
     - ExecutorPodsAllocator: ExecutorPodsAllocator.md
-    - KubernetesDriverBuilder: KubernetesDriverBuilder.md
     - KubernetesExecutorBuilder: KubernetesExecutorBuilder.md
     - KubernetesDriverConf: KubernetesDriverConf.md
     - KubernetesExecutorConf: KubernetesExecutorConf.md
     - LoggingPodStatusWatcher: LoggingPodStatusWatcher.md
-    - LoggingPodStatusWatcherImpl: LoggingPodStatusWatcherImpl.md
     - PollRunnable: PollRunnable.md
     - ClientArguments: ClientArguments.md
     - Logging: spark-logging.md

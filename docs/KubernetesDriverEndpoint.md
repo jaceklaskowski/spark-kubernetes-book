@@ -1,6 +1,6 @@
 # KubernetesDriverEndpoint
 
-`KubernetesDriverEndpoint` is a `DriverEndpoint`.
+`KubernetesDriverEndpoint` is a `DriverEndpoint` ([Apache Spark]({{ book.spark_core }}/scheduler/DriverEndpoint/)).
 
 ## <span id="onDisconnected"> Intercepting Executor Lost Event
 

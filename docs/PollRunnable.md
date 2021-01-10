@@ -2,8 +2,7 @@
 
 `PollRunnable` is a Java [Runnable]({{ java.api }}/java.base/java/lang/Runnable.html) that [ExecutorPodsPollingSnapshotSource](ExecutorPodsPollingSnapshotSource.md) uses to [run](#run) regularly for current snapshots of the executor pods of the [application](#applicationId).
 
-!!! note "Internal Class"
-    `PollRunnable` is an internal class of [ExecutorPodsPollingSnapshotSource](ExecutorPodsPollingSnapshotSource.md) with full access to internal registries.
+`PollRunnable` is an internal class of [ExecutorPodsPollingSnapshotSource](ExecutorPodsPollingSnapshotSource.md) with full access to its internals.
 
 ## Creating Instance
 

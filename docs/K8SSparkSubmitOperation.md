@@ -1,6 +1,6 @@
 # K8SSparkSubmitOperation
 
-`K8SSparkSubmitOperation` is a `SparkSubmitOperation` (Apache Spark).
+`K8SSparkSubmitOperation` is a `SparkSubmitOperation` ([Apache Spark]({{ book.spark_core }}/tools/SparkSubmitOperation/)).
 
 ## <span id="kill"> Killing Submission
 
@@ -10,7 +10,7 @@ kill(
   conf: SparkConf): Unit
 ```
 
-`kill` is part of the `SparkSubmitOperation` (Apache Spark) abstraction.
+`kill` is part of the `SparkSubmitOperation` ([Apache Spark]({{ book.spark_core }}/tools/SparkSubmitOperation/#kill)) abstraction.
 
 `kill` prints out the following message to standard error:
 
@@ -28,7 +28,7 @@ printSubmissionStatus(
   conf: SparkConf): Unit
 ```
 
-`printSubmissionStatus` is part of the `SparkSubmitOperation` (Apache Spark) abstraction.
+`printSubmissionStatus` is part of the `SparkSubmitOperation` ([Apache Spark]({{ book.spark_core }}/tools/SparkSubmitOperation/#printSubmissionStatus)) abstraction.
 
 `printSubmissionStatus` prints out the following message to standard error:
 
@@ -45,7 +45,7 @@ supports(
   master: String): Boolean
 ```
 
-`supports` is part of the `SparkSubmitOperation` (Apache Spark) abstraction.
+`supports` is part of the `SparkSubmitOperation` ([Apache Spark]({{ book.spark_core }}/tools/SparkSubmitOperation/#supports)) abstraction.
 
 `supports` is `true` when the input `master` starts with **k8s://** prefix.
 
