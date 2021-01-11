@@ -48,10 +48,6 @@
      <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/KubernetesConf/</loc>
-     <lastmod>2021-01-11</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/ExecutorPodsLifecycleManager/</loc>
      <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
@@ -84,14 +80,6 @@
      <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/KubernetesDriverConf/</loc>
-     <lastmod>2021-01-11</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/KubernetesExecutorConf/</loc>
-     <lastmod>2021-01-11</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/LoggingPodStatusWatcher/</loc>
      <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
@@ -104,7 +92,15 @@
      <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/spark-logging/</loc>
+     <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/KubernetesConf/</loc>
+     <lastmod>2021-01-11</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/KubernetesDriverConf/</loc>
+     <lastmod>2021-01-11</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/KubernetesExecutorConf/</loc>
      <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
@@ -160,11 +156,19 @@
      <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
+     <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/spark-logging/</loc>
+     <lastmod>2021-01-11</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/demo/spark-shell-on-minikube/</loc>
      <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/demo/running-spark-application-on-minikube/</loc>
+     <lastmod>2021-01-11</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/demo/spark-and-local-filesystem-in-minikube/</loc>
      <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url>
