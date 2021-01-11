@@ -160,6 +160,10 @@
      <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
+     <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/demo/</loc>
+     <lastmod>2021-01-11</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/demo/spark-shell-on-minikube/</loc>
      <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
