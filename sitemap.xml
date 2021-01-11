@@ -1,171 +1,171 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/</loc>
-     <lastmod>2021-01-10</lastmod>
+     <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/overview/</loc>
-     <lastmod>2021-01-10</lastmod>
+     <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/configuration-properties/</loc>
-     <lastmod>2021-01-10</lastmod>
+     <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/KubernetesClusterManager/</loc>
-     <lastmod>2021-01-10</lastmod>
+     <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/KubernetesClusterSchedulerBackend/</loc>
-     <lastmod>2021-01-10</lastmod>
+     <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/KubernetesDriverEndpoint/</loc>
-     <lastmod>2021-01-10</lastmod>
+     <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/KubernetesClientApplication/</loc>
-     <lastmod>2021-01-10</lastmod>
+     <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/Client/</loc>
-     <lastmod>2021-01-10</lastmod>
+     <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/KubernetesDriverBuilder/</loc>
-     <lastmod>2021-01-10</lastmod>
+     <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/LoggingPodStatusWatcherImpl/</loc>
-     <lastmod>2021-01-10</lastmod>
+     <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/SparkKubernetesClientFactory/</loc>
-     <lastmod>2021-01-10</lastmod>
+     <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/K8SSparkSubmitOperation/</loc>
-     <lastmod>2021-01-10</lastmod>
+     <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/KubernetesConf/</loc>
-     <lastmod>2021-01-10</lastmod>
+     <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/ExecutorPodsLifecycleManager/</loc>
-     <lastmod>2021-01-10</lastmod>
+     <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/ExecutorPodsSnapshotsStore/</loc>
-     <lastmod>2021-01-10</lastmod>
+     <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/ExecutorPodsWatchSnapshotSource/</loc>
-     <lastmod>2021-01-10</lastmod>
+     <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/ExecutorPodsWatcher/</loc>
-     <lastmod>2021-01-10</lastmod>
+     <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/ExecutorPodsPollingSnapshotSource/</loc>
-     <lastmod>2021-01-10</lastmod>
+     <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/ExecutorPodsSnapshotsStoreImpl/</loc>
-     <lastmod>2021-01-10</lastmod>
+     <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/ExecutorPodsAllocator/</loc>
-     <lastmod>2021-01-10</lastmod>
+     <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/KubernetesExecutorBuilder/</loc>
-     <lastmod>2021-01-10</lastmod>
+     <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/KubernetesDriverConf/</loc>
-     <lastmod>2021-01-10</lastmod>
+     <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/KubernetesExecutorConf/</loc>
-     <lastmod>2021-01-10</lastmod>
+     <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/LoggingPodStatusWatcher/</loc>
-     <lastmod>2021-01-10</lastmod>
+     <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/PollRunnable/</loc>
-     <lastmod>2021-01-10</lastmod>
+     <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/ClientArguments/</loc>
-     <lastmod>2021-01-10</lastmod>
+     <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/spark-logging/</loc>
-     <lastmod>2021-01-10</lastmod>
+     <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/KubernetesFeatureConfigStep/</loc>
-     <lastmod>2021-01-10</lastmod>
+     <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/BasicDriverFeatureStep/</loc>
-     <lastmod>2021-01-10</lastmod>
+     <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/BasicExecutorFeatureStep/</loc>
-     <lastmod>2021-01-10</lastmod>
+     <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/DriverCommandFeatureStep/</loc>
-     <lastmod>2021-01-10</lastmod>
+     <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/DriverServiceFeatureStep/</loc>
-     <lastmod>2021-01-10</lastmod>
+     <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/EnvSecretsFeatureStep/</loc>
-     <lastmod>2021-01-10</lastmod>
+     <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/ExecutorKubernetesCredentialsFeatureStep/</loc>
-     <lastmod>2021-01-10</lastmod>
+     <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/LocalDirsFeatureStep/</loc>
-     <lastmod>2021-01-10</lastmod>
+     <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/MountSecretsFeatureStep/</loc>
-     <lastmod>2021-01-10</lastmod>
+     <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/MountVolumesFeatureStep/</loc>
-     <lastmod>2021-01-10</lastmod>
+     <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/PodTemplateConfigMapStep/</loc>
-     <lastmod>2021-01-10</lastmod>
+     <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/KubernetesUtils/</loc>
-     <lastmod>2021-01-10</lastmod>
+     <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/KubernetesVolumeUtils/</loc>
-     <lastmod>2021-01-10</lastmod>
+     <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/demo/spark-shell-on-minikube/</loc>
-     <lastmod>2021-01-10</lastmod>
+     <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/demo/running-spark-application-on-minikube/</loc>
-     <lastmod>2021-01-10</lastmod>
+     <lastmod>2021-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url>
 </urlset>
