@@ -4,9 +4,32 @@
 
 Apache Spark supports `Kubernetes` resource manager as a scheduler using [KubernetesClusterManager](KubernetesClusterManager.md) and [KubernetesClusterSchedulerBackend](KubernetesClusterSchedulerBackend.md) for **k8s://**-prefixed master URLs (that point at [Kubernetes API servers](https://kubernetes.io/docs/concepts/overview/components/#kube-apiserver)).
 
-## Spark 3.1.0
+## Kubernetes GA in Spark 3.1.1
 
-As per [SPARK-33005 Kubernetes GA Preparation](https://issues.apache.org/jira/browse/SPARK-33005), Spark 3.1.0 comes with many improvements for Kubernetes support and is expected to get **General Availability (GA)** marker 🎉
+As per [SPARK-33005 Kubernetes GA Preparation](https://issues.apache.org/jira/browse/SPARK-33005), Spark 3.1.1 comes with many improvements for Kubernetes support and is expected to get **General Availability (GA)** marker 🎉
+
+!!! note
+    There will never be 3.1.0.
+
+## Static File Resources
+
+**File resources** are resources with `file` or no URI scheme (that are then considered `file`-based indirectly).
+
+In Spark applications, file resources can be the main application jar and pyspark or R files (_primary resource_) as well as files referenced by `spark.jars` and `spark.files` configuration properties (or their `--jars` and `--files` options of `spark-submit`, respectively).
+
+When deployed in `cluster` mode, Spark on Kubernetes uploads file resources of a Spark application to a Hadoop DFS-compatible file system defined by the required [spark.kubernetes.file.upload.path](configuration-properties.md#spark.kubernetes.file.upload.path) configuration property.
+
+### Local URI Scheme
+
+A special case of static file resources are **local resources** that are resources with `local` URI scheme. They are considered already available on every Spark node (and are not added to a Spark file server for distribution when `SparkContext` is requested to [add such file]({{ book.spark_core }}/SparkContext/#static-files)).
+
+In Spark on Kubernetes, `local` resources are used for primary application resource that are already included in a container image.
+
+```text
+./bin/spark-submit \
+  --master k8s://$K8S_SERVER \
+  local:///opt/docker/lib/meetup.spark-docker-example-0.1.0.jar
+```
 
 ## Executor Pods State Synchronization
 
@@ -22,10 +45,6 @@ Spark on Kubernetes supports **Dynamic Allocation of Executors** using [Executor
 
 !!! tip "The Internals of Apache Spark"
     Learn more about [Dynamic Allocation of Executors]({{ book.spark_core }}/dynamic-allocation/) in [The Internals of Apache Spark]({{ book.spark_core }}).
-
-## Local Jars and Files
-
-In `cluster` deploy mode, local files (in `spark.jars` and `spark.files` configuration properties) are uploaded to a Hadoop DFS-compatible file system (defined by [spark.kubernetes.file.upload.path](configuration-properties.md#spark.kubernetes.file.upload.path) configuration property).
 
 ## <span id="spark-internal"> Internal Resource Marker
 
