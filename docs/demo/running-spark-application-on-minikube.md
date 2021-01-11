@@ -1,3 +1,8 @@
+---
+hide:
+  - navigation
+---
+
 # Demo: Running Spark Application on minikube
 
 This demo shows how to deploy a Spark application to [Kubernetes](../index.md) (using [minikube](https://minikube.sigs.k8s.io/docs/)).
@@ -5,27 +10,19 @@ This demo shows how to deploy a Spark application to [Kubernetes](../index.md) (
 !!! tip
     Start with [Demo: spark-shell on minikube](spark-shell-on-minikube.md).
 
+!!! note
+    `k` is an alias of `kubectl`.
+
 ## Start Cluster
 
 Quoting [Prerequisites](http://spark.apache.org/docs/latest/running-on-kubernetes.html#prerequisites):
 
 > We recommend 3 CPUs and 4g of memory to be able to start a simple Spark application with a single executor.
 
-Let's start minikube with enough resources.
+Unless already started, start minikube with enough resources.
 
 ```text
-$ minikube start --cpus 4 --memory 8192
-😄  minikube v1.16.0 na Darwin 11.1
-✨  Automatically selected the docker driver
-👍  Starting control plane node minikube in cluster minikube
-🔥  Creating docker container (CPUs=4, Memory=8192MB) ...
-🐳  Przygotowywanie Kubernetesa v1.20.0 na Docker 20.10.0...
-    ▪ Generating certificates and keys ...
-    ▪ Booting up control plane ...
-    ▪ Configuring RBAC rules ...
-🔎  Verifying Kubernetes components...
-🌟  Enabled addons: storage-provisioner, default-storageclass
-🏄  Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
+minikube start --cpus 4 --memory 8192
 ```
 
 ## Building Spark Application Image
@@ -52,28 +49,28 @@ List available images (that should include your Spark application project's dock
 
 ```text
 $ docker images
-REPOSITORY                                TAG           IMAGE ID       CREATED          SIZE
-spark-docker-example                      0.1.0         3bfc4e483561   43 seconds ago   510MB
-jaceklaskowski/spark                      v3.0.1        78f2f9f19236   43 minutes ago   504MB
-openjdk                                   11-jre-slim   57a8cfbe60f3   4 weeks ago      205MB
-kubernetesui/dashboard                    v2.1.0        9a07b5b4bfac   4 weeks ago      226MB
-k8s.gcr.io/kube-proxy                     v1.20.0       10cc881966cf   4 weeks ago      118MB
-k8s.gcr.io/kube-apiserver                 v1.20.0       ca9843d3b545   4 weeks ago      122MB
-k8s.gcr.io/kube-controller-manager        v1.20.0       b9fa1895dcaa   4 weeks ago      116MB
-k8s.gcr.io/kube-scheduler                 v1.20.0       3138b6e3d471   4 weeks ago      46.4MB
-gcr.io/k8s-minikube/storage-provisioner   v4            85069258b98a   5 weeks ago      29.7MB
-k8s.gcr.io/etcd                           3.4.13-0      0369cf4303ff   4 months ago     253MB
-k8s.gcr.io/coredns                        1.7.0         bfe3a36ebd25   6 months ago     45.2MB
-kubernetesui/metrics-scraper              v1.0.4        86262685d9ab   9 months ago     36.9MB
-k8s.gcr.io/pause                          3.2           80d28bedfe5d   10 months ago    683kB
+REPOSITORY                                TAG           IMAGE ID       CREATED             SIZE
+spark-docker-example                      0.1.0         41fdb7a71b62   4 seconds ago       510MB
+jaceklaskowski/spark                      v3.0.1        d045e9e4572b   About an hour ago   504MB
+openjdk                                   11-jre-slim   57a8cfbe60f3   4 weeks ago         205MB
+kubernetesui/dashboard                    v2.1.0        9a07b5b4bfac   4 weeks ago         226MB
+k8s.gcr.io/kube-proxy                     v1.20.0       10cc881966cf   4 weeks ago         118MB
+k8s.gcr.io/kube-controller-manager        v1.20.0       b9fa1895dcaa   4 weeks ago         116MB
+k8s.gcr.io/kube-scheduler                 v1.20.0       3138b6e3d471   4 weeks ago         46.4MB
+k8s.gcr.io/kube-apiserver                 v1.20.0       ca9843d3b545   4 weeks ago         122MB
+gcr.io/k8s-minikube/storage-provisioner   v4            85069258b98a   5 weeks ago         29.7MB
+k8s.gcr.io/etcd                           3.4.13-0      0369cf4303ff   4 months ago        253MB
+k8s.gcr.io/coredns                        1.7.0         bfe3a36ebd25   6 months ago        45.2MB
+kubernetesui/metrics-scraper              v1.0.4        86262685d9ab   9 months ago        36.9MB
+k8s.gcr.io/pause                          3.2           80d28bedfe5d   11 months ago       683kB
 ```
 
-## (Optional) Creating Namespace
+## Creating Namespace
 
 This step is optional, but gives a better exposure to the Kubernetes-related features supported by Apache Spark.
 
 ```text
-kubectl create namespace spark-demo
+k create namespace spark-demo
 ```
 
 !!! tip
@@ -124,10 +121,10 @@ roleRef:
 ---
 ```
 
-Apply this configuration to your Kubernetes cluster.
+Create the resources in the Kubernetes cluster.
 
 ```text
-kubectl apply -f rbac.yml
+k create -f rbac.yml
 ```
 
 !!! tip
@@ -136,11 +133,11 @@ kubectl apply -f rbac.yml
 ### Imperatively
 
 ```text
-kubectl create serviceaccount spark
+k create serviceaccount spark
 ```
 
 ```text
-kubectl create clusterrolebinding spark-role \
+k create clusterrolebinding spark-role \
   --clusterrole edit \
   --serviceaccount spark-demo:spark
 ```
@@ -155,7 +152,7 @@ cd $SPARK_HOME
 K8S_SERVER=$(kubectl config view --output=jsonpath='{.clusters[].cluster.server}')
 ```
 
-Please note the [configuration properties](configuration-properties.md) (some not really necessary but make the demo easier to guide you through, e.g. [spark.kubernetes.driver.pod.name](configuration-properties.md#spark.kubernetes.driver.pod.name)).
+Please note the [configuration properties](../configuration-properties.md) (some not really necessary but make the demo easier to guide you through, e.g. [spark.kubernetes.driver.pod.name](../configuration-properties.md#spark.kubernetes.driver.pod.name)).
 
 ```text
 ./bin/spark-submit \
@@ -232,10 +229,10 @@ And then...
 
 ## Accessing web UI
 
-Find the driver pod (`kubectl get po`)
+Find the driver pod (`k get po`)
 
 ```text
-kubectl port-forward [driver-pod-name] 4040:4040
+k port-forward spark-demo-minikube 4040:4040
 ```
 
 ## Accessing Logs
@@ -243,20 +240,17 @@ kubectl port-forward [driver-pod-name] 4040:4040
 Access the logs of the driver.
 
 ```text
-kubectl logs -f spark-demo-minikube
+k logs -f spark-demo-minikube
 ```
 
 ## Reviewing Spark Application Configuration (ConfigMap)
-
-!!! note
-    `k` is an alias of `kubectl`.
 
 ```text
 k get cm
 ```
 
 ```text
-k describe cm [driver-pod]-conf-map
+k describe cm [driverPod]-conf-map
 ```
 
 Describe the driver pod and review volumes (`.spec.volumes`) and volume mounts (`.spec.containers[].volumeMounts`).
@@ -266,7 +260,7 @@ k describe po spark-demo-minikube
 ```
 
 ```text
-k get po spark-demo-minikube -o=jsonpath='{.spec.volumes}' | jq
+$ k get po spark-demo-minikube -o=jsonpath='{.spec.volumes}' | jq
 [
   {
     "emptyDir": {},

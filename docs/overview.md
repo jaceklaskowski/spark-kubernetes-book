@@ -11,6 +11,21 @@ As per [SPARK-33005 Kubernetes GA Preparation](https://issues.apache.org/jira/br
 !!! note
     There will never be 3.1.0.
 
+## Volumes
+
+Volumes and volume mounts are configured using `spark.kubernetes.[type].volumes.`-prefixed configuration properties with `type` being `driver` or `executor` (for the driver and executor pods, respectively).
+
+`KubernetesVolumeUtils` utility is used to [extract volume configuration](KubernetesVolumeUtils.md#parseVolumeSpecificConf) based on the volume type:
+
+Volume Type  | Configuration Property
+-------------|---------
+ `emptyDir`  | `[volumesPrefix].[volumeType].[volumeName].options.medium`
+  &nbsp;     | `[volumesPrefix].[volumeType].[volumeName].options.sizeLimit`
+ `hostPath`  | `[volumesPrefix].[volumeType].[volumeName].options.path`
+ `persistentVolumeClaim` | `[volumesPrefix].[volumeType].[volumeName].options.claimName`
+
+Executor volumes (`spark.kubernetes.executor.volumes.`-prefixed configuration properties) are parsed right when `KubernetesConf` utility is used for a [KubernetesDriverConf](KubernetesConf.md#createDriverConf) (and a driver pod created). That makes executor volumes required when driver volumes are defined.
+
 ## Static File Resources
 
 **File resources** are resources with `file` or no URI scheme (that are then considered `file`-based indirectly).

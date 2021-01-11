@@ -16,7 +16,7 @@
 
 * `KubernetesClientApplication` is requested to [start](KubernetesClientApplication.md#start) (via [KubernetesConf utility](KubernetesConf.md#createDriverConf))
 
-## <span id="volumes"> volumes
+## <span id="volumes"> Volume Specs
 
 ```scala
 volumes: Seq[KubernetesVolumeSpec]
@@ -24,4 +24,4 @@ volumes: Seq[KubernetesVolumeSpec]
 
 `volumes` is part of the [KubernetesConf](KubernetesConf.md#volumes) abstraction.
 
-`volumes` [extracts volumes](KubernetesVolumeUtils.md#parseVolumesWithPrefix) for the driver (with the **spark.kubernetes.driver.volumes** prefix) from the [SparkConf](#sparkConf).
+`volumes` [parses volume specs](KubernetesVolumeUtils.md#parseVolumesWithPrefix) for the driver (with the **spark.kubernetes.driver.volumes.** prefix) from the [SparkConf](#sparkConf).

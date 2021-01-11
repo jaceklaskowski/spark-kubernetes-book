@@ -10,7 +10,7 @@
 
 `BasicDriverFeatureStep` is created when:
 
-* `KubernetesDriverBuilder` is requested to [buildFromFeatures](KubernetesDriverBuilder.md#buildFromFeatures)
+* `KubernetesDriverBuilder` is requested to [build a driver pod spec](KubernetesDriverBuilder.md#buildFromFeatures)
 
 ## <span id="getAdditionalPodSystemProperties"> Additional System Properties
 
@@ -34,7 +34,7 @@ In the end, `getAdditionalPodSystemProperties` [uploads local files](KubernetesU
 !!! note "spark.kubernetes.file.upload.path Configuration Property"
     The Hadoop DFS path to upload local files to is defined using [spark.kubernetes.file.upload.path](configuration-properties.md#spark.kubernetes.file.upload.path) configuration property.
 
-## <span id="configurePod"> Configuring Pod for Driver
+## <span id="configurePod"> Configuring Driver Pod
 
 ```scala
 configurePod(

@@ -13,8 +13,8 @@ configurePod(
 
 Used when:
 
-* `KubernetesDriverBuilder` is requested to [buildFromFeatures](KubernetesDriverBuilder.md#buildFromFeatures)
-* `KubernetesExecutorBuilder` is requested to [buildFromFeatures](KubernetesExecutorBuilder.md#buildFromFeatures)
+* `KubernetesDriverBuilder` is requested to [build a driver pod spec](KubernetesDriverBuilder.md#buildFromFeatures)
+* `KubernetesExecutorBuilder` is requested to [build an executor pod spec](KubernetesExecutorBuilder.md#buildFromFeatures)
 
 ### <span id="getAdditionalKubernetesResources"> Additional Kubernetes Resources
 
@@ -28,7 +28,7 @@ Default: `empty`
 
 Used when:
 
-* `KubernetesDriverBuilder` is requested to [buildFromFeatures](KubernetesDriverBuilder.md#buildFromFeatures)
+* `KubernetesDriverBuilder` is requested to [build a driver pod spec](KubernetesDriverBuilder.md#buildFromFeatures)
 
 ### <span id="getAdditionalPodSystemProperties"> Additional System Properties
 
@@ -42,7 +42,7 @@ Default: `empty`
 
 Used when:
 
-* `KubernetesDriverBuilder` is requested to [build a KubernetesDriverSpec](KubernetesDriverBuilder.md#buildFromFeatures)
+* `KubernetesDriverBuilder` is requested to [build a driver pod spec](KubernetesDriverBuilder.md#buildFromFeatures)
 
 ## Implementations
 

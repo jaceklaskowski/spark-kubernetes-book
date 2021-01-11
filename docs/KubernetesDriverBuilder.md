@@ -18,7 +18,7 @@
 * <span id="driverKubernetesResources"> Driver Resources
 * <span id="systemProperties"> System Properties
 
-## <span id="buildFromFeatures"> Building KubernetesDriverSpec
+## <span id="buildFromFeatures"> Building Driver Pod Specification
 
 ```scala
 buildFromFeatures(

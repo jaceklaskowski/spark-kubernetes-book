@@ -14,3 +14,13 @@
 `KubernetesExecutorConf` is created when:
 
 * `ExecutorPodsAllocator` is requested to [handle executor pods snapshots](ExecutorPodsAllocator.md#onNewSnapshots) (and requests missing executors from Kubernetes via [KubernetesConf utility](KubernetesConf.md#createExecutorConf))
+
+## <span id="volumes"> Volume Specs
+
+```scala
+volumes: Seq[KubernetesVolumeSpec]
+```
+
+`volumes` is part of the [KubernetesConf](KubernetesConf.md#volumes) abstraction.
+
+`volumes` [parses volume specs](KubernetesVolumeUtils.md#parseVolumesWithPrefix) for the executor pod (with the **spark.kubernetes.executor.volumes.** prefix) from the [SparkConf](#sparkConf).

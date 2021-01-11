@@ -110,7 +110,6 @@ nav:
       - LoggingPodStatusWatcherImpl: LoggingPodStatusWatcherImpl.md
     - SparkKubernetesClientFactory: SparkKubernetesClientFactory.md
     - K8SSparkSubmitOperation: K8SSparkSubmitOperation.md
-    - KubernetesConf: KubernetesConf.md
     - ExecutorPodsLifecycleManager: ExecutorPodsLifecycleManager.md
     - ExecutorPodsSnapshotsStore: ExecutorPodsSnapshotsStore.md
     - Executor Pods Watchers:
@@ -120,12 +119,13 @@ nav:
     - ExecutorPodsSnapshotsStoreImpl: ExecutorPodsSnapshotsStoreImpl.md
     - ExecutorPodsAllocator: ExecutorPodsAllocator.md
     - KubernetesExecutorBuilder: KubernetesExecutorBuilder.md
-    - KubernetesDriverConf: KubernetesDriverConf.md
-    - KubernetesExecutorConf: KubernetesExecutorConf.md
     - LoggingPodStatusWatcher: LoggingPodStatusWatcher.md
     - PollRunnable: PollRunnable.md
     - ClientArguments: ClientArguments.md
-    - Logging: spark-logging.md
+    - Configuration Metadata:
+      - KubernetesConf: KubernetesConf.md
+      - KubernetesDriverConf: KubernetesDriverConf.md
+      - KubernetesExecutorConf: KubernetesExecutorConf.md
     - Kubernetes Pod Feature Steps:
       - KubernetesFeatureConfigStep: KubernetesFeatureConfigStep.md
       - BasicDriverFeatureStep: BasicDriverFeatureStep.md
@@ -141,6 +141,9 @@ nav:
     - Utilities:
       - KubernetesUtils: KubernetesUtils.md
       - KubernetesVolumeUtils: KubernetesVolumeUtils.md
+    - Logging: spark-logging.md
   - Demos:
+    - Demos: demo/index.md
     - spark-shell on minikube: demo/spark-shell-on-minikube.md
     - Running Spark Application on minikube: demo/running-spark-application-on-minikube.md
+    - Spark and Local Filesystem in minikube: demo/spark-and-local-filesystem-in-minikube.md
