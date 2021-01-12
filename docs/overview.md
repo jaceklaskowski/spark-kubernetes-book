@@ -9,7 +9,7 @@ Apache Spark supports `Kubernetes` resource manager as a scheduler using [Kubern
 As per [SPARK-33005 Kubernetes GA Preparation](https://issues.apache.org/jira/browse/SPARK-33005), Spark 3.1.1 comes with many improvements for Kubernetes support and is expected to get **General Availability (GA)** marker 🎉
 
 !!! note
-    There will never be 3.1.0.
+    [There will never be 3.1.0](http://spark.apache.org/news/next-official-release-spark-3.1.1.html).
 
 ## Volumes
 
@@ -111,11 +111,6 @@ Containers:
       spark-internal
 ...
 ```
-
-## Demo
-
-1. [spark-shell on minikube](demo/spark-shell-on-minikube.md)
-1. [Running Spark Application on minikube](demo/running-spark-application-on-minikube.md)
 
 ## Resources
 

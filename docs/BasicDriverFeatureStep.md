@@ -34,17 +34,6 @@ In the end, `getAdditionalPodSystemProperties` [uploads local files](KubernetesU
 !!! note "spark.kubernetes.file.upload.path Configuration Property"
     The Hadoop DFS path to upload local files to is defined using [spark.kubernetes.file.upload.path](configuration-properties.md#spark.kubernetes.file.upload.path) configuration property.
 
-## <span id="configurePod"> Configuring Driver Pod
-
-```scala
-configurePod(
-  pod: SparkPod): SparkPod
-```
-
-`configurePod` is part of the [KubernetesFeatureConfigStep](KubernetesFeatureConfigStep.md#configurePod) abstraction.
-
-`configurePod`...FIXME
-
 ## <span id="driverContainerImage"> Driver Container Image Name
 
 `BasicDriverFeatureStep` uses [spark.kubernetes.driver.container.image](configuration-properties.md#spark.kubernetes.driver.container.image) for the name of the container image for drivers.
@@ -56,3 +45,14 @@ Must specify the driver container image
 ```
 
 `driverContainerImage` is used when requested for [configurePod](#configurePod).
+
+## <span id="configurePod"> Configuring Driver Pod
+
+```scala
+configurePod(
+  pod: SparkPod): SparkPod
+```
+
+`configurePod` is part of the [KubernetesFeatureConfigStep](KubernetesFeatureConfigStep.md#configurePod) abstraction.
+
+`configurePod`...FIXME

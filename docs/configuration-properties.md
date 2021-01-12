@@ -189,6 +189,16 @@ Used when:
 * `KubernetesExecutorBuilder` is requested to [build a SparkPod from features](KubernetesExecutorBuilder.md#buildFromFeatures)
 * `PodTemplateConfigMapStep` is [created](PodTemplateConfigMapStep.md#hasTemplate) and requested to [configurePod](PodTemplateConfigMapStep.md#configurePod), [getAdditionalPodSystemProperties](PodTemplateConfigMapStep.md#getAdditionalPodSystemProperties), [getAdditionalKubernetesResources](PodTemplateConfigMapStep.md#getAdditionalKubernetesResources)
 
+## <span id="spark.kubernetes.executor.request.cores"><span id="KUBERNETES_EXECUTOR_REQUEST_CORES"> spark.kubernetes.executor.request.cores
+
+Specifies the cpu quantity request for executor pods (to be more Kubernetes-oriented when requesting resources for executor pods than Spark scheduler's approach based on `spark.executor.cores`).
+
+Default: (undefined)
+
+Used when:
+
+* `BasicExecutorFeatureStep` is requested to [configure an executor pod](BasicExecutorFeatureStep.md#configurePod)
+
 ## <span id="spark.kubernetes.file.upload.path"><span id="KUBERNETES_FILE_UPLOAD_PATH"> spark.kubernetes.file.upload.path
 
 Hadoop DFS-compatible file system path where files from the local file system will be uploded to in `cluster` deploy mode. The subdirectories (one per Spark application) with the local files are of the format `spark-upload-[uuid]`.
