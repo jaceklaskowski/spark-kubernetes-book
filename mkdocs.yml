@@ -143,7 +143,4 @@ nav:
       - KubernetesVolumeUtils: KubernetesVolumeUtils.md
     - Logging: spark-logging.md
   - Demos:
-    - Demos: demo/index.md
-    - spark-shell on minikube: demo/spark-shell-on-minikube.md
-    - Running Spark Application on minikube: demo/running-spark-application-on-minikube.md
-    - Spark and Local Filesystem in minikube: demo/spark-and-local-filesystem-in-minikube.md
+    - demo/index.md
