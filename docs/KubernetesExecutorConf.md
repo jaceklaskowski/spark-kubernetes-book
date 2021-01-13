@@ -1,6 +1,8 @@
 # KubernetesExecutorConf
 
-`KubernetesExecutorConf` is a [KubernetesConf](KubernetesConf.md).
+`KubernetesExecutorConf` is a [KubernetesConf](KubernetesConf.md) (for [KubernetesExecutorBuilder](KubernetesExecutorBuilder.md) to [build an executor pod](KubernetesExecutorBuilder.md#buildFromFeatures)).
+
+![KubernetesExecutorConf, ExecutorPodsAllocator and KubernetesExecutorBuilder](images/KubernetesExecutorConf.png)
 
 ## Creating Instance
 
@@ -9,7 +11,7 @@
 * <span id="sparkConf"> `SparkConf`
 * <span id="appId"> Application ID
 * <span id="executorId"> Executor ID
-* <span id="driverPod"> Optional Driver Pod
+* <span id="driverPod"> Driver Pod
 
 `KubernetesExecutorConf` is created when:
 

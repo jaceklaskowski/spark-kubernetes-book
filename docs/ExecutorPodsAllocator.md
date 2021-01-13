@@ -1,6 +1,6 @@
 # ExecutorPodsAllocator
 
-`ExecutorPodsAllocator` is responsible for [executor pod allocation](#onNewSnapshots) (possibly [dynamic](#dynamicAllocationEnabled)) in a Spark application.
+`ExecutorPodsAllocator` is responsible for [allocating pods for executors](#onNewSnapshots) (possibly [dynamic](#dynamicAllocationEnabled)) in a Spark application.
 
 `ExecutorPodsAllocator` is used to create a [KubernetesClusterSchedulerBackend](KubernetesClusterSchedulerBackend.md#podAllocator).
 
@@ -25,6 +25,24 @@
 
 !!! tip "The Internals of Apache Spark"
     Learn more about [Dynamic Allocation of Executors]({{ book.spark_core }}/dynamic-allocation/) in [The Internals of Apache Spark]({{ book.spark_core }}).
+
+## <span id="driverPod"> Driver Pod
+
+```scala
+driverPod: Option[Pod]
+```
+
+`driverPod` is a driver pod with the name of [spark.kubernetes.driver.pod.name](#kubernetesDriverPodName) configuration property (if defined).
+
+`ExecutorPodsAllocator` throws a `SparkException` when the driver pod could not be found in a Kubernetes cluster:
+
+```text
+No pod was found named [kubernetesDriverPodName] in the cluster in the namespace [namespace] (this was supposed to be the driver pod.).
+```
+
+### <span id="kubernetesDriverPodName"> spark.kubernetes.driver.pod.name
+
+`ExecutorPodsAllocator` uses [spark.kubernetes.driver.pod.name](configuration-properties.md#spark.kubernetes.driver.pod.name) configuration property to [look up the driver pod by name](#driverPod) when [created](#creating-instance).
 
 ## <span id="podAllocationSize"> spark.kubernetes.allocation.batch.size
 

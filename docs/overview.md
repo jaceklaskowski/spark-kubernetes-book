@@ -2,7 +2,9 @@
 
 [Kubernetes](https://kubernetes.io/) is an open-source system for automating deployment, scaling, and management of containerized applications.
 
-Apache Spark supports `Kubernetes` resource manager as a scheduler using [KubernetesClusterManager](KubernetesClusterManager.md) and [KubernetesClusterSchedulerBackend](KubernetesClusterSchedulerBackend.md) for **k8s://**-prefixed master URLs (that point at [Kubernetes API servers](https://kubernetes.io/docs/concepts/overview/components/#kube-apiserver)).
+Apache Spark supports `Kubernetes` resource manager using [KubernetesClusterManager](KubernetesClusterManager.md) (and [KubernetesClusterSchedulerBackend](KubernetesClusterSchedulerBackend.md)) with **k8s://**-prefixed master URLs (that point at [Kubernetes API servers](https://kubernetes.io/docs/concepts/overview/components/#kube-apiserver)).
+
+Spark on Kubernetes uses `TaskSchedulerImpl` ([Apache Spark]({{ book.spark_core }}/scheduler/TaskSchedulerImpl/)) for task scheduling.
 
 ## Kubernetes GA in Spark 3.1.1
 
@@ -10,6 +12,13 @@ As per [SPARK-33005 Kubernetes GA Preparation](https://issues.apache.org/jira/br
 
 !!! note
     [There will never be 3.1.0](http://spark.apache.org/news/next-official-release-spark-3.1.1.html).
+
+## Cluster Deploy Mode
+
+Spark on Kubernetes uses [KubernetesClientApplication](KubernetesClientApplication.md) in `cluster` deploy mode (as the `SparkApplication` ([Apache Spark]({{ book.spark_core }}/tools/SparkApplication/)) to run).
+
+!!! note
+    Use `spark-submit --deploy-mode`, `spark.submit.deployMode` or `DEPLOY_MODE` environment variable to specify the deploy mode of a Spark application.
 
 ## Volumes
 
@@ -30,7 +39,7 @@ Executor volumes (`spark.kubernetes.executor.volumes.`-prefixed configuration pr
 
 **File resources** are resources with `file` or no URI scheme (that are then considered `file`-based indirectly).
 
-In Spark applications, file resources can be the main application jar and pyspark or R files (_primary resource_) as well as files referenced by `spark.jars` and `spark.files` configuration properties (or their `--jars` and `--files` options of `spark-submit`, respectively).
+In Spark applications, file resources can be the primary resource (application jar, Python or R files) as well as files referenced by `spark.jars` and `spark.files` configuration properties (or their `--jars` and `--files` options of `spark-submit`, respectively).
 
 When deployed in `cluster` mode, Spark on Kubernetes uploads file resources of a Spark application to a Hadoop DFS-compatible file system defined by the required [spark.kubernetes.file.upload.path](configuration-properties.md#spark.kubernetes.file.upload.path) configuration property.
 

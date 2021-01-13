@@ -80,7 +80,12 @@ Name of the driver pod
 
 Default: `(undefined)`
 
-Must be provided if a Spark application is deployed using `spark-submit` in cluster mode
+Must be provided if a Spark application is deployed in [cluster deploy mode](KubernetesClusterManager.md#createSchedulerBackend)
+
+Used when:
+
+* `BasicDriverFeatureStep` is requested for the [driverPodName](BasicDriverFeatureStep.md#driverPodName) (and [additional system properties of a driver pod](BasicDriverFeatureStep.md#getAdditionalPodSystemProperties))
+* `ExecutorPodsAllocator` is requested for the [kubernetesDriverPodName](ExecutorPodsAllocator.md#kubernetesDriverPodName)
 
 ## <span id="spark.kubernetes.driver.podTemplateContainerName"><span id="KUBERNETES_DRIVER_PODTEMPLATE_CONTAINER_NAME"> spark.kubernetes.driver.podTemplateContainerName
 
@@ -186,7 +191,7 @@ Default: (undefined)
 Used when:
 
 * `KubernetesClusterManager` is requested to [create a SchedulerBackend](KubernetesClusterManager.md#createSchedulerBackend)
-* `KubernetesExecutorBuilder` is requested to [build a SparkPod from features](KubernetesExecutorBuilder.md#buildFromFeatures)
+* `KubernetesExecutorBuilder` is requested to [build an executor pod](KubernetesExecutorBuilder.md#buildFromFeatures)
 * `PodTemplateConfigMapStep` is [created](PodTemplateConfigMapStep.md#hasTemplate) and requested to [configurePod](PodTemplateConfigMapStep.md#configurePod), [getAdditionalPodSystemProperties](PodTemplateConfigMapStep.md#getAdditionalPodSystemProperties), [getAdditionalKubernetesResources](PodTemplateConfigMapStep.md#getAdditionalKubernetesResources)
 
 ## <span id="spark.kubernetes.executor.request.cores"><span id="KUBERNETES_EXECUTOR_REQUEST_CORES"> spark.kubernetes.executor.request.cores
