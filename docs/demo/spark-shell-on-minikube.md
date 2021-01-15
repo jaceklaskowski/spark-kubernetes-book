@@ -96,42 +96,40 @@ cd $SPARK_HOME
 !!! tip
     Review `kubernetes/dockerfiles/spark` (in your Spark installation) or `resource-managers/kubernetes/docker` (in the Spark source code).
 
+Build and publish the Spark images. Note `-m` option to point the shell script to use minikube's Docker daemon.
+
+```shell
+./bin/docker-image-tool.sh \
+  -m \
+  -b java_image_tag=11-jre-slim \
+  -r jaceklaskowski \
+  -t v3.0.1 \
+  build
+```
+
 Point the shell to minikube's Docker daemon.
 
 ```text
 eval $(minikube -p minikube docker-env)
 ```
 
-Build and publish the Spark images. Note `-m` option to point the shell script to use minikube's Docker daemon.
-
-```text
-$ ./bin/docker-image-tool.sh \
-  -m \
-  -b java_image_tag=11-jre-slim \
-  -r jaceklaskowski \
-  -t v3.0.1 \
-  build
-...
-Successfully tagged jaceklaskowski/spark:v3.0.1
-```
-
 List available images.
 
 ```text
 $ docker images
-REPOSITORY                                TAG           IMAGE ID       CREATED          SIZE
-jaceklaskowski/spark                      v3.0.1        d045e9e4572b   10 seconds ago   504MB
-openjdk                                   11-jre-slim   57a8cfbe60f3   4 weeks ago      205MB
-kubernetesui/dashboard                    v2.1.0        9a07b5b4bfac   4 weeks ago      226MB
-k8s.gcr.io/kube-proxy                     v1.20.0       10cc881966cf   4 weeks ago      118MB
-k8s.gcr.io/kube-apiserver                 v1.20.0       ca9843d3b545   4 weeks ago      122MB
-k8s.gcr.io/kube-scheduler                 v1.20.0       3138b6e3d471   4 weeks ago      46.4MB
-k8s.gcr.io/kube-controller-manager        v1.20.0       b9fa1895dcaa   4 weeks ago      116MB
-gcr.io/k8s-minikube/storage-provisioner   v4            85069258b98a   5 weeks ago      29.7MB
-k8s.gcr.io/etcd                           3.4.13-0      0369cf4303ff   4 months ago     253MB
-k8s.gcr.io/coredns                        1.7.0         bfe3a36ebd25   6 months ago     45.2MB
-kubernetesui/metrics-scraper              v1.0.4        86262685d9ab   9 months ago     36.9MB
-k8s.gcr.io/pause                          3.2           80d28bedfe5d   11 months ago    683kB
+REPOSITORY                                TAG           IMAGE ID       CREATED         SIZE
+jaceklaskowski/spark                      v3.0.1        4561fd7bd264   6 seconds ago   505MB
+openjdk                                   11-jre-slim   9088803d66fe   2 days ago      205MB
+kubernetesui/dashboard                    v2.1.0        9a07b5b4bfac   4 weeks ago     226MB
+k8s.gcr.io/kube-proxy                     v1.20.0       10cc881966cf   5 weeks ago     118MB
+k8s.gcr.io/kube-scheduler                 v1.20.0       3138b6e3d471   5 weeks ago     46.4MB
+k8s.gcr.io/kube-apiserver                 v1.20.0       ca9843d3b545   5 weeks ago     122MB
+k8s.gcr.io/kube-controller-manager        v1.20.0       b9fa1895dcaa   5 weeks ago     116MB
+gcr.io/k8s-minikube/storage-provisioner   v4            85069258b98a   6 weeks ago     29.7MB
+k8s.gcr.io/etcd                           3.4.13-0      0369cf4303ff   4 months ago    253MB
+k8s.gcr.io/coredns                        1.7.0         bfe3a36ebd25   7 months ago    45.2MB
+kubernetesui/metrics-scraper              v1.0.4        86262685d9ab   9 months ago    36.9MB
+k8s.gcr.io/pause                          3.2           80d28bedfe5d   11 months ago   683kB
 ```
 
 ## Creating Namespace

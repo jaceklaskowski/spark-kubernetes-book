@@ -99,13 +99,13 @@ Used when:
 
 ## <span id="spark.kubernetes.driver.podTemplateFile"><span id="KUBERNETES_DRIVER_PODTEMPLATE_FILE"> spark.kubernetes.driver.podTemplateFile
 
-Pod template file for drivers
+Pod template file for drivers (in [cluster](overview.md#cluster-deploy-mode) deploy mode)
 
 Default: (undefined)
 
 Used when:
 
-* `KubernetesDriverBuilder` is requested to [buildFromFeatures](KubernetesDriverBuilder.md#buildFromFeatures)
+* `KubernetesDriverBuilder` is requested for a [driver pod specification](KubernetesDriverBuilder.md#buildFromFeatures)
 
 ## <span id="spark.kubernetes.driver.request.cores"><span id="KUBERNETES_DRIVER_REQUEST_CORES"> spark.kubernetes.driver.request.cores
 

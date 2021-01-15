@@ -1,6 +1,8 @@
 # KubernetesDriverBuilder
 
-`KubernetesDriverBuilder` is used to [build a specification of a driver pod](#buildFromFeatures).
+`KubernetesDriverBuilder` is used to [build a specification of a driver pod](#buildFromFeatures) (for a Spark application deployed in [cluster](overview.md#cluster-deploy-mode) deploy mode).
+
+![KubernetesDriverBuilder, Client and KubernetesClientApplication](images/KubernetesDriverBuilder.png)
 
 ## Creating Instance
 
