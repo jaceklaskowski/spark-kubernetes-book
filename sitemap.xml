@@ -163,5 +163,29 @@
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/demo/</loc>
      <lastmod>2021-01-15</lastmod>
      <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/demo/spark-shell-on-minikube/</loc>
+     <lastmod>2021-01-15</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/demo/running-spark-application-on-minikube/</loc>
+     <lastmod>2021-01-15</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/demo/spark-and-local-filesystem-in-minikube/</loc>
+     <lastmod>2021-01-15</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/demo/running-spark-examples-on-minikube/</loc>
+     <lastmod>2021-01-15</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/demo/running-spark-examples-on-google-kubernetes-engine/</loc>
+     <lastmod>2021-01-15</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/demo/deploying-spark-application-to-google-kubernetes-engine/</loc>
+     <lastmod>2021-01-15</lastmod>
+     <changefreq>daily</changefreq>
     </url>
 </urlset>
