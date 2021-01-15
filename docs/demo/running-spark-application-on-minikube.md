@@ -10,16 +10,9 @@ This demo shows how to deploy a Spark application to [Kubernetes](../index.md) (
 !!! tip
     Start with [Demo: spark-shell on minikube](spark-shell-on-minikube.md).
 
-!!! note
-    `k` is an alias of `kubectl`.
-
 ## Start Cluster
 
-Quoting [Prerequisites](http://spark.apache.org/docs/latest/running-on-kubernetes.html#prerequisites):
-
-> We recommend 3 CPUs and 4g of memory to be able to start a simple Spark application with a single executor.
-
-Unless already started, start minikube with enough resources.
+Unless already started, start minikube.
 
 ```text
 minikube start --cpus 4 --memory 8192
@@ -27,16 +20,26 @@ minikube start --cpus 4 --memory 8192
 
 ## Building Spark Application Image
 
-Note that the image the Spark application project's image extends from (using `FROM` command) should be `jaceklaskowski/spark:v3.0.1` as follows:
-
-```text
-FROM jaceklaskowski/spark:v3.0.1
-```
+Make sure you've got a Spark image available in minikube's Docker registry.
 
 Point the shell to minikube's Docker daemon.
 
 ```text
 eval $(minikube -p minikube docker-env)
+```
+
+List the Spark image.
+
+```text
+$ docker images spark
+REPOSITORY   TAG       IMAGE ID       CREATED         SIZE
+spark        v3.0.1    62e5d9af786f   2 minutes ago   505MB
+```
+
+Use this image in your Spark application:
+
+```text
+FROM spark:v3.0.1
 ```
 
 In your Spark application project execute the command to build and push a Docker image to minikube's Docker repository.
@@ -45,49 +48,23 @@ In your Spark application project execute the command to build and push a Docker
 sbt clean docker:publishLocal
 ```
 
-List available images (that should include your Spark application project's docker image, e.g. `spark-docker-example`).
+List the images and make sure that the image of your Spark application project is available.
 
 ```text
-$ docker images
-REPOSITORY                                TAG           IMAGE ID       CREATED             SIZE
-spark-docker-example                      0.1.0         41fdb7a71b62   4 seconds ago       510MB
-jaceklaskowski/spark                      v3.0.1        d045e9e4572b   About an hour ago   504MB
-openjdk                                   11-jre-slim   57a8cfbe60f3   4 weeks ago         205MB
-kubernetesui/dashboard                    v2.1.0        9a07b5b4bfac   4 weeks ago         226MB
-k8s.gcr.io/kube-proxy                     v1.20.0       10cc881966cf   4 weeks ago         118MB
-k8s.gcr.io/kube-controller-manager        v1.20.0       b9fa1895dcaa   4 weeks ago         116MB
-k8s.gcr.io/kube-scheduler                 v1.20.0       3138b6e3d471   4 weeks ago         46.4MB
-k8s.gcr.io/kube-apiserver                 v1.20.0       ca9843d3b545   4 weeks ago         122MB
-gcr.io/k8s-minikube/storage-provisioner   v4            85069258b98a   5 weeks ago         29.7MB
-k8s.gcr.io/etcd                           3.4.13-0      0369cf4303ff   4 months ago        253MB
-k8s.gcr.io/coredns                        1.7.0         bfe3a36ebd25   6 months ago        45.2MB
-kubernetesui/metrics-scraper              v1.0.4        86262685d9ab   9 months ago        36.9MB
-k8s.gcr.io/pause                          3.2           80d28bedfe5d   11 months ago       683kB
-```
-
-## Creating Namespace
-
-This step is optional, but gives a better exposure to the Kubernetes-related features supported by Apache Spark.
-
-```text
-k create namespace spark-demo
-```
-
-!!! tip
-    Use `kubens` (from [kubectx](https://github.com/ahmetb/kubectx) project) to switch between Kubernetes namespaces smoothly.
-
-```text
-kubens spark-demo
+$ docker images 'meetup*'
+REPOSITORY         TAG       IMAGE ID       CREATED          SIZE
+meetup-spark-app   0.1.0     3a897a9b6f14   25 seconds ago   516MB
+meetup-app-deps    0.1.0     e0d9e14b3437   6 minutes ago    510MB
 ```
 
 ## Create Service Account
 
-Create a service account `spark` and a cluster role binding `spark-role`.
+Create required Kubernetes resources (a namespace, a service account, and a cluster role binding).
 
 !!! tip
     Learn more from the [Spark official documentation](http://spark.apache.org/docs/latest/running-on-kubernetes.html#rbac).
 
-Without this step you could face the following exception message:
+A namespace is optional, but the service account and the cluster role binding with proper permissions would lead to the following exception message:
 
 ```text
 Forbidden!Configured service account doesn't have access. Service account may have been revoked.
@@ -98,6 +75,10 @@ Forbidden!Configured service account doesn't have access. Service account may ha
 Use the following `rbac.yml` file.
 
 ```text
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: spark-demo
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -128,18 +109,23 @@ k create -f rbac.yml
 ```
 
 !!! tip
-    With declarative approach (using `rbac.yml`) cleaning up becomes as simple as `kubectl delete -f rbac.yml`.
+    With declarative approach (using `rbac.yml`) cleaning up becomes as simple as `k delete -f rbac.yml`.
 
 ### Imperatively
 
 ```text
-k create serviceaccount spark
+k create ns spark-demo
+```
+
+```text
+k create serviceaccount spark -n spark-demo
 ```
 
 ```text
 k create clusterrolebinding spark-role \
   --clusterrole edit \
-  --serviceaccount spark-demo:spark
+  --serviceaccount spark-demo:spark \
+  -n spark-demo
 ```
 
 ## Submitting Spark Application to minikube
@@ -149,7 +135,7 @@ cd $SPARK_HOME
 ```
 
 ```text
-K8S_SERVER=$(kubectl config view --output=jsonpath='{.clusters[].cluster.server}')
+K8S_SERVER=$(k config view --output=jsonpath='{.clusters[].cluster.server}')
 ```
 
 Please note the [configuration properties](../configuration-properties.md) (some not really necessary but make the demo easier to guide you through, e.g. [spark.kubernetes.driver.pod.name](../configuration-properties.md#spark.kubernetes.driver.pod.name)).
@@ -160,39 +146,16 @@ Please note the [configuration properties](../configuration-properties.md) (some
   --deploy-mode cluster \
   --name spark-docker-example \
   --class meetup.SparkApp \
-  --conf spark.kubernetes.container.image=spark-docker-example:0.1.0 \
-  --conf spark.kubernetes.driver.pod.name=spark-demo-minikube \
+  --conf spark.kubernetes.container.image=meetup-spark-app:0.1.0 \
+  --conf spark.kubernetes.driver.pod.name=meetup-spark-app \
   --conf spark.kubernetes.context=minikube \
   --conf spark.kubernetes.namespace=spark-demo \
   --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \
   --verbose \
-  local:///opt/docker/lib/meetup.spark-docker-example-0.1.0.jar
+  local:///opt/docker/lib/meetup.meetup-spark-app-0.1.0.jar
 ```
 
-After a few seconds, you should see the following messages:
-
-```text
-20/12/14 18:34:59 INFO LoggingPodStatusWatcherImpl: Application status for spark-b1f8840227074b62996f66b915044ee6 (phase: Pending)
-20/12/14 18:34:59 INFO LoggingPodStatusWatcherImpl: State changed, new state:
-	 pod name: spark-docker-example-3c07aa766251ce43-driver
-	 namespace: spark-demo
-	 labels: spark-app-selector -> spark-b1f8840227074b62996f66b915044ee6, spark-role -> driver
-	 pod uid: a8c06d26-ad8a-4b78-96e1-3e0be00a4da8
-	 creation time: 2020-12-14T17:34:58Z
-	 service account name: spark
-	 volumes: spark-local-dir-1, spark-conf-volume, spark-token-tsd97
-	 node name: minikube
-	 start time: 2020-12-14T17:34:58Z
-	 phase: Running
-	 container status:
-		 container name: spark-kubernetes-driver
-		 container image: spark-docker-example:0.1.0
-		 container state: running
-		 container started at: 2020-12-14T17:34:59Z
-20/12/14 18:35:00 INFO LoggingPodStatusWatcherImpl: Application status for spark-b1f8840227074b62996f66b915044ee6 (phase: Running)
-```
-
-And then...
+If all went fine you should soon see `termination reason: Completed` message.
 
 ```text
 20/12/14 18:35:06 INFO LoggingPodStatusWatcherImpl: State changed, new state:
@@ -335,7 +298,7 @@ Application status (driver):
 ## Listing Services
 
 ```text
-$ kubectl get services
+$ k get services
 NAME                                               TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)                      AGE
 spark-docker-example-3de43976e3a46fcf-driver-svc   ClusterIP   None         <none>        7078/TCP,7079/TCP,4040/TCP   101s
 ```

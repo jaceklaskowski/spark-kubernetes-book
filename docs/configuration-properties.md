@@ -89,13 +89,13 @@ Used when:
 
 ## <span id="spark.kubernetes.driver.podTemplateContainerName"><span id="KUBERNETES_DRIVER_PODTEMPLATE_CONTAINER_NAME"> spark.kubernetes.driver.podTemplateContainerName
 
-Container name for a driver in the given [pod template](#spark.kubernetes.driver.podTemplateFile)
+Name of the driver container in a [pod template](#spark.kubernetes.driver.podTemplateFile)
 
 Default: (undefined)
 
 Used when:
 
-* `KubernetesDriverBuilder` is requested to [buildFromFeatures](KubernetesDriverBuilder.md#buildFromFeatures)
+* `KubernetesDriverBuilder` is requested for a [driver pod specification](KubernetesDriverBuilder.md#buildFromFeatures)
 
 ## <span id="spark.kubernetes.driver.podTemplateFile"><span id="KUBERNETES_DRIVER_PODTEMPLATE_FILE"> spark.kubernetes.driver.podTemplateFile
 
