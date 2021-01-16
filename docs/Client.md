@@ -70,5 +70,8 @@ The stored data uses an extra comment:
 Java properties built from Kubernetes config map with name: [configMapName]
 ```
 
-!!! tip "Kubernetes Documentation"
+??? tip "Kubernetes Documentation"
     Learn more about [ConfigMaps]({{ k8s.doc }}/concepts/configuration/configmap/) in the official [Kubernetes Documentation]({{ k8s.doc }}/home/).
+
+??? tip "Demo: Spark and Local Filesystem in minikube"
+    Learn more about ConfigMaps and volumes in [Demo: Spark and Local Filesystem in minikube](demo/spark-and-local-filesystem-in-minikube.md).

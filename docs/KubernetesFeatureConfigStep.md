@@ -22,13 +22,13 @@ Used when:
 getAdditionalKubernetesResources(): Seq[HasMetadata]
 ```
 
-Additional Kubernetes resources
+Additional Kubernetes resources (that are going to created when `Client` is requested to [run](Client.md#run))
 
 Default: `empty`
 
 Used when:
 
-* `KubernetesDriverBuilder` is requested to [build a driver pod spec](KubernetesDriverBuilder.md#buildFromFeatures)
+* `KubernetesDriverBuilder` is requested for a [driver pod spec](KubernetesDriverBuilder.md#buildFromFeatures)
 
 ### <span id="getAdditionalPodSystemProperties"> Additional System Properties
 
@@ -36,13 +36,13 @@ Used when:
 getAdditionalPodSystemProperties(): Map[String, String]
 ```
 
-Additional system properties of a driver pod (to be used for a [ConfigMap](Client.md#buildConfigMap))
+Additional system properties of a driver pod (that are going to be part of `spark.properties` as a [ConfigMap](Client.md#buildConfigMap))
 
 Default: `empty`
 
 Used when:
 
-* `KubernetesDriverBuilder` is requested to [build a driver pod spec](KubernetesDriverBuilder.md#buildFromFeatures)
+* `KubernetesDriverBuilder` is requested for a [driver pod spec](KubernetesDriverBuilder.md#buildFromFeatures)
 
 ## Implementations
 

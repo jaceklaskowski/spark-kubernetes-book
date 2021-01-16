@@ -10,7 +10,7 @@
 
 `BasicDriverFeatureStep` is created when:
 
-* `KubernetesDriverBuilder` is requested to [build a driver pod spec](KubernetesDriverBuilder.md#buildFromFeatures)
+* `KubernetesDriverBuilder` is requested for the [driver pod spec](KubernetesDriverBuilder.md#buildFromFeatures)
 
 ## <span id="driverPodName"> Name of Driver Pod
 
@@ -41,7 +41,7 @@ Driver memory is the quantity (in `Mi`s) of the driver memory resource (the requ
 
 * For non-JVM applications (Python and R applications), it is [spark.kubernetes.memoryOverheadFactor](configuration-properties.md#spark.kubernetes.memoryOverheadFactor) configuration property (if defined) or `0.4`
 
-`overheadFactor` is used for the following:
+The memory overhead factor is used for the following:
 
 * [Additional System Properties](#getAdditionalPodSystemProperties)
 * [Memory Overhead](#memoryOverheadMiB)
