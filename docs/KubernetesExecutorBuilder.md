@@ -1,5 +1,9 @@
 # KubernetesExecutorBuilder
 
+`KubernetesExecutorBuilder` is used to [build a pod spec of executors](#buildFromFeatures) (when `ExecutorPodsAllocator` is requested to [handle executor pods snapshots](ExecutorPodsAllocator.md#onNewSnapshots) and finds executors to be requested from Kubernetes).
+
+![KubernetesExecutorBuilder, KubernetesClusterManager and ExecutorPodsAllocator](images/KubernetesExecutorBuilder.png)
+
 ## Creating Instance
 
 `KubernetesExecutorBuilder` takes no arguments to be created (_and could really be a Scala utility object_).
@@ -8,7 +12,7 @@
 
 * `KubernetesClusterManager` is requested to [create a SchedulerBackend](KubernetesClusterManager.md#createSchedulerBackend) (and creates a [ExecutorPodsAllocator](ExecutorPodsAllocator.md))
 
-## <span id="buildFromFeatures"> Building Executor Pod Specification
+## <span id="buildFromFeatures"> Building Pod Spec for Executors
 
 ```scala
 buildFromFeatures(

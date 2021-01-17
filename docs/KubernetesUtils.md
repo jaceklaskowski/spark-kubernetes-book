@@ -1,6 +1,6 @@
 # KubernetesUtils
 
-## <span id="loadPodFromTemplate"> Loading Pod from Template File
+## <span id="loadPodFromTemplate"> Loading Pod Spec from Template File
 
 ```scala
 loadPodFromTemplate(
@@ -9,9 +9,9 @@ loadPodFromTemplate(
   containerName: Option[String]): SparkPod
 ```
 
-`loadPodFromTemplate` requests the given `KubernetesClient` to load a pod for the input template file.
+`loadPodFromTemplate` requests the given `KubernetesClient` to load a pod spec from the input template file.
 
-`loadPodFromTemplate` [selectSparkContainer](#selectSparkContainer) (with the pod and the input container name).
+`loadPodFromTemplate` [selects the Spark container](#selectSparkContainer) (from the pod spec and the input container name).
 
 In case of an `Exception`, `loadPodFromTemplate` prints out the following ERROR message to the logs:
 
@@ -27,9 +27,29 @@ Could not load pod from template file.
 
 `loadPodFromTemplate` is used when:
 
-* `KubernetesClusterManager` is requested to [createSchedulerBackend](KubernetesClusterManager.md#createSchedulerBackend)
-* `KubernetesDriverBuilder` is requested to [buildFromFeatures](KubernetesDriverBuilder.md#buildFromFeatures)
-* `KubernetesExecutorBuilder` is requested to [buildFromFeatures](KubernetesExecutorBuilder.md#buildFromFeatures)
+* `KubernetesClusterManager` is requested for a [SchedulerBackend](KubernetesClusterManager.md#createSchedulerBackend)
+* `KubernetesDriverBuilder` is requested for a [pod spec for a driver](KubernetesDriverBuilder.md#buildFromFeatures)
+* `KubernetesExecutorBuilder` is requested for a [pod spec for executors](KubernetesExecutorBuilder.md#buildFromFeatures)
+
+### <span id="selectSparkContainer"> selectSparkContainer
+
+```scala
+selectSparkContainer(
+  pod: Pod,
+  containerName: Option[String]): SparkPod
+```
+
+`selectSparkContainer` creates a `SparkPod` based on the containers in the given `Pod` and the `containerName`.
+
+`selectSparkContainer` takes the container specs from the the given `Pod` spec and tries to find the one with the `containerName` or takes the first defined.
+
+`selectSparkContainer` includes the other containers in the pod spec.
+
+`selectSparkContainer` prints out the following WARN message to the logs when no container could be found by the given name:
+
+```text
+specified container [name] not found on the pod template, falling back to taking the first container
+```
 
 ## <span id="uploadAndTransformFileUris"> Uploading Local Files to Hadoop DFS
 
