@@ -161,7 +161,7 @@ Used when:
 
 ## <span id="spark.kubernetes.executor.podNamePrefix"><span id="KUBERNETES_EXECUTOR_POD_NAME_PREFIX"> spark.kubernetes.executor.podNamePrefix
 
-**(internal)** Prefix to use in front of the executor pod names
+**(internal)** Prefix of the executor pod names
 
 Default: `(undefined)`
 
@@ -197,6 +197,16 @@ Used when:
 ## <span id="spark.kubernetes.executor.request.cores"><span id="KUBERNETES_EXECUTOR_REQUEST_CORES"> spark.kubernetes.executor.request.cores
 
 Specifies the cpu quantity request for executor pods (to be more Kubernetes-oriented when requesting resources for executor pods than Spark scheduler's approach based on `spark.executor.cores`).
+
+Default: (undefined)
+
+Used when:
+
+* `BasicExecutorFeatureStep` is requested to [configure an executor pod](BasicExecutorFeatureStep.md#configurePod)
+
+## <span id="spark.kubernetes.executor.scheduler.name"><span id="KUBERNETES_EXECUTOR_SCHEDULER_NAME"> spark.kubernetes.executor.scheduler.name
+
+Name of the scheduler for executor pods (a pod's `spec.schedulerName`)
 
 Default: (undefined)
 
