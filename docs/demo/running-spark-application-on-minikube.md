@@ -18,7 +18,7 @@ Unless already started, start minikube.
 minikube start --cpus 4 --memory 8192
 ```
 
-## Building Spark Application Image
+## Build Spark Application Image
 
 Make sure you've got a Spark image available in minikube's Docker registry.
 
@@ -57,11 +57,11 @@ meetup-spark-app   0.1.0     3a897a9b6f14   25 seconds ago   516MB
 meetup-app-deps    0.1.0     e0d9e14b3437   6 minutes ago    510MB
 ```
 
-## Create Service Account
+## Create Kubernetes Resources
 
-Create required Kubernetes resources (a namespace, a service account, and a cluster role binding).
+Create required Kubernetes resources to run a Spark application.
 
-!!! tip
+??? tip "Spark official documentation"
     Learn more from the [Spark official documentation](http://spark.apache.org/docs/latest/running-on-kubernetes.html#rbac).
 
 A namespace is optional, but the service account and the cluster role binding with proper permissions would lead to the following exception message:
@@ -128,7 +128,7 @@ k create clusterrolebinding spark-role \
   -n spark-demo
 ```
 
-## Submitting Spark Application to minikube
+## Submit Spark Application to minikube
 
 ```text
 cd $SPARK_HOME
@@ -138,16 +138,21 @@ cd $SPARK_HOME
 K8S_SERVER=$(k config view --output=jsonpath='{.clusters[].cluster.server}')
 ```
 
+```text
+export POD_NAME=meetup-spark-app
+export IMAGE_NAME=$POD_NAME:0.1.0
+```
+
 Please note the [configuration properties](../configuration-properties.md) (some not really necessary but make the demo easier to guide you through, e.g. [spark.kubernetes.driver.pod.name](../configuration-properties.md#spark.kubernetes.driver.pod.name)).
 
 ```text
 ./bin/spark-submit \
   --master k8s://$K8S_SERVER \
   --deploy-mode cluster \
-  --name spark-docker-example \
+  --name $POD_NAME \
   --class meetup.SparkApp \
-  --conf spark.kubernetes.container.image=meetup-spark-app:0.1.0 \
-  --conf spark.kubernetes.driver.pod.name=meetup-spark-app \
+  --conf spark.kubernetes.container.image=$IMAGE_NAME \
+  --conf spark.kubernetes.driver.pod.name=$POD_NAME \
   --conf spark.kubernetes.context=minikube \
   --conf spark.kubernetes.namespace=spark-demo \
   --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \
@@ -203,7 +208,7 @@ k port-forward spark-demo-minikube 4040:4040
 Access the logs of the driver.
 
 ```text
-k logs -f spark-demo-minikube
+k logs -f $POD_NAME
 ```
 
 ## Reviewing Spark Application Configuration (ConfigMap)
@@ -219,11 +224,11 @@ k describe cm [driverPod]-conf-map
 Describe the driver pod and review volumes (`.spec.volumes`) and volume mounts (`.spec.containers[].volumeMounts`).
 
 ```text
-k describe po spark-demo-minikube
+k describe po $POD_NAME
 ```
 
 ```text
-$ k get po spark-demo-minikube -o=jsonpath='{.spec.volumes}' | jq
+$ k get po $POD_NAME -o=jsonpath='{.spec.volumes}' | jq
 [
   {
     "emptyDir": {},
@@ -247,7 +252,7 @@ $ k get po spark-demo-minikube -o=jsonpath='{.spec.volumes}' | jq
 ```
 
 ```text
-$ k get po spark-demo-minikube -o=jsonpath='{.spec.containers[].volumeMounts}' | jq
+$ k get po $POD_NAME -o=jsonpath='{.spec.containers[].volumeMounts}' | jq
 [
   {
     "mountPath": "/var/data/spark-b5d0a070-ff9a-41a3-91aa-82059ceba5b0",

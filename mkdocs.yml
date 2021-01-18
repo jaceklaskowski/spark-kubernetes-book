@@ -150,3 +150,4 @@ nav:
     - Running Spark Examples on minikube: demo/running-spark-examples-on-minikube.md
     - Running Spark Examples on Google Kubernetes Engine: demo/running-spark-examples-on-google-kubernetes-engine.md
     - Deploying Spark Application to Google Kubernetes Engine: demo/deploying-spark-application-to-google-kubernetes-engine.md
+    - Running Spark Structured Streaming on minikube: demo/running-spark-structured-streaming-on-minikube.md
