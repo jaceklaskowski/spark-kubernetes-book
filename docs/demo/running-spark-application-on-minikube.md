@@ -5,7 +5,7 @@ hide:
 
 # Demo: Running Spark Application on minikube
 
-This demo shows how to deploy a Spark application to [Kubernetes](../index.md) (using [minikube](https://minikube.sigs.k8s.io/docs/)).
+This demo shows how to deploy a Spark application to [Kubernetes](../overview.md) (using [minikube](https://minikube.sigs.k8s.io/docs/)).
 
 !!! tip
     Start with [Demo: spark-shell on minikube](spark-shell-on-minikube.md).
@@ -15,7 +15,7 @@ This demo shows how to deploy a Spark application to [Kubernetes](../index.md) (
 Unless already started, start minikube.
 
 ```text
-minikube start --cpus 4 --memory 8192
+minikube start
 ```
 
 ## Build Spark Application Image
@@ -31,30 +31,52 @@ eval $(minikube -p minikube docker-env)
 List the Spark image.
 
 ```text
-$ docker images spark
-REPOSITORY   TAG       IMAGE ID       CREATED         SIZE
-spark        v3.0.1    62e5d9af786f   2 minutes ago   505MB
+docker images spark
+```
+
+```text
+REPOSITORY   TAG          IMAGE ID       CREATED             SIZE
+spark        v{{ spark.version }}   e64950545e8f   About an hour ago   509MB
 ```
 
 Use this image in your Spark application:
 
 ```text
-FROM spark:v3.0.1
+FROM spark:v{{ spark.version }}
 ```
 
 In your Spark application project execute the command to build and push a Docker image to minikube's Docker repository.
 
 ```text
-sbt clean docker:publishLocal
+sbt clean meetup-spark-app/docker:publishLocal
 ```
 
 List the images and make sure that the image of your Spark application project is available.
 
 ```text
-$ docker images 'meetup*'
+docker images 'meetup*'
+```
+
+```text
 REPOSITORY         TAG       IMAGE ID       CREATED          SIZE
-meetup-spark-app   0.1.0     3a897a9b6f14   25 seconds ago   516MB
-meetup-app-deps    0.1.0     e0d9e14b3437   6 minutes ago    510MB
+meetup-spark-app   0.1.0     5b9b7132a36b   44 seconds ago   520MB
+meetup-app-deps    0.1.0     ace517e0dd60   2 minutes ago    515MB
+```
+
+### docker image inspect
+
+Use [docker image inspect](https://docs.docker.com/engine/reference/commandline/image_inspect/) command to display detailed information on the Spark application image.
+
+```text
+docker image inspect meetup-spark-app:0.1.0
+```
+
+### docker image history
+
+Use [docker image history](https://docs.docker.com/engine/reference/commandline/image_history/) command to show the history of the Spark application image.
+
+```text
+docker image history meetup-spark-app:0.1.0
 ```
 
 ## Create Kubernetes Resources
@@ -62,7 +84,7 @@ meetup-app-deps    0.1.0     e0d9e14b3437   6 minutes ago    510MB
 Create required Kubernetes resources to run a Spark application.
 
 ??? tip "Spark official documentation"
-    Learn more from the [Spark official documentation](http://spark.apache.org/docs/latest/running-on-kubernetes.html#rbac).
+    Learn more from the [Spark official documentation]({{ spark.doc }}/running-on-kubernetes.html#rbac).
 
 A namespace is optional, but the service account and the cluster role binding with proper permissions would lead to the following exception message:
 
@@ -157,7 +179,7 @@ Please note the [configuration properties](../configuration-properties.md) (some
   --conf spark.kubernetes.namespace=spark-demo \
   --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \
   --verbose \
-  local:///opt/docker/lib/meetup.meetup-spark-app-0.1.0.jar
+  local:///opt/spark/jars/meetup.meetup-spark-app-0.1.0.jar
 ```
 
 If all went fine you should soon see `termination reason: Completed` message.
@@ -197,10 +219,8 @@ If all went fine you should soon see `termination reason: Completed` message.
 
 ## Accessing web UI
 
-Find the driver pod (`k get po`)
-
 ```text
-k port-forward spark-demo-minikube 4040:4040
+k port-forward $POD_NAME 4040:4040
 ```
 
 ## Accessing Logs

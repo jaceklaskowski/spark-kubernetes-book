@@ -35,23 +35,29 @@ eval $(minikube -p minikube docker-env)
 List the Spark image. Make sure it matches the version of Spark you want to work with.
 
 ```text
-$ docker images spark
-REPOSITORY   TAG       IMAGE ID       CREATED         SIZE
-spark        v3.0.1    62e5d9af786f   2 minutes ago   505MB
+docker images spark
+```
+
+```text
+REPOSITORY   TAG          IMAGE ID       CREATED             SIZE
+spark        v{{ spark.version }}   e64950545e8f   About an hour ago   509MB
 ```
 
 Publish the image of the Spark Structured Streaming application. It is project-dependent, and the project uses [sbt](https://www.scala-sbt.org/) with [sbt-native-packager](https://github.com/sbt/sbt-native-packager) plugin.
 
 ```text
-sbt clean docker:publishLocal
+sbt clean spark-streams-demo/docker:publishLocal
 ```
 
-List the images and make sure that the image of the Spark application is available.
+List the images and make sure that the image of your Spark application project is available.
 
 ```text
-$ docker images 'spark-streams-demo*'
-REPOSITORY           TAG       IMAGE ID       CREATED          SIZE
-spark-streams-demo   0.1.0     0c8e7c8581c0   16 minutes ago   516MB
+docker images 'spark-streams-demo'
+```
+
+```text
+REPOSITORY           TAG       IMAGE ID       CREATED         SIZE
+spark-streams-demo   0.1.0     20145c134ca9   4 minutes ago   515MB
 ```
 
 ## Submit Spark Application to minikube
@@ -92,7 +98,7 @@ One of the differences between streaming and batch Spark applications is that th
   --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \
   --conf spark.kubernetes.submission.waitAppCompletion=false \
   --verbose \
-  local:///opt/docker/lib/meetup.spark-streams-demo-0.1.0.jar
+  local:///opt/spark/jars/meetup.spark-streams-demo-0.1.0.jar
 ```
 
 In the end, you should be given a so-called **submission ID**.

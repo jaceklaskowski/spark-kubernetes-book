@@ -24,7 +24,9 @@ Let's start `minikube` with the recommended resources.
 minikube start --cpus 4 --memory 8192
 ```
 
-Review the configuration (that is later used to start `spark-shell`).
+## Review Cluster Info
+
+### Cluster Info
 
 ```text
 k cluster-info
@@ -34,19 +36,26 @@ k cluster-info
 k config view
 ```
 
+### Pods
+
 List available pods. There should be none except Kubernetes system pods (and that's the reason for `-A` to include all pods, including system's).
 
 ```text
-$ k get po -A
-NAMESPACE     NAME                               READY   STATUS    RESTARTS   AGE
-kube-system   coredns-74ff55c5b-465jt            1/1     Running   0          47s
-kube-system   etcd-minikube                      0/1     Running   0          62s
-kube-system   kube-apiserver-minikube            1/1     Running   0          62s
-kube-system   kube-controller-manager-minikube   0/1     Running   0          62s
-kube-system   kube-proxy-67plz                   1/1     Running   0          48s
-kube-system   kube-scheduler-minikube            0/1     Running   0          62s
-kube-system   storage-provisioner                1/1     Running   1          62s
+k get po -A
 ```
+
+```text
+NAMESPACE     NAME                               READY   STATUS    RESTARTS   AGE
+kube-system   coredns-74ff55c5b-vqm2f            1/1     Running   0          2m3s
+kube-system   etcd-minikube                      1/1     Running   0          2m18s
+kube-system   kube-apiserver-minikube            1/1     Running   0          2m18s
+kube-system   kube-controller-manager-minikube   1/1     Running   0          2m18s
+kube-system   kube-proxy-ms4wd                   1/1     Running   0          2m4s
+kube-system   kube-scheduler-minikube            1/1     Running   0          2m18s
+kube-system   storage-provisioner                1/1     Running   0          2m18s
+```
+
+### Container Images
 
 List available Docker images in minikube's Docker registry.
 
@@ -56,16 +65,19 @@ Point the shell to minikube's Docker daemon.
 eval $(minikube -p minikube docker-env)
 ```
 
-List available images.
+List available container images.
 
 ```text
-$ docker images
+docker images
+```
+
+```text
 REPOSITORY                                TAG        IMAGE ID       CREATED         SIZE
-kubernetesui/dashboard                    v2.1.0     9a07b5b4bfac   4 weeks ago     226MB
+kubernetesui/dashboard                    v2.1.0     9a07b5b4bfac   5 weeks ago     226MB
 k8s.gcr.io/kube-proxy                     v1.20.0    10cc881966cf   5 weeks ago     118MB
+k8s.gcr.io/kube-controller-manager        v1.20.0    b9fa1895dcaa   5 weeks ago     116MB
 k8s.gcr.io/kube-scheduler                 v1.20.0    3138b6e3d471   5 weeks ago     46.4MB
 k8s.gcr.io/kube-apiserver                 v1.20.0    ca9843d3b545   5 weeks ago     122MB
-k8s.gcr.io/kube-controller-manager        v1.20.0    b9fa1895dcaa   5 weeks ago     116MB
 gcr.io/k8s-minikube/storage-provisioner   v4         85069258b98a   6 weeks ago     29.7MB
 k8s.gcr.io/etcd                           3.4.13-0   0369cf4303ff   4 months ago    253MB
 k8s.gcr.io/coredns                        1.7.0      bfe3a36ebd25   7 months ago    45.2MB
@@ -73,13 +85,13 @@ kubernetesui/metrics-scraper              v1.0.4     86262685d9ab   9 months ago
 k8s.gcr.io/pause                          3.2        80d28bedfe5d   11 months ago   683kB
 ```
 
-## Accessing Kubernetes Dashboard
+### Kubernetes Dashboard
 
 ```text
 minikube dashboard
 ```
 
-## Building Spark Images
+## Build Spark Image
 
 Quoting [Submitting Applications to Kubernetes]({{ spark.doc }}/running-on-kubernetes.html#submitting-applications-to-kubernetes) in the official documentation of Apache Spark:
 
@@ -94,15 +106,19 @@ cd $SPARK_HOME
 !!! tip
     Review `kubernetes/dockerfiles/spark` (in your Spark installation) or `resource-managers/kubernetes/docker` (in the Spark source code).
 
+### docker-image-tool
+
 Build and publish the Spark image. Note `-m` option to point the shell script to use minikube's Docker daemon.
 
 ```text
 ./bin/docker-image-tool.sh \
   -m \
   -b java_image_tag=11-jre-slim \
-  -t v3.0.1 \
+  -t v{{ spark.version }} \
   build
 ```
+
+### docker images
 
 Point the shell to minikube's Docker daemon.
 
@@ -113,14 +129,25 @@ eval $(minikube -p minikube docker-env)
 List the Spark image.
 
 ```text
-$ docker images spark
-REPOSITORY   TAG       IMAGE ID       CREATED         SIZE
-spark        v3.0.1    62e5d9af786f   2 minutes ago   505MB
+docker images spark
+```
+
+```text
+REPOSITORY   TAG          IMAGE ID       CREATED              SIZE
+spark        v{{ spark.version }}   e64950545e8f   About a minute ago   509MB
+```
+
+### docker image inspect
+
+Use [docker image inspect](https://docs.docker.com/engine/reference/commandline/image_inspect/) command to display detailed information on the Spark image.
+
+```text
+docker image inspect spark:v{{ spark.version }}
 ```
 
 ## Create Namespace
 
-This step is optional, but gives a better exposure to the Kubernetes-related features supported by Apache Spark.
+This step is optional, but gives a better exposure to the Kubernetes features supported by Apache Spark and is highly recommended.
 
 !!! tip
     Learn more in [Creating a new namespace]({{ k8s.doc }}/tasks/administer-cluster/namespaces/#creating-a-new-namespace).
@@ -148,7 +175,7 @@ log4j.logger.org.apache.spark.scheduler.cluster.k8s=ALL
 
 Refer to [Logging](../spark-logging.md).
 
-## Launching spark-shell
+## Launch spark-shell
 
 ```text
 cd $SPARK_HOME
@@ -161,7 +188,7 @@ K8S_SERVER=$(k config view --output=jsonpath='{.clusters[].cluster.server}')
 ```text
 ./bin/spark-shell \
   --master k8s://$K8S_SERVER \
-  --conf spark.kubernetes.container.image=spark:v3.0.1 \
+  --conf spark.kubernetes.container.image=spark:v{{ spark.version }} \
   --conf spark.kubernetes.context=minikube \
   --conf spark.kubernetes.namespace=spark-demo \
   --verbose
@@ -174,7 +201,7 @@ Welcome to
       ____              __
      / __/__  ___ _____/ /__
     _\ \/ _ \/ _ `/ __/  '_/
-   /___/ .__/\_,_/_/ /_/\_\   version 3.0.1
+   /___/ .__/\_,_/_/ /_/\_\   version 3.1.1
       /_/
 
 Using Scala version 2.12.10 (OpenJDK 64-Bit Server VM, Java 11.0.9)
@@ -182,7 +209,7 @@ Type in expressions to have them evaluated.
 Type :help for more information.
 
 scala> spark.version
-res0: String = 3.0.1
+res0: String = 3.1.1
 
 scala> sc.master
 res1: String = k8s://https://127.0.0.1:55020
@@ -192,11 +219,11 @@ res1: String = k8s://https://127.0.0.1:55020
 
 Open web UI of the Spark application at http://localhost:4040/.
 
-Review the pods in the Kubernetes UI. Make sure to use `spark-demo` namespace.
+Review the pods in the [Kubernetes UI](#kubernetes-dashboard). Make sure to use `spark-demo` namespace.
 
 ![Pods](../images/spark-shell-on-minikube-pods.png)
 
-## Scaling Executors Up and Down
+## Scale Executors
 
 Just for some more fun, in `spark-shell`, request two more executors and observe the logs.
 
@@ -210,7 +237,7 @@ sc.killExecutors(Seq("1", "3"))
 
 Review the number of executors at http://localhost:4040/executors/ and in the Kubernetes UI.
 
-## Cleaning Up
+## Clean Up
 
 ```text
 minikube stop
