@@ -96,6 +96,25 @@ start(): Unit
 
 `start` requests the [ExecutorPodsPollingSnapshotSource](#pollEvents) to [start](ExecutorPodsPollingSnapshotSource.md#start) (with the [applicationId](#applicationId))
 
+In the end, `start` [setUpExecutorConfigMap](#setUpExecutorConfigMap).
+
+### <span id="setUpExecutorConfigMap"> setUpExecutorConfigMap
+
+```scala
+setUpExecutorConfigMap(): Unit
+```
+
+`setUpExecutorConfigMap` takes the [Name of Config Map for Executors](KubernetesClientUtils.md#configMapNameExecutor) and [buildSparkConfDirFilesMap](KubernetesClientUtils.md#buildSparkConfDirFilesMap) (with the `SparkConf`).
+
+`setUpExecutorConfigMap` [buildConfigMap](KubernetesClientUtils.md#buildConfigMap) with the labels (and the name of the config map and the configuration files).
+
+Name     | Value
+---------|----------
+ `spark-app-selector` | [Application Id](#applicationId)
+ `spark-role`         | `executor`
+
+In the end, `setUpExecutorConfigMap` requests the [KubernetesClient](#kubernetesClient) to create a new config map.
+
 ## <span id="createDriverEndpoint"> Creating DriverEndpoint
 
 ```scala
