@@ -140,6 +140,7 @@ nav:
       - PodTemplateConfigMapStep: PodTemplateConfigMapStep.md
     - Utilities:
       - KubernetesUtils: KubernetesUtils.md
+      - KubernetesClientUtils: KubernetesClientUtils.md
       - KubernetesVolumeUtils: KubernetesVolumeUtils.md
     - Logging: spark-logging.md
   - Demos:

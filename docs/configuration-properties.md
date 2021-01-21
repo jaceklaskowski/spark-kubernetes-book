@@ -28,6 +28,16 @@ FIXME
 
 FIXME
 
+## <span id="spark.kubernetes.configMap.maxSize"><span id="CONFIG_MAP_MAXSIZE"> spark.kubernetes.configMap.maxSize
+
+Max size limit (`long`) for a config map. Configurable as per https://etcd.io/docs/v3.4.0/dev-guide/limit/ on k8s server end.
+
+Default: `1572864` (`1.5 MiB`)
+
+Used when:
+
+* `KubernetesClientUtils` utility is used to [loadSparkConfDirFiles](KubernetesClientUtils.md#loadSparkConfDirFiles)
+
 ## <span id="spark.kubernetes.container.image"><span id="CONTAINER_IMAGE"> spark.kubernetes.container.image
 
 Container image to use for Spark containers (unless [spark.kubernetes.driver.container.image](#spark.kubernetes.driver.container.image) or [spark.kubernetes.executor.container.image](#spark.kubernetes.executor.container.image) are defined)
