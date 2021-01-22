@@ -21,7 +21,7 @@
 Must specify the executor container image
 ```
 
-## <span id="configurePod"> Configuring Driver Pod
+## <span id="configurePod"> Configuring Pod
 
 ```scala
 configurePod(

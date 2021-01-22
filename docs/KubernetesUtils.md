@@ -1,5 +1,20 @@
 # KubernetesUtils
 
+## <span id="buildPodWithServiceAccount"> buildPodWithServiceAccount
+
+```scala
+buildPodWithServiceAccount(
+  serviceAccount: Option[String],
+  pod: SparkPod): Option[Pod]
+```
+
+`buildPodWithServiceAccount` creates a new pod spec with the service account and service account name based on the given service account (if defined). Otherwise, `buildPodWithServiceAccount` returns `None`.
+
+`buildPodWithServiceAccount` is used when:
+
+* `DriverKubernetesCredentialsFeatureStep` is requested to [configure a pod](DriverKubernetesCredentialsFeatureStep.md#configurePod)
+* `ExecutorKubernetesCredentialsFeatureStep` is requested to [configure a pod](ExecutorKubernetesCredentialsFeatureStep.md#configurePod)
+
 ## <span id="loadPodFromTemplate"> Loading Pod Spec from Template File
 
 ```scala

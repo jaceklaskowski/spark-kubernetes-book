@@ -28,6 +28,16 @@ FIXME
 
 FIXME
 
+## <span id="spark.kubernetes.authenticate.executor.serviceAccountName"><span id="KUBERNETES_EXECUTOR_SERVICE_ACCOUNT_NAME"> spark.kubernetes.authenticate.executor.serviceAccountName
+
+Service account for executor pods
+
+Default: (undefined)
+
+Used when:
+
+* `ExecutorKubernetesCredentialsFeatureStep` is requested to [configure a pod](ExecutorKubernetesCredentialsFeatureStep.md#executorServiceAccount)
+
 ## <span id="spark.kubernetes.configMap.maxSize"><span id="CONFIG_MAP_MAXSIZE"> spark.kubernetes.configMap.maxSize
 
 Max size limit (`long`) for a config map. Configurable as per https://etcd.io/docs/v3.4.0/dev-guide/limit/ on k8s server end.
