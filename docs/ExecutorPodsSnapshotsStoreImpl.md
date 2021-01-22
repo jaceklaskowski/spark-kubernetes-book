@@ -21,7 +21,9 @@ replaceSnapshot(
 
 `replaceSnapshot` is part of the [ExecutorPodsSnapshotsStore](ExecutorPodsSnapshotsStore.md#replaceSnapshot) abstraction.
 
-`replaceSnapshot`...FIXME
+`replaceSnapshot` replaces the [currentSnapshot](#currentSnapshot) internal registry with a new [ExecutorPodsSnapshot](ExecutorPodsSnapshot.md) (with the given snapshot and the current time).
+
+In the end, `updatePod` [addCurrentSnapshotToSubscribers](#addCurrentSnapshotToSubscribers).
 
 ## <span id="updatePod"> updatePod
 
@@ -32,7 +34,9 @@ updatePod(
 
 `updatePod` is part of the [ExecutorPodsSnapshotsStore](ExecutorPodsSnapshotsStore.md#updatePod) abstraction.
 
-`updatePod`...FIXME
+`updatePod` requests the [current ExecutorPodsSnapshot](#currentSnapshot) to [update](ExecutorPodsSnapshot.md#withUpdate) based on the given updated pod.
+
+In the end, `updatePod` [addCurrentSnapshotToSubscribers](#addCurrentSnapshotToSubscribers).
 
 ## <span id="addSubscriber"> Registering Subscriber
 
@@ -87,7 +91,7 @@ subscribers: CopyOnWriteArrayList[SnapshotsSubscriber]
 addCurrentSnapshotToSubscribers(): Unit
 ```
 
-`addCurrentSnapshotToSubscribers` takes the [subscribers](#subscribers) and...FIXME
+`addCurrentSnapshotToSubscribers` requests every [SnapshotsSubscriber](#subscribers) to [addCurrentSnapshot](SnapshotsSubscriber.md#addCurrentSnapshot).
 
 `addCurrentSnapshotToSubscribers` is used when:
 

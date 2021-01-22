@@ -1,6 +1,6 @@
 # PollRunnable
 
-`PollRunnable` is a Java [Runnable]({{ java.api }}/java.base/java/lang/Runnable.html) that [ExecutorPodsPollingSnapshotSource](ExecutorPodsPollingSnapshotSource.md) uses to [run](#run) regularly for current snapshots of the executor pods of the [application](#applicationId).
+`PollRunnable` is a Java [Runnable]({{ java.api }}/java.base/java/lang/Runnable.html) that [ExecutorPodsPollingSnapshotSource](ExecutorPodsPollingSnapshotSource.md) schedules for [full executor pod state snapshots from Kubernetes](#run) every [spark.kubernetes.executor.apiPollingInterval](configuration-properties.md#spark.kubernetes.executor.apiPollingInterval) in the [Spark application](#applicationId).
 
 `PollRunnable` is an internal class of [ExecutorPodsPollingSnapshotSource](ExecutorPodsPollingSnapshotSource.md) with full access to its internals.
 
@@ -26,10 +26,13 @@ run(): Unit
 Resynchronizing full executor pod state from Kubernetes.
 ```
 
-`run` requests the [KubernetesClient](ExecutorPodsPollingSnapshotSource.md#kubernetesClient) for Spark executor pods that are pods with the following labels and values:
+`run` requests the [KubernetesClient](ExecutorPodsPollingSnapshotSource.md#kubernetesClient) for Spark executor pods with the following labels and values.
 
-* `spark-app-selector` as the [application Id](#applicationId)
-* `spark-role` as `executor`
+Label Name | Value
+-----------|----------
+ `spark-app-selector` | [application Id](#applicationId)
+`spark-role` | `executor`
+`spark-exec-inactive` | `false` or not attached
 
 In the end, `run` requests the [ExecutorPodsSnapshotsStore](ExecutorPodsPollingSnapshotSource.md#snapshotsStore) to [replace the snapshot](ExecutorPodsSnapshotsStore.md#replaceSnapshot).
 

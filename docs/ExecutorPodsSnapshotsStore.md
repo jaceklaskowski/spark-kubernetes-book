@@ -27,7 +27,7 @@ Used when:
 
 * `ExecutorPodsAllocator` is requested to [setTotalExpectedExecutors](ExecutorPodsAllocator.md#setTotalExpectedExecutors)
 
-### <span id="replaceSnapshot"> replaceSnapshot
+### <span id="replaceSnapshot"> Full Executor Pod State Synchronization
 
 ```scala
 replaceSnapshot(

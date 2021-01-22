@@ -88,7 +88,7 @@ Default: `https://kubernetes.default.svc`
 
 Name of the driver pod
 
-Default: `(undefined)`
+Default: (undefined)
 
 Must be provided if a Spark application is deployed in [cluster deploy mode](KubernetesClusterManager.md#createSchedulerBackend)
 
@@ -137,6 +137,16 @@ Used when:
 
 * `ExecutorPodsPollingSnapshotSource` is requested to [start](ExecutorPodsPollingSnapshotSource.md#pollingInterval)
 
+## <span id="spark.kubernetes.executor.checkAllContainers"><span id="KUBERNETES_EXECUTOR_CHECK_ALL_CONTAINERS"> spark.kubernetes.executor.checkAllContainers
+
+Controls whether or not to check the status of all containers in a running executor pod when [reporting executor status](ExecutorPodsSnapshot.md#shouldCheckAllContainers)
+
+Default: `false`
+
+Used when:
+
+* `KubernetesClusterManager` is requested for a [SchedulerBackend](KubernetesClusterManager.md#createSchedulerBackend)
+
 ## <span id="spark.kubernetes.executor.container.image"><span id="EXECUTOR_CONTAINER_IMAGE"> spark.kubernetes.executor.container.image
 
 Container image for executors
@@ -173,7 +183,7 @@ Used when:
 
 **(internal)** Prefix of the executor pod names
 
-Default: `(undefined)`
+Default: (undefined)
 
 Unless defined, it is set explicitly when `KubernetesClusterManager` is requested to [create a SchedulerBackend](KubernetesClusterManager.md#createSchedulerBackend)
 
@@ -183,14 +193,14 @@ Used when:
 
 ## <span id="spark.kubernetes.executor.podTemplateContainerName"><span id="KUBERNETES_EXECUTOR_PODTEMPLATE_CONTAINER_NAME"> spark.kubernetes.executor.podTemplateContainerName
 
-Container name to be used as a basis for executors in the given pod template
+Name of the container for executors in a pod template
 
-Default: `(undefined)`
+Default: (undefined)
 
 Used when:
 
-* `KubernetesClusterManager` is requested to [create a SchedulerBackend](KubernetesClusterManager.md#createSchedulerBackend)
-* `KubernetesExecutorBuilder` is requested to [build an executor pod from features](KubernetesExecutorBuilder.md#buildFromFeatures)
+* `KubernetesClusterManager` is requested for a [SchedulerBackend](KubernetesClusterManager.md#createSchedulerBackend)
+* `KubernetesExecutorBuilder` is requested for a [pod spec for executors](KubernetesExecutorBuilder.md#buildFromFeatures)
 
 ## <span id="spark.kubernetes.executor.podTemplateFile"><span id="KUBERNETES_EXECUTOR_PODTEMPLATE_FILE"> spark.kubernetes.executor.podTemplateFile
 

@@ -112,6 +112,7 @@ nav:
     - K8SSparkSubmitOperation: K8SSparkSubmitOperation.md
     - ExecutorPodsLifecycleManager: ExecutorPodsLifecycleManager.md
     - ExecutorPodsSnapshotsStore: ExecutorPodsSnapshotsStore.md
+    - ExecutorPodsSnapshot: ExecutorPodsSnapshot.md
     - Executor Pods Watchers:
       - ExecutorPodsWatchSnapshotSource: ExecutorPodsWatchSnapshotSource.md
       - ExecutorPodsWatcher: ExecutorPodsWatcher.md
