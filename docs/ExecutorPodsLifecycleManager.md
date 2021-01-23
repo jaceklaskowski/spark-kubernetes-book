@@ -21,6 +21,12 @@
 
 `ExecutorPodsLifecycleManager` uses the [spark.kubernetes.executor.deleteOnTermination](configuration-properties.md#spark.kubernetes.executor.deleteOnTermination) configuration property for [onFinalNonDeletedState](#onFinalNonDeletedState).
 
+## <span id="missingPodDetectDelta"> Missing Pod Timeout
+
+`ExecutorPodsLifecycleManager` defines **Missing Pod Timeout** based on the [spark.kubernetes.executor.missingPodDetectDelta](configuration-properties.md#spark.kubernetes.executor.missingPodDetectDelta) configuration property.
+
+`ExecutorPodsLifecycleManager` uses the timeout to detect lost executor pods when [handling executor pods snapshots](#onNewSnapshots).
+
 ## <span id="start"> Starting
 
 ```scala

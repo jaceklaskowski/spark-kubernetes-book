@@ -20,6 +20,16 @@ Used when:
 
 * `ExecutorPodsAllocator` is [created](ExecutorPodsAllocator.md#podAllocationSize)
 
+## <span id="spark.kubernetes.allocation.executor.timeout"><span id="KUBERNETES_ALLOCATION_EXECUTOR_TIMEOUT"> spark.kubernetes.allocation.executor.timeout
+
+Time (in millis) to wait before a pending executor is considered timed out
+
+Default: `600s`
+
+Used when:
+
+* `ExecutorPodsAllocator` is requested to [handle executor pods snapshots](ExecutorPodsAllocator.md#podCreationTimeout)
+
 ## <span id="spark.kubernetes.authenticate"><span id="KUBERNETES_AUTH_CLIENT_MODE_PREFIX"> spark.kubernetes.authenticate
 
 FIXME
@@ -188,6 +198,16 @@ Default: `1s`
 Used when:
 
 * `ExecutorPodsLifecycleManager` is requested to [start and register a new subscriber](ExecutorPodsLifecycleManager.md#eventProcessingInterval)
+
+## <span id="spark.kubernetes.executor.missingPodDetectDelta"><span id="KUBERNETES_EXECUTOR_MISSING_POD_DETECT_DELTA"> spark.kubernetes.executor.missingPodDetectDelta
+
+Time (in millis) to wait before an executor is removed due to the executor's pod being missed in the Kubernetes API server's polled list of pods
+
+Default: `30s`
+
+Used when:
+
+* `ExecutorPodsLifecycleManager` is requested to [handle executor pods snapshots](ExecutorPodsLifecycleManager.md#missingPodDetectDelta)
 
 ## <span id="spark.kubernetes.executor.podNamePrefix"><span id="KUBERNETES_EXECUTOR_POD_NAME_PREFIX"> spark.kubernetes.executor.podNamePrefix
 

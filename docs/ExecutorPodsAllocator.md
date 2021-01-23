@@ -19,6 +19,15 @@
 
 * `KubernetesClusterManager` is requested for a [SchedulerBackend](KubernetesClusterManager.md#createSchedulerBackend)
 
+## <span id="podCreationTimeout"> Executor Pod Allocation Timeout
+
+`ExecutorPodsAllocator` defines **Executor Pod Allocation Timeout** that is the maximum of the following values:
+
+* 5 times of [spark.kubernetes.allocation.batch.delay](#podAllocationDelay) configuration property
+* [spark.kubernetes.allocation.executor.timeout](configuration-properties.md#spark.kubernetes.allocation.executor.timeout) configuration property
+
+`ExecutorPodsAllocator` uses the allocation timeout to detect "old" executor pod requests when [handling executor pods snapshots](#onNewSnapshots).
+
 ## <span id="dynamicAllocationEnabled"> spark.dynamicAllocation.enabled
 
 `ExecutorPodsAllocator` uses `spark.dynamicAllocation.enabled` configuration property to turn dynamic allocation of executors on and off.
