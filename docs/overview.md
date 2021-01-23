@@ -13,6 +13,12 @@ As per [SPARK-33005 Kubernetes GA Preparation](https://issues.apache.org/jira/br
 !!! note
     [There will never be 3.1.0](http://spark.apache.org/news/next-official-release-spark-3.1.1.html).
 
+## <span id="SPARK_EXECUTOR_INACTIVE_LABEL"> Inactive Executor Pods
+
+Spark on Kubernetes defines **spark-exec-inactive** label to mark executor pods as inactive after they have finished (successfully or not) but [spark.kubernetes.executor.deleteOnTermination](configuration-properties.md#spark.kubernetes.executor.deleteOnTermination) configuration property is `false` (when `ExecutorPodsLifecycleManager` is requested to [handle executor pods snapshots](ExecutorPodsLifecycleManager.md#onNewSnapshots)).
+
+This label is used to skip executor pods when `PollRunnable` is requested to [fetch status of all executor pods in a Spark application from Kubernetes API server](PollRunnable.md#run).
+
 ## Cluster Deploy Mode
 
 Spark on Kubernetes uses [KubernetesClientApplication](KubernetesClientApplication.md) in `cluster` deploy mode (as the `SparkApplication` ([Apache Spark]({{ book.spark_core }}/tools/SparkApplication/)) to run).

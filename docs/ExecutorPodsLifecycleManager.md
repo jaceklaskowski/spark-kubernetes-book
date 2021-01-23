@@ -38,7 +38,7 @@ start(
 
 `start` is used when `KubernetesClusterSchedulerBackend` is [started](KubernetesClusterSchedulerBackend.md#start).
 
-## <span id="onNewSnapshots"> Handling State Changes in Executor Pods
+## <span id="onNewSnapshots"> Processing Executor Pods Snapshots
 
 ```scala
 onNewSnapshots(
@@ -87,14 +87,12 @@ onFinalNonDeletedState(
   podState: FinalPodState,
   execId: Long,
   schedulerBackend: KubernetesClusterSchedulerBackend,
-  execIdsRemovedInRound: mutable.Set[Long]): Unit
+  deleteFromK8s: Boolean): Boolean
 ```
 
-`onFinalNonDeletedState` [removeExecutorFromSpark](#removeExecutorFromSpark).
+`onFinalNonDeletedState` [removeExecutorFromSpark](#removeExecutorFromSpark) (and records the `deleted` return flag to be returned in the end).
 
-With [spark.kubernetes.executor.deleteOnTermination](#shouldDeleteExecutors) configuration property enabled, `onFinalNonDeletedState` [removeExecutorFromK8s](#removeExecutorFromK8s).
-
-In the end, `onFinalNonDeletedState` adds the given `execId` to the given `execIdsRemovedInRound` collection.
+With the given `deleteFromK8s` flag enabled, `onFinalNonDeletedState` [removeExecutorFromK8s](#removeExecutorFromK8s).
 
 ### <span id="removeExecutorFromSpark"> removeExecutorFromSpark
 
@@ -106,6 +104,16 @@ removeExecutorFromSpark(
 ```
 
 `removeExecutorFromSpark`...FIXME
+
+### <span id="removeExecutorFromK8s"> removeExecutorFromK8s
+
+```scala
+removeExecutorFromK8s(
+  execId: Long,
+  updatedPod: Pod): Unit
+```
+
+`removeExecutorFromK8s`...FIXME
 
 ## Logging
 

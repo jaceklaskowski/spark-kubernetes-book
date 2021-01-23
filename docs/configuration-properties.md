@@ -179,14 +179,14 @@ Used when:
 
 ## <span id="spark.kubernetes.executor.deleteOnTermination"><span id="KUBERNETES_DELETE_EXECUTORS"> spark.kubernetes.executor.deleteOnTermination
 
-When disabled (`false`), executor pods will not be deleted in case of failure or normal termination
+Controls whether or not to delete executor pods after they have finished (successfully or not)
 
 Default: `true`
 
 Used when:
 
-* `ExecutorPodsAllocator` is requested to [onNewSnapshots](ExecutorPodsAllocator.md#onNewSnapshots)
-* `ExecutorPodsLifecycleManager` is requested to [onFinalNonDeletedState](ExecutorPodsLifecycleManager.md#onFinalNonDeletedState)
+* `ExecutorPodsAllocator` is requested to [handle executor pods snapshots](ExecutorPodsAllocator.md#onNewSnapshots)
+* `ExecutorPodsLifecycleManager` is requested to [handle executor pods snapshots](ExecutorPodsLifecycleManager.md#onFinalNonDeletedState)
 * `KubernetesClusterSchedulerBackend` is requested to [stop](KubernetesClusterSchedulerBackend.md#stop)
 
 ## <span id="spark.kubernetes.executor.eventProcessingInterval"><span id="KUBERNETES_EXECUTOR_EVENT_PROCESSING_INTERVAL"> spark.kubernetes.executor.eventProcessingInterval

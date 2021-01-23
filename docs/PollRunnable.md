@@ -32,7 +32,7 @@ Label Name | Value
 -----------|----------
  `spark-app-selector` | [application Id](#applicationId)
 `spark-role` | `executor`
-`spark-exec-inactive` | `false` or not attached
+[spark-exec-inactive](overview.md#SPARK_EXECUTOR_INACTIVE_LABEL) | any value but `true`
 
 In the end, `run` requests the [ExecutorPodsSnapshotsStore](ExecutorPodsPollingSnapshotSource.md#snapshotsStore) to [replace the snapshot](ExecutorPodsSnapshotsStore.md#replaceSnapshot).
 
