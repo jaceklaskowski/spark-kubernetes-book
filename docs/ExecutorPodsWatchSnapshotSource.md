@@ -1,5 +1,7 @@
 # ExecutorPodsWatchSnapshotSource
 
+`ExecutorPodsWatchSnapshotSource` is given [KubernetesClient](#kubernetesClient) to a Kubernetes API server to watch for status updates of the executor pods of a given Spark application when [started](#start) (that [ExecutorPodsWatcher](ExecutorPodsWatcher.md) passes along to the [ExecutorPodsSnapshotsStore](ExecutorPodsSnapshotsStore.md#updatePod)).
+
 ## Creating Instance
 
 `ExecutorPodsWatchSnapshotSource` takes the following to be created:
@@ -10,6 +12,18 @@
 `ExecutorPodsWatchSnapshotSource` is created when:
 
 * `KubernetesClusterManager` is requested for a [SchedulerBackend](KubernetesClusterManager.md#createSchedulerBackend)
+
+## <span id="watchConnection"> watchConnection
+
+```scala
+watchConnection: Closeable
+```
+
+`ExecutorPodsWatchSnapshotSource` defines `watchConnection` internal registry to be a "watch connection" to a Kubernetes API server to watch any status updates of the executor pods of a given Spark application (using [ExecutorPodsWatcher](ExecutorPodsWatcher.md)).
+
+`ExecutorPodsWatchSnapshotSource` uses `watchConnection` internal registry as an indication of whether it has been [started](#start) already or not (and throws an `IllegalArgumentException` when it has).
+
+`ExecutorPodsWatchSnapshotSource` requests the `watchConnection` to close and `null`s it when requested to [stop](#stop).
 
 ## <span id="start"> Starting
 
@@ -24,10 +38,12 @@ start(
 Starting watch for pods with labels spark-app-selector=[applicationId], spark-role=executor.
 ```
 
-`start` requests the [KubernetesClient](#kubernetesClient) to watch pods with the following labels using [ExecutorPodsWatcher](ExecutorPodsWatcher.md):
+`start` requests the [KubernetesClient](#kubernetesClient) to watch pods with the following labels and values and pass pod updates to [ExecutorPodsWatcher](ExecutorPodsWatcher.md).
 
-* `spark-app-selector` with the given `applicationId`
-* `spark-role` as `executor`
+Label Name | Value
+-----------|----------
+ `spark-app-selector` | the given `applicationId`
+`spark-role` | `executor`
 
 `start` is used when:
 

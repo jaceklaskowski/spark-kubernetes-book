@@ -1,6 +1,6 @@
 # ExecutorPodsSnapshotsStore
 
-`ExecutorPodsSnapshotsStore` is an [abstraction](#contract) of [pod stores](#implementations).
+`ExecutorPodsSnapshotsStore` is an [abstraction](#contract) of [executor pods snapshots stores](#implementations) that subscribers can [subscribe to](#addSubscriber) and be [notified](#notifySubscribers) about [single pod](#updatePod) or [full snapshots updates](#replaceSnapshot).
 
 ## Contract
 

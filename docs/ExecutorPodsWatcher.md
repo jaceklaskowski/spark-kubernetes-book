@@ -10,6 +10,8 @@
 
 `ExecutorPodsWatcher` is created when:
 
+* `ExecutorPodsWatchSnapshotSource` is requested to [start](ExecutorPodsWatchSnapshotSource.md#start)
+
 ## <span id="eventReceived"> Executor Pod Update
 
 ```scala
