@@ -1,6 +1,6 @@
 # ExecutorPodsPollingSnapshotSource
 
-`ExecutorPodsPollingSnapshotSource` manages [pollingFuture](#pollingFuture) (with a [PollRunnable](PollRunnable.md)) to synchronize executor pods state every [pollingInterval](#pollingInterval) (and requests the [ExecutorPodsSnapshotsStore](#snapshotsStore) to [replaceSnapshot](#replaceSnapshot)).
+`ExecutorPodsPollingSnapshotSource` manages [pollingFuture](#pollingFuture) (for [PollRunnable](PollRunnable.md)s) to synchronize executor pods state every [spark.kubernetes.executor.apiPollingInterval](#pollingInterval) (by requesting the [ExecutorPodsSnapshotsStore](#snapshotsStore) to [replace executor pods snapshot](ExecutorPodsSnapshotsStore.md#replaceSnapshot)).
 
 ## Creating Instance
 
@@ -14,6 +14,8 @@
 `ExecutorPodsPollingSnapshotSource` is created when:
 
 * `KubernetesClusterManager` is requested for a [SchedulerBackend](KubernetesClusterManager.md#createSchedulerBackend) (and creates a [KubernetesClusterSchedulerBackend](KubernetesClusterSchedulerBackend.md#pollEvents))
+
+![ExecutorPodsPollingSnapshotSource](images/ExecutorPodsPollingSnapshotSource.png)
 
 ## <span id="pollingInterval"> spark.kubernetes.executor.apiPollingInterval
 
@@ -34,7 +36,9 @@ start(
   applicationId: String): Unit
 ```
 
-`start` prints out the following DEBUG message to the logs:
+![ExecutorPodsPollingSnapshotSource and KubernetesClusterSchedulerBackend](images/ExecutorPodsPollingSnapshotSource-start.png)
+
+`start` prints out the following DEBUG message to the logs (with the [pollingInterval](#pollingInterval)):
 
 ```text
 Starting to check for executor pod state every [pollingInterval] ms.
