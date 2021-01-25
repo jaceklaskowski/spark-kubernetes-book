@@ -4,7 +4,7 @@
 
 ## Contract
 
-### <span id="addSubscriber"> addSubscriber
+### <span id="addSubscriber"> Registering Subscriber
 
 ```scala
 addSubscriber(
@@ -12,12 +12,14 @@ addSubscriber(
   onNewSnapshots: Seq[ExecutorPodsSnapshot] => Unit): Unit
 ```
 
+Registers a new subscriber to be notified about new [ExecutorPodsSnapshot](ExecutorPodsSnapshot.md)s every `processBatchIntervalMillis` interval
+
 Used when:
 
 * `ExecutorPodsAllocator` is requested to [start](ExecutorPodsAllocator.md#start)
 * `ExecutorPodsLifecycleManager` is requested to [start](ExecutorPodsLifecycleManager.md#start)
 
-### <span id="notifySubscribers"> notifySubscribers
+### <span id="notifySubscribers"> Notifying Subscribers
 
 ```scala
 notifySubscribers(): Unit
@@ -25,7 +27,7 @@ notifySubscribers(): Unit
 
 Used when:
 
-* `ExecutorPodsAllocator` is requested to [setTotalExpectedExecutors](ExecutorPodsAllocator.md#setTotalExpectedExecutors)
+* `ExecutorPodsAllocator` is requested to [change the total expected executors](ExecutorPodsAllocator.md#setTotalExpectedExecutors)
 
 ### <span id="replaceSnapshot"> Full Executor Pod State Synchronization
 
@@ -36,9 +38,9 @@ replaceSnapshot(
 
 Used when:
 
-* `PollRunnable` is requested to [start](PollRunnable.md#run)
+* `PollRunnable` is requested to [start](PollRunnable.md#run) (every [spark.kubernetes.executor.apiPollingInterval](configuration-properties.md#spark.kubernetes.executor.apiPollingInterval) when `ExecutorPodsPollingSnapshotSource` is [started](ExecutorPodsPollingSnapshotSource.md#start))
 
-### <span id="stop"> stop
+### <span id="stop"> Stopping
 
 ```scala
 stop(): Unit
@@ -48,7 +50,7 @@ Used when:
 
 * `KubernetesClusterSchedulerBackend` is requested to [stop](KubernetesClusterSchedulerBackend.md#stop)
 
-### <span id="updatePod"> updatePod
+### <span id="updatePod"> Single Executor Pod State Update
 
 ```scala
 updatePod(

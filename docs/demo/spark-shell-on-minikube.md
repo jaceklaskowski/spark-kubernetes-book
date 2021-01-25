@@ -73,15 +73,15 @@ docker images
 
 ```text
 REPOSITORY                                TAG        IMAGE ID       CREATED         SIZE
-kubernetesui/dashboard                    v2.1.0     9a07b5b4bfac   5 weeks ago     226MB
-k8s.gcr.io/kube-proxy                     v1.20.0    10cc881966cf   5 weeks ago     118MB
-k8s.gcr.io/kube-controller-manager        v1.20.0    b9fa1895dcaa   5 weeks ago     116MB
-k8s.gcr.io/kube-scheduler                 v1.20.0    3138b6e3d471   5 weeks ago     46.4MB
-k8s.gcr.io/kube-apiserver                 v1.20.0    ca9843d3b545   5 weeks ago     122MB
-gcr.io/k8s-minikube/storage-provisioner   v4         85069258b98a   6 weeks ago     29.7MB
-k8s.gcr.io/etcd                           3.4.13-0   0369cf4303ff   4 months ago    253MB
+k8s.gcr.io/kube-proxy                     v1.20.2    43154ddb57a8   12 days ago     118MB
+k8s.gcr.io/kube-controller-manager        v1.20.2    a27166429d98   12 days ago     116MB
+k8s.gcr.io/kube-apiserver                 v1.20.2    a8c2fdb8bf76   12 days ago     122MB
+k8s.gcr.io/kube-scheduler                 v1.20.2    ed2c44fbdd78   12 days ago     46.4MB
+kubernetesui/dashboard                    v2.1.0     9a07b5b4bfac   6 weeks ago     226MB
+gcr.io/k8s-minikube/storage-provisioner   v4         85069258b98a   7 weeks ago     29.7MB
+k8s.gcr.io/etcd                           3.4.13-0   0369cf4303ff   5 months ago    253MB
 k8s.gcr.io/coredns                        1.7.0      bfe3a36ebd25   7 months ago    45.2MB
-kubernetesui/metrics-scraper              v1.0.4     86262685d9ab   9 months ago    36.9MB
+kubernetesui/metrics-scraper              v1.0.4     86262685d9ab   10 months ago   36.9MB
 k8s.gcr.io/pause                          3.2        80d28bedfe5d   11 months ago   683kB
 ```
 
@@ -118,6 +118,9 @@ Build and publish the Spark image. Note `-m` option to point the shell script to
   build
 ```
 
+!!! note
+    As of Spark 3.1.1, `java_image_tag` argument is assumed `11-jre-slim` (and so `-b java_image_tag=11-jre-slim` could've been skipped in the above command).
+
 ### docker images
 
 Point the shell to minikube's Docker daemon.
@@ -133,8 +136,8 @@ docker images spark
 ```
 
 ```text
-REPOSITORY   TAG          IMAGE ID       CREATED              SIZE
-spark        v{{ spark.version }}   e64950545e8f   About a minute ago   509MB
+REPOSITORY   TAG          IMAGE ID       CREATED          SIZE
+spark        v{{ spark.version }}   ad49befe3d09   19 seconds ago   509MB
 ```
 
 ### docker image inspect
@@ -153,7 +156,7 @@ This step is optional, but gives a better exposure to the Kubernetes features su
     Learn more in [Creating a new namespace]({{ k8s.doc }}/tasks/administer-cluster/namespaces/#creating-a-new-namespace).
 
 ```text
-k create namespace spark-demo
+k create ns spark-demo
 ```
 
 Set `spark-demo` as the default namespace using [kubens](https://github.com/ahmetb/kubectx) tool.
@@ -194,7 +197,7 @@ K8S_SERVER=$(k config view --output=jsonpath='{.clusters[].cluster.server}')
   --verbose
 ```
 
-Soon you should see the prompt.
+Soon you should see the Spark prompt similar to the following:
 
 ```text
 Welcome to
@@ -204,7 +207,7 @@ Welcome to
    /___/ .__/\_,_/_/ /_/\_\   version 3.1.1
       /_/
 
-Using Scala version 2.12.10 (OpenJDK 64-Bit Server VM, Java 11.0.9)
+Using Scala version 2.12.10 (OpenJDK 64-Bit Server VM, Java 11.0.10)
 Type in expressions to have them evaluated.
 Type :help for more information.
 
