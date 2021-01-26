@@ -12,7 +12,7 @@ This demo shows how to run `spark-shell` on [minikube](https://minikube.sigs.k8s
 !!! note
     `k` is an alias of `kubectl`.
 
-## Start Cluster
+## Start minikube
 
 Quoting [Prerequisites]({{ spark.doc }}/running-on-kubernetes.html#prerequisites) in the official documentation of Apache Spark:
 

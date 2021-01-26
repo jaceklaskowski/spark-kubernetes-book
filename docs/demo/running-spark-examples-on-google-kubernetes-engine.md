@@ -5,7 +5,7 @@ hide:
 
 # Demo: Running Spark Examples on Google Kubernetes Engine
 
-This demo shows how to run the official [Spark Examples]({{ spark.doc }}/index.html#running-the-examples-and-shell) to a [Google Kubernetes Engine (GKE)](https://cloud.google.com/kubernetes-engine) cluster.
+This demo shows how to run the official [Spark Examples]({{ spark.doc }}/index.html#running-the-examples-and-shell) on a Kubernetes cluster on [Google Kubernetes Engine (GKE)](https://cloud.google.com/kubernetes-engine).
 
 This demo focuses on the ubiquitous SparkPi example, but should let you run the other sample Spark applications too.
 
@@ -16,6 +16,8 @@ This demo focuses on the ubiquitous SparkPi example, but should let you run the 
 ## Before you begin
 
 Make sure to enable the Kubernetes Engine API (as described in [Deploying a containerized web application](https://cloud.google.com/kubernetes-engine/docs/tutorials/hello-app#before-you-begin)).
+
+Review [Demo: Running Spark Examples on minikube](running-spark-application-on-minikube.md) to build a basic understanding of the process of deploying Spark applications to a local Kubernetes cluster using minikube.
 
 ## Building Spark Container Image
 
@@ -32,21 +34,24 @@ cd $SPARK_HOME
 
 ```text
 ./bin/docker-image-tool.sh \
-  -b java_image_tag=11-jre-slim \
   -r $GCP_CR \
-  -t v3.0.1 \
+  -t v{{ spark.version }} \
   build
 ```
 
 List the images using [docker images](https://docs.docker.com/engine/reference/commandline/images/) command (and some other fancy options).
 
 ```text
-$ docker images \
-  --filter=reference='$GCP_CR/*:*' \
+docker images "$GCP_CR/*" \
   --format "table {{ '{{' }}.Repository}}\t{{ '{{' }}.Tag}}"
-REPOSITORY                                                TAG
-eu.gcr.io/spark-on-kubernetes-2021/spark                  v3.0.1
 ```
+
+```text
+REPOSITORY                                 TAG
+eu.gcr.io/spark-on-kubernetes-2021/spark   v{{ spark.version }}
+```
+
+### Push Spark Image to Container Registry
 
 Push the container image to the Container Registry so that a GKE cluster can run it in a pod (as described in [Pushing the Docker image to Container Registry](https://cloud.google.com/kubernetes-engine/docs/tutorials/hello-app#pushing_the_docker_image_to)).
 
@@ -56,36 +61,82 @@ gcloud auth configure-docker
 
 ```text
 ./bin/docker-image-tool.sh \
-  -b java_image_tag=11-jre-slim \
   -r $GCP_CR \
-  -t v3.0.1 \
+  -t v{{ spark.version }} \
   push
 ```
 
-View the image in the repository.
+### List Images
+
+Use [gcloud container images list](https://cloud.google.com/sdk/gcloud/reference/container/images/list) to list the Spark image in the repository.
 
 ```text
-$ gcloud container images list --repository $GCP_CR
+gcloud container images list --repository $GCP_CR
+```
+
+```text
 NAME
 eu.gcr.io/spark-on-kubernetes-2021/spark
 ```
 
-## Creating Google Kubernetes Engine Cluster
+### List Tags
 
-Create a GKE cluster.
+Use [gcloud container images list-tags](https://cloud.google.com/sdk/gcloud/reference/container/images/list-tags) to list tags and digests for the specified image.
+
+```text
+gcloud container images list-tags $GCP_CR/spark
+```
+
+```text
+DIGEST        TAGS        TIMESTAMP
+9a50d1435bbe  v{{ spark.version }}  2021-01-26T13:02:11
+```
+
+### Describe Spark Image
+
+Use [gcloud container images describe](https://cloud.google.com/sdk/gcloud/reference/container/images/describe) to list information about the Spark image.
+
+```text
+gcloud container images describe $GCP_CR/spark:v{{ spark.version }}
+```
+
+```text
+image_summary:
+  digest: sha256:9a50d1435bbe81dd3a23d3e43c244a0bfc37e14fb3754b68431cbf8510360b84
+  fully_qualified_digest: eu.gcr.io/spark-on-kubernetes-2021/spark@sha256:9a50d1435bbe81dd3a23d3e43c244a0bfc37e14fb3754b68431cbf8510360b84
+  registry: eu.gcr.io
+  repository: spark-on-kubernetes-2021/spark
+```
+
+## Create Kubernetes Cluster
 
 ```text
 export CLUSTER_NAME=spark-examples-cluster
 ```
 
-The default version of Kubernetes varies per Google Cloud zone and is often older than latest stable release that can be changed using `--cluster-version` option.
+The default version of Kubernetes varies per Google Cloud zone and is often older than the latest stable release. A cluster version can be changed using `--cluster-version` option.
+
+Use `gcloud container get-server-config` command to check which Kubernetes versions are available and default in your zone.
+
+```text
+gcloud container get-server-config
+```
+
+!!! tip
+    Use [latest](https://cloud.google.com/kubernetes-engine/versioning#specifying_cluster_version) version alias to use the highest supported Kubernetes version currently available on GKE in the cluster's zone or region.
 
 ```text
 gcloud container clusters create $CLUSTER_NAME \
-  --cluster-version=1.17.15-gke.800
+  --cluster-version=latest
 ```
 
-Wait a few minutes before the GKE cluster is created and health-checked.
+Wait a few minutes before the GKE cluster is ready. In the end, you should see a summary of the cluster.
+
+```text
+kubeconfig entry generated for spark-examples-cluster.
+NAME                    LOCATION        MASTER_VERSION    MASTER_IP      MACHINE_TYPE  NODE_VERSION      NUM_NODES  STATUS
+spark-examples-cluster  europe-west3-b  1.18.14-gke.1200  35.198.74.105  e2-medium     1.18.14-gke.1200  3          RUNNING
+```
 
 Review the configuration of the GKE cluster.
 
@@ -104,7 +155,7 @@ gcloud compute instances list
 !!! note
     What follows is a more succinct version of [Demo: Running Spark Application on minikube](running-spark-application-on-minikube.md).
 
-Use the following yaml configuration file to create required resources.
+### Create Kubernetes Resources
 
 Use the following yaml configuration file (`rbac.yml`) to create required resources.
 
@@ -136,11 +187,13 @@ roleRef:
 ---
 ```
 
-Create the Kubernetes resources.
+Use `k create` to create the Kubernetes resources.
 
 ```text
 k create -f rbac.yml
 ```
+
+### Run SparkPi
 
 ```text
 cd $SPARK_HOME
@@ -149,18 +202,18 @@ cd $SPARK_HOME
 ```text
 export K8S_SERVER=$(kubectl config view --output=jsonpath='{.clusters[].cluster.server}')
 export POD_NAME=spark-examples-pod
-export SPARK_IMAGE=$GCP_CR/spark:v3.0.1
+export SPARK_IMAGE=$GCP_CR/spark:v{{ spark.version }}
 ```
 
-!!! note
-    Due to how `run-example` works internally `--jars` option pointing at `spark-examples_2.12-3.0.1.jar` is required.
+!!! important
+    For the time being we're going to use `spark-submit` not `run-example`. See [Demo: Running Spark Examples on minikube](running-spark-examples-on-minikube.md#running-sparkpi-on-minikube) for more information.
 
 ```text
-./bin/run-example \
+./bin/spark-submit \
   --master k8s://$K8S_SERVER \
   --deploy-mode cluster \
   --name $POD_NAME \
-  --jars local:///opt/spark/examples/jars/spark-examples_2.12-3.0.1.jar \
+  --class org.apache.spark.examples.SparkPi \
   --conf spark.kubernetes.driver.request.cores=400m \
   --conf spark.kubernetes.executor.request.cores=100m \
   --conf spark.kubernetes.container.image=$SPARK_IMAGE \
@@ -168,13 +221,13 @@ export SPARK_IMAGE=$GCP_CR/spark:v3.0.1
   --conf spark.kubernetes.namespace=spark-demo \
   --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \
   --verbose \
-   SparkPi 10
+  local:///opt/spark/examples/jars/spark-examples_2.12-3.1.1.jar 10
 ```
 
 !!! note
     `spark.kubernetes.*.request.cores` configuration properties were required due to the default machine type of a GKE cluster is too small CPU-wise. You may consider another machine type for a GKE cluster (e.g. `c2-standard-4`).
 
-Open another terminal and watch the pods being created and terminated.
+Open another terminal and watch the pods being created and terminated. Don't forget about the `spark-demo` namespace.
 
 ```text
 k get po -n spark-demo -w
@@ -197,5 +250,5 @@ gcloud container clusters delete $CLUSTER_NAME --quiet
 Delete the images.
 
 ```text
-gcloud container images delete $GCP_CR/spark:v3.0.1 --force-delete-tags --quiet
+gcloud container images delete $SPARK_IMAGE --force-delete-tags --quiet
 ```
