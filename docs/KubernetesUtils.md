@@ -1,4 +1,19 @@
-# KubernetesUtils
+# KubernetesUtils Utility
+
+## <span id="parseMasterUrl"> Parsing Master URL
+
+```scala
+parseMasterUrl(
+  url: String): String
+```
+
+`parseMasterUrl` takes off the `k8s://` prefix from the given url.
+
+`parseMasterUrl` is used when:
+
+* `K8SSparkSubmitOperation` is requested to [execute an operation](K8SSparkSubmitOperation.md#execute)
+* `KubernetesClientApplication` is requested to [start](KubernetesClientApplication.md#start)
+* `KubernetesClusterManager` is requested for a [SchedulerBackend](KubernetesClusterManager.md#createSchedulerBackend)
 
 ## <span id="buildPodWithServiceAccount"> buildPodWithServiceAccount
 

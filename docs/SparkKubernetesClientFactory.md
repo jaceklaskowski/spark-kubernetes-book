@@ -1,4 +1,4 @@
-# SparkKubernetesClientFactory
+# SparkKubernetesClientFactory Utility
 
 `SparkKubernetesClientFactory` is a [Spark-opinionated builder for Kubernetes clients](#createKubernetesClient).
 

@@ -108,8 +108,6 @@ nav:
       - Client: Client.md
       - KubernetesDriverBuilder: KubernetesDriverBuilder.md
       - LoggingPodStatusWatcherImpl: LoggingPodStatusWatcherImpl.md
-    - SparkKubernetesClientFactory: SparkKubernetesClientFactory.md
-    - K8SSparkSubmitOperation: K8SSparkSubmitOperation.md
     - ExecutorPodsLifecycleManager: ExecutorPodsLifecycleManager.md
     - ExecutorPodsSnapshotsStore: ExecutorPodsSnapshotsStore.md
     - ExecutorPodsSnapshot: ExecutorPodsSnapshot.md
@@ -139,10 +137,12 @@ nav:
       - MountSecretsFeatureStep: MountSecretsFeatureStep.md
       - MountVolumesFeatureStep: MountVolumesFeatureStep.md
       - PodTemplateConfigMapStep: PodTemplateConfigMapStep.md
+    - K8SSparkSubmitOperation: K8SSparkSubmitOperation.md
     - Utilities:
       - KubernetesUtils: KubernetesUtils.md
       - KubernetesClientUtils: KubernetesClientUtils.md
       - KubernetesVolumeUtils: KubernetesVolumeUtils.md
+      - SparkKubernetesClientFactory: SparkKubernetesClientFactory.md
     - Logging: spark-logging.md
   - Demos:
     - Welcome: demo/index.md

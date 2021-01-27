@@ -1,7 +1,10 @@
 # KubernetesClusterManager
 
 <span id="canCreate">
-`KubernetesClusterManager` is an `ExternalClusterManager` ([Apache Spark]({{ book.spark_core }}/scheduler/ExternalClusterManager)) that can create scheduler components for **k8s** master URLs.
+`KubernetesClusterManager` is an `ExternalClusterManager` ([Apache Spark]({{ book.spark_core }}/scheduler/ExternalClusterManager)) that can create scheduler components for **k8s** master URLs:
+
+* [TaskSchedulerImpl](#createTaskScheduler)
+* [KubernetesClusterSchedulerBackend](#createSchedulerBackend)
 
 `KubernetesClusterManager` is registered with Apache Spark using `META-INF/services/org.apache.spark.scheduler.ExternalClusterManager` service file.
 

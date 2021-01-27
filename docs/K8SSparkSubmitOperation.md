@@ -1,6 +1,6 @@
 # K8SSparkSubmitOperation
 
-`K8SSparkSubmitOperation` is a `SparkSubmitOperation` ([Apache Spark]({{ book.spark_core }}/tools/SparkSubmitOperation/)).
+`K8SSparkSubmitOperation` is a `SparkSubmitOperation` ([Apache Spark]({{ book.spark_core }}/tools/SparkSubmitOperation/)) for `spark-submit` for [Spark on Kubernetes](#supports).
 
 ## <span id="kill"> Killing Submission
 
@@ -57,6 +57,8 @@ execute(
   sparkConf: SparkConf,
   op: K8sSubmitOp): Unit
 ```
+
+`execute` [parses the master URL](KubernetesUtils.md#parseMasterUrl) (based on `spark.master` configuration property).
 
 `execute`...FIXME
 
