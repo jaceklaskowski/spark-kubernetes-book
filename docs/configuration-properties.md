@@ -10,6 +10,16 @@ Used when:
 
 * `ExecutorPodsAllocator` is [created](ExecutorPodsAllocator.md#podAllocationDelay)
 
+## <span id="spark.kubernetes.appKillPodDeletionGracePeriod"><span id="KUBERNETES_SUBMIT_GRACE_PERIOD"> spark.kubernetes.appKillPodDeletionGracePeriod
+
+**Grace Period** that is the time (in seconds) to wait for a graceful deletion of Spark pods when `spark-submit --kill`
+
+Default: (undefined)
+
+Used when:
+
+* `K8SSparkSubmitOperation` is requested to [kill](K8SSparkSubmitOperation.md#kill)
+
 ## <span id="spark.kubernetes.allocation.batch.size"><span id="KUBERNETES_ALLOCATION_BATCH_SIZE"> spark.kubernetes.allocation.batch.size
 
 Minimum number of executor pods to allocate at once in each round of executor allocation
