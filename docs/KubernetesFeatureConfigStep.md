@@ -49,7 +49,7 @@ Used when:
 * [BasicDriverFeatureStep](BasicDriverFeatureStep.md)
 * [BasicExecutorFeatureStep](BasicExecutorFeatureStep.md)
 * [DriverCommandFeatureStep](DriverCommandFeatureStep.md)
-* DriverKubernetesCredentialsFeatureStep
+* [DriverKubernetesCredentialsFeatureStep](DriverKubernetesCredentialsFeatureStep.md)
 * [DriverServiceFeatureStep](DriverServiceFeatureStep.md)
 * [EnvSecretsFeatureStep](EnvSecretsFeatureStep.md)
 * [ExecutorKubernetesCredentialsFeatureStep](ExecutorKubernetesCredentialsFeatureStep.md)

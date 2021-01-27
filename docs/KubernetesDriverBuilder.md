@@ -37,7 +37,7 @@ With [spark.kubernetes.driver.podTemplateFile](configuration-properties.md#spark
 In the end, `buildFromFeatures` [configures the driver pod specification](KubernetesFeatureConfigStep.md#configurePod) (with [additional system properties](KubernetesFeatureConfigStep.md#getAdditionalPodSystemProperties) and [additional resources](KubernetesFeatureConfigStep.md#getAdditionalKubernetesResources)) through a series of the feature steps:
 
 * [BasicDriverFeatureStep](BasicDriverFeatureStep.md)
-* DriverKubernetesCredentialsFeatureStep
+* [DriverKubernetesCredentialsFeatureStep](DriverKubernetesCredentialsFeatureStep.md)
 * [DriverServiceFeatureStep](DriverServiceFeatureStep.md)
 * [MountSecretsFeatureStep](MountSecretsFeatureStep.md)
 * [EnvSecretsFeatureStep](EnvSecretsFeatureStep.md)
