@@ -20,50 +20,11 @@ The project is based on or uses the following tools:
 
 * [Docker](https://www.docker.com/) to [run the Material for MkDocs](https://squidfunk.github.io/mkdocs-material/getting-started/#with-docker-recommended) (with extra plugins and extensions)
 
-## Previewing Book
+## Custom Docker Image
 
-### Custom Docker Image
+This book project uses a custom Docker image for previewing or publishing the content.
 
-This project uses a custom Docker image (based on the [Insiders](https://squidfunk.github.io/mkdocs-material/insiders/) image) since the [official Docker image](https://squidfunk.github.io/mkdocs-material/getting-started/#with-docker-recommended) includes just a few plugins only.
-
-Build the custom Docker image using the following command:
-
-```text
-docker build \
-  -t jaceklaskowski/mkdocs-material-insiders \
-  -t jaceklaskowski/mkdocs-material-insiders:6.2.3-insiders-1.15.0 \
-  .
-```
-
-### Building Book
-
-Run the following command to build the book.
-
-```text
-docker run \
-  -it \
-  -p 8000:8000 \
-  -v ${PWD}:/docs \
-  jaceklaskowski/mkdocs-material-insiders \
-  build --clean
-```
-
-**TIP:** Consult the [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/creating-your-site/) documentation to get started.
-
-### Live Editing
-
-Start `mkdocs serve` (with `--dirtyreload` for faster reloads) as follows:
-
-```shell
-docker run \
-  -it \
-  -p 8000:8000 \
-  -v ${PWD}:/docs \
-  jaceklaskowski/mkdocs-material-insiders \
-  serve --dirtyreload --verbose --dev-addr 0.0.0.0:8000
-```
-
-You should start the above command in the project root (the folder with [mkdocs.yml](mkdocs.yml)).
+Learn more in [The Internals Online Books](https://books.japila.pl/#custom-docker-image) project.
 
 ## No Sphinx?! Why?
 
