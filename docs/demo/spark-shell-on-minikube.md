@@ -251,3 +251,5 @@ Optionally (e.g. to start from scratch next time), delete all of the minikube cl
 ```text
 minikube delete --all
 ```
+
+_That's it. Congratulations!_

@@ -24,7 +24,7 @@ minikube start
 
 ## Build Spark Application Image
 
-Make sure you've got a Spark image available in minikube's Docker registry.
+Make sure you've got a Spark image available in minikube's Docker registry. Learn the steps in [Demo: spark-shell on minikube](spark-shell-on-minikube.md#build-spark-image).
 
 Point the shell to minikube's Docker daemon.
 
@@ -46,13 +46,13 @@ spark        v{{ spark.version }}   e64950545e8f   About an hour ago   509MB
 Publish the image of the Spark Structured Streaming application. It is project-dependent, and the project uses [sbt](https://www.scala-sbt.org/) with [sbt-native-packager](https://github.com/sbt/sbt-native-packager) plugin.
 
 ```text
-sbt clean spark-streams-demo/docker:publishLocal
+sbt clean docker:publishLocal
 ```
 
 List the images and make sure that the image of your Spark application project is available.
 
 ```text
-docker images 'spark-streams-demo'
+docker images spark-streams-demo
 ```
 
 ```text
@@ -68,6 +68,12 @@ cd $SPARK_HOME
 
 ```text
 K8S_SERVER=$(k config view --output=jsonpath='{.clusters[].cluster.server}')
+```
+
+Make sure that the Kubernetes resources (e.g. a namespace and a service account) are available in the cluster. Learn more in [Demo: Running Spark Application on minikube](running-spark-application-on-minikube.md#declaratively).
+
+```text
+k create -f rbac.yml
 ```
 
 The name of the pod is going to be based on the name of the container image for demo purposes. Pick what works for you.
@@ -101,7 +107,7 @@ One of the differences between streaming and batch Spark applications is that th
   local:///opt/spark/jars/meetup.spark-streams-demo-0.1.0.jar
 ```
 
-In the end, you should be given a so-called **submission ID**.
+In the end, you should be given a so-called **submission ID** that you're going to use with `spark-submit` tool (via [K8SSparkSubmitOperation](../K8SSparkSubmitOperation.md) extension).
 
 ```text
 INFO LoggingPodStatusWatcherImpl: Deployed Spark application spark-streams-demo with submission ID spark-demo:spark-streams-demo into Kubernetes
@@ -154,6 +160,8 @@ Application status (driver):
 
 ## Kill Spark Application
 
+In the end, you can `spark-submit --kill` the Spark Structured Streaming application.
+
 ```text
 ./bin/spark-submit \
   --master k8s://$K8S_SERVER \
@@ -165,3 +173,9 @@ You should see something similar to the following:
 ```text
 Submitting a request to kill submission spark-demo:spark-streams-demo in k8s://https://127.0.0.1:55004. Grace period in secs: not set.
 ```
+
+## Clean Up
+
+Clean up the cluster as described in [Demo: spark-shell on minikube](spark-shell-on-minikube.md#clean-up).
+
+_That's it. Congratulations!_

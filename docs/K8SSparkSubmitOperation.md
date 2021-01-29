@@ -1,6 +1,9 @@
 # K8SSparkSubmitOperation
 
-`K8SSparkSubmitOperation` is a `SparkSubmitOperation` ([Apache Spark]({{ book.spark_core }}/tools/SparkSubmitOperation/)) for `spark-submit` for [Spark on Kubernetes](#supports).
+`K8SSparkSubmitOperation` is an extension of `spark-submit` ([Apache Spark]({{ book.spark_core }}/tools/SparkSubmitOperation/)) for [Spark on Kubernetes](#supports) to support the operations:
+
+* [kill](#kill)
+* [status](#printSubmissionStatus)
 
 `K8SSparkSubmitOperation` is registered with Apache Spark using `META-INF/services/org.apache.spark.deploy.SparkSubmitOperation` service file.
 

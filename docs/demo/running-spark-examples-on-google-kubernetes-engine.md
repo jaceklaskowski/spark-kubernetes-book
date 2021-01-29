@@ -15,16 +15,18 @@ This demo focuses on the ubiquitous SparkPi example, but should let you run the 
 
 ## Before you begin
 
-Make sure to enable the Kubernetes Engine API (as described in [Deploying a containerized web application](https://cloud.google.com/kubernetes-engine/docs/tutorials/hello-app#before-you-begin)).
+Open up a Google Cloud project in the [Google Cloud Console](https://console.cloud.google.com/) and enable the Kubernetes Engine API (as described in [Deploying a containerized web application](https://cloud.google.com/kubernetes-engine/docs/tutorials/hello-app#before-you-begin)).
 
 Review [Demo: Running Spark Examples on minikube](running-spark-application-on-minikube.md) to build a basic understanding of the process of deploying Spark applications to a local Kubernetes cluster using minikube.
 
-## Building Spark Container Image
+## Prepare Spark Base Image
 
 ```text
 export PROJECT_ID=$(gcloud info --format='value(config.project)')
 export GCP_CR=eu.gcr.io/${PROJECT_ID}
 ```
+
+### Build Spark Image
 
 Build and push a Apache Spark base image to [Container Registry](https://cloud.google.com/container-registry/docs) on Google Cloud Platform.
 
@@ -134,8 +136,8 @@ Wait a few minutes before the GKE cluster is ready. In the end, you should see a
 
 ```text
 kubeconfig entry generated for spark-examples-cluster.
-NAME                    LOCATION        MASTER_VERSION    MASTER_IP      MACHINE_TYPE  NODE_VERSION      NUM_NODES  STATUS
-spark-examples-cluster  europe-west3-b  1.18.14-gke.1200  35.198.74.105  e2-medium     1.18.14-gke.1200  3          RUNNING
+NAME                    LOCATION        MASTER_VERSION    MASTER_IP       MACHINE_TYPE  NODE_VERSION      NUM_NODES  STATUS
+spark-examples-cluster  europe-west3-b  1.18.14-gke.1600  35.242.198.169  e2-medium     1.18.14-gke.1600  3          RUNNING
 ```
 
 Review the configuration of the GKE cluster.
