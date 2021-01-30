@@ -152,7 +152,7 @@ Review the cluster's VM instances.
 gcloud compute instances list
 ```
 
-## Running SparkPi on GKE
+## Run SparkPi on GKE
 
 !!! note
     What follows is a more succinct version of [Demo: Running Spark Application on minikube](running-spark-application-on-minikube.md).
@@ -192,10 +192,10 @@ roleRef:
 Use `k create` to create the Kubernetes resources.
 
 ```text
-k create -f rbac.yml
+k create -f k8s/rbac.yml
 ```
 
-### Run SparkPi
+### Submit SparkPi
 
 ```text
 cd $SPARK_HOME
@@ -241,7 +241,7 @@ In the end, review the logs.
 k logs -n spark-demo $POD_NAME
 ```
 
-## Cleaning up
+## Clean Up
 
 Delete the GKE cluster.
 

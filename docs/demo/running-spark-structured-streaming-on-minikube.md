@@ -73,7 +73,7 @@ K8S_SERVER=$(k config view --output=jsonpath='{.clusters[].cluster.server}')
 Make sure that the Kubernetes resources (e.g. a namespace and a service account) are available in the cluster. Learn more in [Demo: Running Spark Application on minikube](running-spark-application-on-minikube.md#declaratively).
 
 ```text
-k create -f rbac.yml
+k create -f k8s/rbac.yml
 ```
 
 The name of the pod is going to be based on the name of the container image for demo purposes. Pick what works for you.
@@ -122,7 +122,7 @@ export SUBMISSION_ID=spark-demo:spark-streams-demo
 Once submitted, observe pods in another terminal. Make sure you use `spark-demo` namespace.
 
 ```text
-k get po -w
+k get po -w -n spark-demo
 ```
 
 ## Request Status of Spark Application
