@@ -116,6 +116,7 @@ nav:
       - ExecutorPodsWatcher: ExecutorPodsWatcher.md
     - ExecutorPodsPollingSnapshotSource: ExecutorPodsPollingSnapshotSource.md
     - ExecutorPodsSnapshotsStoreImpl: ExecutorPodsSnapshotsStoreImpl.md
+    - SnapshotsSubscriber: SnapshotsSubscriber.md
     - ExecutorPodsAllocator: ExecutorPodsAllocator.md
     - KubernetesExecutorBuilder: KubernetesExecutorBuilder.md
     - LoggingPodStatusWatcher: LoggingPodStatusWatcher.md
