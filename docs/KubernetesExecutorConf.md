@@ -1,6 +1,6 @@
 # KubernetesExecutorConf
 
-`KubernetesExecutorConf` is a [KubernetesConf](KubernetesConf.md) (for [KubernetesExecutorBuilder](KubernetesExecutorBuilder.md) to [build an executor pod](KubernetesExecutorBuilder.md#buildFromFeatures)).
+`KubernetesExecutorConf` is a [KubernetesConf](KubernetesConf.md) (for [KubernetesExecutorBuilder](KubernetesExecutorBuilder.md) to [build a pod spec for executors](KubernetesExecutorBuilder.md#buildFromFeatures)).
 
 ![KubernetesExecutorConf, ExecutorPodsAllocator and KubernetesExecutorBuilder](images/KubernetesExecutorConf.png)
 

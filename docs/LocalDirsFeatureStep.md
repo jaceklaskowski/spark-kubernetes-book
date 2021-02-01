@@ -12,7 +12,7 @@
 `LocalDirsFeatureStep` is created when:
 
 * `KubernetesDriverBuilder` is requested to [build a driver pod](KubernetesDriverBuilder.md#buildFromFeatures)
-* `KubernetesExecutorBuilder` is requested to [build an executor pod](KubernetesExecutorBuilder.md#buildFromFeatures)
+* `KubernetesExecutorBuilder` is requested for a [pod spec for executors](KubernetesExecutorBuilder.md#buildFromFeatures)
 
 ## <span id="useLocalDirTmpFs"> spark.kubernetes.local.dirs.tmpfs
 

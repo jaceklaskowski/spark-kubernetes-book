@@ -11,7 +11,7 @@
 `MountVolumesFeatureStep` is created when:
 
 * `KubernetesDriverBuilder` is requested to [build a driver pod spec](KubernetesDriverBuilder.md#buildFromFeatures)
-* `KubernetesExecutorBuilder` is requested to [build an executor pod spec](KubernetesExecutorBuilder.md#buildFromFeatures)
+* `KubernetesExecutorBuilder` is requested for a [pod spec for executors](KubernetesExecutorBuilder.md#buildFromFeatures)
 
 ## <span id="configurePod"> Configuring Driver Pod
 

@@ -11,7 +11,7 @@
 
 `BasicExecutorFeatureStep` is created when:
 
-* `KubernetesExecutorBuilder` is requested to [build a pod spec for executors](KubernetesExecutorBuilder.md#buildFromFeatures)
+* `KubernetesExecutorBuilder` is requested for a [pod spec for executors](KubernetesExecutorBuilder.md#buildFromFeatures)
 
 ## <span id="executorContainerImage"> Executor Container Image Name
 

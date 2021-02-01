@@ -48,6 +48,17 @@ FIXME
 
 FIXME
 
+## <span id="spark.kubernetes.authenticate.driver.serviceAccountName"><span id="KUBERNETES_DRIVER_SERVICE_ACCOUNT_NAME"> spark.kubernetes.authenticate.driver.serviceAccountName
+
+Service account for a driver pod (for requesting executor pods from the API server)
+
+Default: (undefined)
+
+Used when:
+
+* `DriverKubernetesCredentialsFeatureStep` is requested to [configure a pod](DriverKubernetesCredentialsFeatureStep.md#driverServiceAccount)
+* `ExecutorKubernetesCredentialsFeatureStep` is requested to [configure a pod](ExecutorKubernetesCredentialsFeatureStep.md#driverServiceAccount)
+
 ## <span id="spark.kubernetes.authenticate.executor.serviceAccountName"><span id="KUBERNETES_EXECUTOR_SERVICE_ACCOUNT_NAME"> spark.kubernetes.authenticate.executor.serviceAccountName
 
 Service account for executor pods
@@ -251,7 +262,7 @@ Default: (undefined)
 Used when:
 
 * `KubernetesClusterManager` is requested to [create a SchedulerBackend](KubernetesClusterManager.md#createSchedulerBackend)
-* `KubernetesExecutorBuilder` is requested to [build an executor pod](KubernetesExecutorBuilder.md#buildFromFeatures)
+* `KubernetesExecutorBuilder` is requested for a [pod spec for executors](KubernetesExecutorBuilder.md#buildFromFeatures)
 * `PodTemplateConfigMapStep` is [created](PodTemplateConfigMapStep.md#hasTemplate) and requested to [configurePod](PodTemplateConfigMapStep.md#configurePod), [getAdditionalPodSystemProperties](PodTemplateConfigMapStep.md#getAdditionalPodSystemProperties), [getAdditionalKubernetesResources](PodTemplateConfigMapStep.md#getAdditionalKubernetesResources)
 
 ## <span id="spark.kubernetes.executor.request.cores"><span id="KUBERNETES_EXECUTOR_REQUEST_CORES"> spark.kubernetes.executor.request.cores
