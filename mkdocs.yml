@@ -158,4 +158,4 @@ nav:
     - Running Spark Examples on Google Kubernetes Engine: demo/running-spark-examples-on-google-kubernetes-engine.md
     - Deploying Spark Application to Google Kubernetes Engine: demo/deploying-spark-application-to-google-kubernetes-engine.md
     - Running Spark Structured Streaming on minikube: demo/running-spark-structured-streaming-on-minikube.md
-    - Using Persistent Disk for Checkpoint Location in Spark Structured Streaming on Google Kubernetes Engine: demo/using-persistent-disk-for-checkpoint-location-in-spark-structured-streaming-on-google-kubernetes-engine.md
+    - Using Cloud Storage for Checkpoint Location in Spark Structured Streaming on Google Kubernetes Engine: demo/using-cloud-storage-for-checkpoint-location-in-spark-structured-streaming-on-google-kubernetes-engine.md
