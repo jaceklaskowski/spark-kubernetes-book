@@ -15,9 +15,6 @@ The demo uses the [Cloud Storage connector](https://cloud.google.com/dataproc/do
 
 The most challenging task in the demo has been to include necessary dependencies in a Docker image to support the `gs://` prefix.
 
-!!! danger "Work in Progress"
-    The demo is a work in progress.
-
 ## Before you begin
 
 It is assumed that you have finished the following:
@@ -35,7 +32,8 @@ export GCP_CR=eu.gcr.io/${PROJECT_ID}
 
 export CLUSTER_NAME=spark-examples-cluster
 
-export BUCKET_NAME=gs://spark-on-kubernetes-2021
+# Has to end with /
+export BUCKET_NAME=gs://spark-on-kubernetes-2021/
 
 export K8S_SERVER=$(kubectl config view --output=jsonpath='{.clusters[].cluster.server}')
 export POD_NAME=spark-streams-google-storage-demo
@@ -43,6 +41,9 @@ export SPARK_IMAGE=$GCP_CR/spark-streams-google-storage-demo:0.1.0
 
 export K8S_NAMESPACE=spark-demo
 export SUBMISSION_ID=$K8S_NAMESPACE:$POD_NAME
+
+export KEY_JSON=spark-on-kubernetes-2021.json
+export MOUNT_PATH=/opt/spark/secrets
 ```
 
 ## Build Spark Application Image
@@ -63,17 +64,31 @@ Go to your Spark application project and build the image.
 sbt spark-streams-google-storage-demo/docker:publishLocal
 ```
 
-Push the Spark application image to the [Container Registry](https://cloud.google.com/container-registry/docs) on Google Cloud Platform.
-
-Use [docker tag](https://docs.docker.com/engine/reference/commandline/tag/) followed by [docker image push](https://docs.docker.com/engine/reference/commandline/image_push/). Unless you've done it already at build time.
+```text
+docker images $GCP_CR/spark-streams-google-storage-demo
+```
 
 ```text
-docker tag spark-streams-google-storage-demo:0.1.0 $GCP_CR/spark-streams-google-storage-demo:0.1.0
+REPOSITORY                                                             TAG       IMAGE ID       CREATED      SIZE
+eu.gcr.io/spark-on-kubernetes-2021/spark-streams-google-storage-demo   0.1.0     e9b3ee2bb2e0   2 days ago   533MB
 ```
+
+??? tip "docker tag"
+    Use [docker tag](https://docs.docker.com/engine/reference/commandline/tag/) unless you've done it already at build time.
+
+    ```text
+    docker tag spark-streams-google-storage-demo:0.1.0 $GCP_CR/spark-streams-google-storage-demo:0.1.0
+    ```
+
+### Push Image to Container Registry
+
+Use [docker image push](https://docs.docker.com/engine/reference/commandline/image_push/) to push the Spark application image to the [Container Registry](https://cloud.google.com/container-registry/docs) on Google Cloud Platform.
 
 ```text
 docker push $GCP_CR/spark-streams-google-storage-demo:0.1.0
 ```
+
+### Display Images
 
 List the available images.
 
@@ -83,8 +98,6 @@ gcloud container images list --repository $GCP_CR
 
 ```text
 NAME
-eu.gcr.io/spark-on-kubernetes-2021/spark
-eu.gcr.io/spark-on-kubernetes-2021/spark-streams-demo
 eu.gcr.io/spark-on-kubernetes-2021/spark-streams-google-storage-demo
 ```
 
@@ -97,7 +110,7 @@ gcloud container clusters create $CLUSTER_NAME \
   --cluster-version=latest
 ```
 
-Wait a few minutes before the GKE cluster is ready.
+Wait a few minutes before the cluster is ready.
 
 In the end, you should see the messages as follows:
 
@@ -123,15 +136,13 @@ Quoting [Connecting to Cloud Storage buckets](https://cloud.google.com/compute/d
 gsutil mb -b on $BUCKET_NAME
 ```
 
-```text
-Creating gs://spark-on-kubernetes-2021/...
-```
-
 ### List Contents of Bucket
 
 ```text
 gsutil ls -l $BUCKET_NAME
 ```
+
+There should be no output really since you've just created it.
 
 ## Run Spark Structured Streaming on GKE
 
@@ -149,19 +160,41 @@ serviceaccount/spark created
 clusterrolebinding.rbac.authorization.k8s.io/spark-role created
 ```
 
-### Create Service Account with Browser Role
+### Create Service Account Credentials
 
-Loading data from a bucket in a Spark application requires a service account with Browser role.
+As the Spark application will need access to Google Cloud services, it requires a [service account](https://cloud.google.com/compute/docs/access/service-accounts).
+
+!!! tip
+    Learn more in [Authenticating to Google Cloud with service accounts](https://cloud.google.com/kubernetes-engine/docs/tutorials/authenticating-to-cloud-platform) tutorial. The most important section is [Creating service account credentials](https://cloud.google.com/kubernetes-engine/docs/tutorials/authenticating-to-cloud-platform#step_3_create_service_account_credentials).
+
+You should have a JSON key file containing the credentials of the service account to authenticate the application with.
+
+### Import Credentials as Kubernetes Secret
+
+!!! tip
+    Learn more in [Authenticating to Google Cloud with service accounts](https://cloud.google.com/kubernetes-engine/docs/tutorials/authenticating-to-cloud-platform) tutorial. The most important section is [Importing credentials as a Secret](https://cloud.google.com/kubernetes-engine/docs/tutorials/authenticating-to-cloud-platform#importing_credentials_as_a_secret).
+
+The recommended way of using the JSON key file with the service account in Kubernetes is using [Secret](https://cloud.google.com/kubernetes-engine/docs/concepts/secret) resource type.
 
 ```text
-FIXME
+kubectl create secret generic spark-sa \
+  --from-file=key.json=$KEY_JSON \
+  -n $K8S_NAMESPACE
 ```
+
+### Configure Spark Application with Kubernetes Secret
+
+!!! tip
+    Learn more in [Authenticating to Google Cloud with service accounts](https://cloud.google.com/kubernetes-engine/docs/tutorials/authenticating-to-cloud-platform) tutorial. The most important section is [Configuring the application with the Secret](https://cloud.google.com/kubernetes-engine/docs/tutorials/authenticating-to-cloud-platform#configuring_the_application_with_the_secret).
 
 In order to use the service account and access the bucket using `gs://` URI scheme you are going to use the following additional configuration properties:
 
 ```text
---conf spark.hadoop.fs.gs.impl=com.google.cloud.hadoop.fs.gcs.GoogleHadoopFileSystem
---conf spark.hadoop.google.cloud.auth.service.account.enable=true
+--conf spark.kubernetes.driver.secrets.spark-sa=$MOUNT_PATH
+--conf spark.kubernetes.executor.secrets.spark-sa=$MOUNT_PATH
+--conf spark.kubernetes.driverEnv.GOOGLE_APPLICATION_CREDENTIALS=$MOUNT_PATH/key.json
+--conf spark.kubernetes.executorEnv.GOOGLE_APPLICATION_CREDENTIALS=$MOUNT_PATH/key.json
+--conf spark.hadoop.google.cloud.auth.service.account.json.keyfile=$MOUNT_PATH/key.json
 ```
 
 ### Submit Spark Application
@@ -187,11 +220,19 @@ k delete po --all -n $K8S_NAMESPACE
   --conf spark.kubernetes.namespace=$K8S_NAMESPACE \
   --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \
   --conf spark.kubernetes.submission.waitAppCompletion=false \
-  --conf spark.hadoop.fs.gs.impl=com.google.cloud.hadoop.fs.gcs.GoogleHadoopFileSystem \
+  --conf spark.kubernetes.driver.secrets.spark-sa=$MOUNT_PATH \
+  --conf spark.kubernetes.executor.secrets.spark-sa=$MOUNT_PATH \
+  --conf spark.kubernetes.driverEnv.GOOGLE_APPLICATION_CREDENTIALS=$MOUNT_PATH/key.json \
+  --conf spark.kubernetes.executorEnv.GOOGLE_APPLICATION_CREDENTIALS=$MOUNT_PATH/key.json \
   --conf spark.hadoop.google.cloud.auth.service.account.enable=true \
+  --conf spark.hadoop.google.cloud.auth.service.account.json.keyfile=$MOUNT_PATH/key.json \
+  --conf spark.hadoop.fs.gs.project.id=$PROJECT_ID \
   --verbose \
   local:///opt/spark/jars/meetup.spark-streams-demo-0.1.0.jar $BUCKET_NAME
 ```
+
+!!! tip "Installing Google Cloud Storage connector for Hadoop"
+    Learn more in [Installing the connector](https://github.com/GoogleCloudDataproc/hadoop-connectors/blob/master/gcs/INSTALL.md).
 
 ### Monitoring
 
@@ -205,28 +246,6 @@ Observe pods in another terminal.
 
 ```text
 k get po -w -n $K8S_NAMESPACE
-```
-
-## FIXME NullPointerException: projectId must not be null
-
-```text
-Exception in thread "main" java.lang.NullPointerException: projectId must not be null
-	at com.google.cloud.hadoop.repackaged.gcs.com.google.common.base.Preconditions.checkNotNull(Preconditions.java:897)
-	at com.google.cloud.hadoop.repackaged.gcs.com.google.cloud.hadoop.gcsio.GoogleCloudStorageImpl.createBucket(GoogleCloudStorageImpl.java:437)
-	at com.google.cloud.hadoop.repackaged.gcs.com.google.cloud.hadoop.gcsio.GoogleCloudStorage.createBucket(GoogleCloudStorage.java:88)
-	at com.google.cloud.hadoop.repackaged.gcs.com.google.cloud.hadoop.gcsio.GoogleCloudStorageFileSystem.mkdirsInternal(GoogleCloudStorageFileSystem.java:456)
-	at com.google.cloud.hadoop.repackaged.gcs.com.google.cloud.hadoop.gcsio.GoogleCloudStorageFileSystem.mkdirs(GoogleCloudStorageFileSystem.java:444)
-	at com.google.cloud.hadoop.fs.gcs.GoogleHadoopFileSystemBase.mkdirs(GoogleHadoopFileSystemBase.java:911)
-	at org.apache.hadoop.fs.FileSystem.mkdirs(FileSystem.java:2275)
-	at org.apache.spark.sql.execution.streaming.StreamExecution.<init>(StreamExecution.scala:137)
-	at org.apache.spark.sql.execution.streaming.MicroBatchExecution.<init>(MicroBatchExecution.scala:50)
-	at org.apache.spark.sql.streaming.StreamingQueryManager.createQuery(StreamingQueryManager.scala:317)
-	at org.apache.spark.sql.streaming.StreamingQueryManager.startQuery(StreamingQueryManager.scala:359)
-	at org.apache.spark.sql.streaming.DataStreamWriter.startQuery(DataStreamWriter.scala:466)
-	at org.apache.spark.sql.streaming.DataStreamWriter.startInternal(DataStreamWriter.scala:456)
-	at org.apache.spark.sql.streaming.DataStreamWriter.start(DataStreamWriter.scala:301)
-	at meetup.SparkStreamsApp$.delayedEndpoint$meetup$SparkStreamsApp$1(SparkStreamsApp.scala:25)
-	at meetup.SparkStreamsApp$delayedInit$body.apply(SparkStreamsApp.scala:7)
 ```
 
 ## Google Cloud Console
