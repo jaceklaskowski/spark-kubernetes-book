@@ -196,15 +196,15 @@
      <lastmod>2021-02-09</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
+     <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/demo/running-spark-structured-streaming-on-minikube/</loc>
+     <lastmod>2021-02-09</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/demo/running-spark-examples-on-google-kubernetes-engine/</loc>
      <lastmod>2021-02-09</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/demo/deploying-spark-application-to-google-kubernetes-engine/</loc>
-     <lastmod>2021-02-09</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://jaceklaskowski.github.io/spark-kubernetes-book/demo/running-spark-structured-streaming-on-minikube/</loc>
      <lastmod>2021-02-09</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
