@@ -4,24 +4,24 @@ export GCP_CR=eu.gcr.io/${PROJECT_ID}
 </code></pre></div> <h3 id=build-spark-image>Build Spark Image<a class=headerlink href=#build-spark-image title="Permanent link">&para;</a></h3> <p>Build and push a Apache Spark base image to <a href=https://cloud.google.com/container-registry/docs>Container Registry</a> on Google Cloud Platform.</p> <div class=highlight><pre><span></span><code>cd $SPARK_HOME
 </code></pre></div> <div class=highlight><pre><span></span><code>./bin/docker-image-tool.sh \
   -r $GCP_CR \
-  -t v3.1.1-rc1 \
+  -t v3.1.1-rc2 \
   build
 </code></pre></div> <p>List the images using <a href=https://docs.docker.com/engine/reference/commandline/images/ >docker images</a> command (and some other fancy options).</p> <div class=highlight><pre><span></span><code>docker images &quot;$GCP_CR/*&quot; \
   --format &quot;table {{.Repository}}\t{{.Tag}}&quot;
 </code></pre></div> <div class=highlight><pre><span></span><code>REPOSITORY                                 TAG
-eu.gcr.io/spark-on-kubernetes-2021/spark   v3.1.1-rc1
+eu.gcr.io/spark-on-kubernetes-2021/spark   v3.1.1-rc2
 </code></pre></div> <h3 id=push-spark-image-to-container-registry>Push Spark Image to Container Registry<a class=headerlink href=#push-spark-image-to-container-registry title="Permanent link">&para;</a></h3> <p>Push the container image to the Container Registry so that a GKE cluster can run it in a pod (as described in <a href=https://cloud.google.com/kubernetes-engine/docs/tutorials/hello-app#pushing_the_docker_image_to>Pushing the Docker image to Container Registry</a>).</p> <div class=highlight><pre><span></span><code>gcloud auth configure-docker
 </code></pre></div> <div class=highlight><pre><span></span><code>./bin/docker-image-tool.sh \
   -r $GCP_CR \
-  -t v3.1.1-rc1 \
+  -t v3.1.1-rc2 \
   push
 </code></pre></div> <h3 id=list-images>List Images<a class=headerlink href=#list-images title="Permanent link">&para;</a></h3> <p>Use <a href=https://cloud.google.com/sdk/gcloud/reference/container/images/list>gcloud container images list</a> to list the Spark image in the repository.</p> <div class=highlight><pre><span></span><code>gcloud container images list --repository $GCP_CR
 </code></pre></div> <div class=highlight><pre><span></span><code>NAME
 eu.gcr.io/spark-on-kubernetes-2021/spark
 </code></pre></div> <h3 id=list-tags>List Tags<a class=headerlink href=#list-tags title="Permanent link">&para;</a></h3> <p>Use <a href=https://cloud.google.com/sdk/gcloud/reference/container/images/list-tags>gcloud container images list-tags</a> to list tags and digests for the specified image.</p> <div class=highlight><pre><span></span><code>gcloud container images list-tags $GCP_CR/spark
 </code></pre></div> <div class=highlight><pre><span></span><code>DIGEST        TAGS        TIMESTAMP
-9a50d1435bbe  v3.1.1-rc1  2021-01-26T13:02:11
-</code></pre></div> <h3 id=describe-spark-image>Describe Spark Image<a class=headerlink href=#describe-spark-image title="Permanent link">&para;</a></h3> <p>Use <a href=https://cloud.google.com/sdk/gcloud/reference/container/images/describe>gcloud container images describe</a> to list information about the Spark image.</p> <div class=highlight><pre><span></span><code>gcloud container images describe $GCP_CR/spark:v3.1.1-rc1
+9a50d1435bbe  v3.1.1-rc2  2021-01-26T13:02:11
+</code></pre></div> <h3 id=describe-spark-image>Describe Spark Image<a class=headerlink href=#describe-spark-image title="Permanent link">&para;</a></h3> <p>Use <a href=https://cloud.google.com/sdk/gcloud/reference/container/images/describe>gcloud container images describe</a> to list information about the Spark image.</p> <div class=highlight><pre><span></span><code>gcloud container images describe $GCP_CR/spark:v3.1.1-rc2
 </code></pre></div> <div class=highlight><pre><span></span><code>image_summary:
   digest: sha256:9a50d1435bbe81dd3a23d3e43c244a0bfc37e14fb3754b68431cbf8510360b84
   fully_qualified_digest: eu.gcr.io/spark-on-kubernetes-2021/spark@sha256:9a50d1435bbe81dd3a23d3e43c244a0bfc37e14fb3754b68431cbf8510360b84
@@ -65,7 +65,7 @@ roleRef:
 </code></pre></div> <h3 id=submit-sparkpi>Submit SparkPi<a class=headerlink href=#submit-sparkpi title="Permanent link">&para;</a></h3> <div class=highlight><pre><span></span><code>cd $SPARK_HOME
 </code></pre></div> <div class=highlight><pre><span></span><code>export K8S_SERVER=$(kubectl config view --output=jsonpath=&#39;{.clusters[].cluster.server}&#39;)
 export POD_NAME=spark-examples-pod
-export SPARK_IMAGE=$GCP_CR/spark:v3.1.1-rc1
+export SPARK_IMAGE=$GCP_CR/spark:v3.1.1-rc2
 </code></pre></div> <div class="admonition important"> <p class=admonition-title>Important</p> <p>For the time being we're going to use <code>spark-submit</code> not <code>run-example</code>. See <a href=../running-spark-examples-on-minikube/#running-sparkpi-on-minikube>Demo: Running Spark Examples on minikube</a> for more information.</p> </div> <div class=highlight><pre><span></span><code>./bin/spark-submit \
   --master k8s://$K8S_SERVER \
   --deploy-mode cluster \

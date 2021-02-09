@@ -6,7 +6,7 @@
   --deploy-mode cluster \
   --name $POD_NAME \
   --jars local:///opt/spark/examples/jars/spark-examples_2.12-3.1.1.jar \
-  --conf spark.kubernetes.container.image=spark:v3.1.1-rc1 \
+  --conf spark.kubernetes.container.image=spark:v3.1.1-rc2 \
   --conf spark.kubernetes.driver.pod.name=$POD_NAME \
   --conf spark.kubernetes.namespace=spark-demo \
   --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \
@@ -17,7 +17,7 @@
   --deploy-mode cluster \
   --name $POD_NAME \
   --class org.apache.spark.examples.SparkPi \
-  --conf spark.kubernetes.container.image=spark:v3.1.1-rc1 \
+  --conf spark.kubernetes.container.image=spark:v3.1.1-rc2 \
   --conf spark.kubernetes.driver.pod.name=$POD_NAME \
   --conf spark.kubernetes.namespace=spark-demo \
   --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \
@@ -37,7 +37,7 @@
   --conf spark.kubernetes.driver.podTemplateFile=pod-template.yml \
   --name $POD_NAME \
   --class org.apache.spark.examples.SparkPi \
-  --conf spark.kubernetes.container.image=spark:v3.1.1-rc1 \
+  --conf spark.kubernetes.container.image=spark:v3.1.1-rc2 \
   --conf spark.kubernetes.driver.pod.name=$POD_NAME \
   --conf spark.kubernetes.namespace=spark-demo \
   --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \
@@ -63,7 +63,7 @@
   --conf spark.kubernetes.memoryOverheadFactor=0.5 \
   --name $POD_NAME \
   --class org.apache.spark.examples.SparkPi \
-  --conf spark.kubernetes.container.image=spark:v3.1.1-rc1 \
+  --conf spark.kubernetes.container.image=spark:v3.1.1-rc2 \
   --conf spark.kubernetes.driver.pod.name=$POD_NAME \
   --conf spark.kubernetes.namespace=spark-demo \
   --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \

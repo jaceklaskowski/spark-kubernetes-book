@@ -2,7 +2,7 @@
 </code></pre></div> <h2 id=build-spark-application-image>Build Spark Application Image<a class=headerlink href=#build-spark-application-image title="Permanent link">&para;</a></h2> <p>Make sure you've got a Spark image available in minikube's Docker registry. Learn the steps in <a href=../spark-shell-on-minikube/#build-spark-image>Demo: spark-shell on minikube</a>.</p> <p>Point the shell to minikube's Docker daemon.</p> <div class=highlight><pre><span></span><code>eval $(minikube -p minikube docker-env)
 </code></pre></div> <p>List the Spark image. Make sure it matches the version of Spark you want to work with.</p> <div class=highlight><pre><span></span><code>docker images spark
 </code></pre></div> <div class=highlight><pre><span></span><code>REPOSITORY   TAG          IMAGE ID       CREATED             SIZE
-spark        v3.1.1-rc1   e64950545e8f   About an hour ago   509MB
+spark        v3.1.1-rc2   e64950545e8f   About an hour ago   509MB
 </code></pre></div> <p>Publish the image of the Spark Structured Streaming application. It is project-dependent, and the project uses <a href=https://www.scala-sbt.org/ >sbt</a> with <a href=https://github.com/sbt/sbt-native-packager>sbt-native-packager</a> plugin.</p> <div class=highlight><pre><span></span><code>sbt clean docker:publishLocal
 </code></pre></div> <p>List the images and make sure that the image of your Spark application project is available.</p> <div class=highlight><pre><span></span><code>docker images spark-streams-demo
 </code></pre></div> <div class=highlight><pre><span></span><code>REPOSITORY           TAG       IMAGE ID       CREATED         SIZE

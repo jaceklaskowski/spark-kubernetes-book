@@ -28,13 +28,13 @@ k8s.gcr.io/pause                          3.2        80d28bedfe5d   11 months ag
 </code></pre></div> <div class="admonition tip"> <p class=admonition-title>Tip</p> <p>Review <code>kubernetes/dockerfiles/spark</code> (in your Spark installation) or <code>resource-managers/kubernetes/docker</code> (in the Spark source code).</p> </div> <h3 id=docker-image-tool>docker-image-tool<a class=headerlink href=#docker-image-tool title="Permanent link">&para;</a></h3> <p>Build and publish the Spark image. Note <code>-m</code> option to point the shell script to use minikube's Docker daemon.</p> <div class=highlight><pre><span></span><code>./bin/docker-image-tool.sh \
   -m \
   -b java_image_tag=11-jre-slim \
-  -t v3.1.1-rc1 \
+  -t v3.1.1-rc2 \
   build
 </code></pre></div> <div class="admonition note"> <p class=admonition-title>Note</p> <p>As of Spark 3.1.1, <code>java_image_tag</code> argument is assumed <code>11-jre-slim</code> (and so <code>-b java_image_tag=11-jre-slim</code> could've been skipped in the above command).</p> </div> <h3 id=docker-images>docker images<a class=headerlink href=#docker-images title="Permanent link">&para;</a></h3> <p>Point the shell to minikube's Docker daemon.</p> <div class=highlight><pre><span></span><code>eval $(minikube -p minikube docker-env)
 </code></pre></div> <p>List the Spark image.</p> <div class=highlight><pre><span></span><code>docker images spark
 </code></pre></div> <div class=highlight><pre><span></span><code>REPOSITORY   TAG          IMAGE ID       CREATED          SIZE
-spark        v3.1.1-rc1   ad49befe3d09   19 seconds ago   509MB
-</code></pre></div> <h3 id=docker-image-inspect>docker image inspect<a class=headerlink href=#docker-image-inspect title="Permanent link">&para;</a></h3> <p>Use <a href=https://docs.docker.com/engine/reference/commandline/image_inspect/ >docker image inspect</a> command to display detailed information on the Spark image.</p> <div class=highlight><pre><span></span><code>docker image inspect spark:v3.1.1-rc1
+spark        v3.1.1-rc2   ad49befe3d09   19 seconds ago   509MB
+</code></pre></div> <h3 id=docker-image-inspect>docker image inspect<a class=headerlink href=#docker-image-inspect title="Permanent link">&para;</a></h3> <p>Use <a href=https://docs.docker.com/engine/reference/commandline/image_inspect/ >docker image inspect</a> command to display detailed information on the Spark image.</p> <div class=highlight><pre><span></span><code>docker image inspect spark:v3.1.1-rc2
 </code></pre></div> <h2 id=create-namespace>Create Namespace<a class=headerlink href=#create-namespace title="Permanent link">&para;</a></h2> <p>This step is optional, but gives a better exposure to the Kubernetes features supported by Apache Spark and is highly recommended.</p> <div class="admonition tip"> <p class=admonition-title>Tip</p> <p>Learn more in <a href=https://kubernetes.io/docs/tasks/administer-cluster/namespaces/#creating-a-new-namespace>Creating a new namespace</a>.</p> </div> <div class=highlight><pre><span></span><code>k create ns spark-demo
 </code></pre></div> <p>Set <code>spark-demo</code> as the default namespace using <a href=https://github.com/ahmetb/kubectx>kubens</a> tool.</p> <div class=highlight><pre><span></span><code>kubens spark-demo
 </code></pre></div> <h2 id=spark-logging>Spark Logging<a class=headerlink href=#spark-logging title="Permanent link">&para;</a></h2> <p>Enable <code>ALL</code> logging level for Kubernetes-related loggers to see what happens inside.</p> <p>Add the following line to <code>conf/log4j.properties</code>:</p> <div class=highlight><pre><span></span><code>log4j.logger.org.apache.spark.deploy.k8s=ALL
@@ -43,7 +43,7 @@ log4j.logger.org.apache.spark.scheduler.cluster.k8s=ALL
 </code></pre></div> <div class=highlight><pre><span></span><code>K8S_SERVER=$(k config view --output=jsonpath=&#39;{.clusters[].cluster.server}&#39;)
 </code></pre></div> <div class=highlight><pre><span></span><code>./bin/spark-shell \
   --master k8s://$K8S_SERVER \
-  --conf spark.kubernetes.container.image=spark:v3.1.1-rc1 \
+  --conf spark.kubernetes.container.image=spark:v3.1.1-rc2 \
   --conf spark.kubernetes.context=minikube \
   --conf spark.kubernetes.namespace=spark-demo \
   --verbose

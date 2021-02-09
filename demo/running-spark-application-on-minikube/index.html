@@ -2,8 +2,8 @@
 </code></pre></div> <h2 id=build-spark-application-image>Build Spark Application Image<a class=headerlink href=#build-spark-application-image title="Permanent link">&para;</a></h2> <p>Make sure you've got a Spark image available in minikube's Docker registry.</p> <p>Point the shell to minikube's Docker daemon.</p> <div class=highlight><pre><span></span><code>eval $(minikube -p minikube docker-env)
 </code></pre></div> <p>List the Spark image.</p> <div class=highlight><pre><span></span><code>docker images spark
 </code></pre></div> <div class=highlight><pre><span></span><code>REPOSITORY   TAG          IMAGE ID       CREATED             SIZE
-spark        v3.1.1-rc1   e64950545e8f   About an hour ago   509MB
-</code></pre></div> <p>Use this image in your Spark application:</p> <div class=highlight><pre><span></span><code>FROM spark:v3.1.1-rc1
+spark        v3.1.1-rc2   e64950545e8f   About an hour ago   509MB
+</code></pre></div> <p>Use this image in your Spark application:</p> <div class=highlight><pre><span></span><code>FROM spark:v3.1.1-rc2
 </code></pre></div> <p>In your Spark application project execute the command to build and push a Docker image to minikube's Docker repository.</p> <div class=highlight><pre><span></span><code>sbt clean meetup-spark-app/docker:publishLocal
 </code></pre></div> <p>List the images and make sure that the image of your Spark application project is available.</p> <div class=highlight><pre><span></span><code>docker images &#39;meetup*&#39;
 </code></pre></div> <div class=highlight><pre><span></span><code>REPOSITORY         TAG       IMAGE ID       CREATED          SIZE
