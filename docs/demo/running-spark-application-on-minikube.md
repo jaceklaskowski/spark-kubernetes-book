@@ -22,7 +22,7 @@ minikube start
 
 Make sure you've got a Spark image available in minikube's Docker registry.
 
-Point the shell to minikube's Docker daemon.
+Point the shell to minikube's Docker daemon and make sure there is the Spark image (that your Spark application project uses).
 
 ```text
 eval $(minikube -p minikube docker-env)
@@ -48,7 +48,7 @@ FROM spark:v{{ spark.version }}
 In your Spark application project execute the command to build and push a Docker image to minikube's Docker repository.
 
 ```text
-sbt clean meetup-spark-app/docker:publishLocal
+sbt clean 'set Docker/dockerRepository in `meetup-spark-app` := None' meetup-spark-app/docker:publishLocal
 ```
 
 List the images and make sure that the image of your Spark application project is available.
@@ -59,8 +59,7 @@ docker images 'meetup*'
 
 ```text
 REPOSITORY         TAG       IMAGE ID       CREATED          SIZE
-meetup-spark-app   0.1.0     5b9b7132a36b   44 seconds ago   520MB
-meetup-app-deps    0.1.0     ace517e0dd60   2 minutes ago    515MB
+meetup-spark-app   0.1.0     3a867debc6c0   11 seconds ago   524MB
 ```
 
 ### docker image inspect
@@ -127,7 +126,7 @@ roleRef:
 Create the resources in the Kubernetes cluster.
 
 ```text
-k create -f rbac.yml
+k create -f k8s/rbac.yml
 ```
 
 !!! tip
@@ -179,40 +178,40 @@ Please note the [configuration properties](../configuration-properties.md) (some
   --conf spark.kubernetes.namespace=spark-demo \
   --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \
   --verbose \
-  local:///opt/spark/jars/meetup.meetup-spark-app-0.1.0.jar
+  local:///opt/spark/jars/meetup.meetup-spark-app-0.1.0.jar THIS_STOPS_THE_DRIVER
 ```
 
 If all went fine you should soon see `termination reason: Completed` message.
 
 ```text
-20/12/14 18:35:06 INFO LoggingPodStatusWatcherImpl: State changed, new state:
-	 pod name: spark-docker-example-3c07aa766251ce43-driver
+21/02/09 14:14:30 INFO LoggingPodStatusWatcherImpl: State changed, new state:
+	 pod name: meetup-spark-app
 	 namespace: spark-demo
-	 labels: spark-app-selector -> spark-b1f8840227074b62996f66b915044ee6, spark-role -> driver
-	 pod uid: a8c06d26-ad8a-4b78-96e1-3e0be00a4da8
-	 creation time: 2020-12-14T17:34:58Z
+	 labels: spark-app-selector -> spark-e4f6628f5c384a4dbdddf4a0b51c3fbe, spark-role -> driver
+	 pod uid: 5f0de3fd-f366-4c05-9866-d51c4b5dfc93
+	 creation time: 2021-02-09T13:14:20Z
 	 service account name: spark
-	 volumes: spark-local-dir-1, spark-conf-volume, spark-token-tsd97
+	 volumes: spark-local-dir-1, spark-conf-volume-driver, spark-token-hqc6k
 	 node name: minikube
-	 start time: 2020-12-14T17:34:58Z
+	 start time: 2021-02-09T13:14:20Z
 	 phase: Succeeded
 	 container status:
 		 container name: spark-kubernetes-driver
-		 container image: spark-docker-example:0.1.0
+		 container image: meetup-spark-app:0.1.0
 		 container state: terminated
-		 container started at: 2020-12-14T17:34:59Z
-		 container finished at: 2020-12-14T17:35:05Z
+		 container started at: 2021-02-09T13:14:21Z
+		 container finished at: 2021-02-09T13:14:30Z
 		 exit code: 0
 		 termination reason: Completed
-20/12/14 18:35:06 INFO LoggingPodStatusWatcherImpl: Application status for spark-b1f8840227074b62996f66b915044ee6 (phase: Succeeded)
-20/12/14 18:35:06 INFO LoggingPodStatusWatcherImpl: Container final statuses:
+21/02/09 14:14:30 INFO LoggingPodStatusWatcherImpl: Application status for spark-e4f6628f5c384a4dbdddf4a0b51c3fbe (phase: Succeeded)
+21/02/09 14:14:30 INFO LoggingPodStatusWatcherImpl: Container final statuses:
 
 
 	 container name: spark-kubernetes-driver
-	 container image: spark-docker-example:0.1.0
+	 container image: meetup-spark-app:0.1.0
 	 container state: terminated
-	 container started at: 2020-12-14T17:34:59Z
-	 container finished at: 2020-12-14T17:35:05Z
+	 container started at: 2021-02-09T13:14:21Z
+	 container finished at: 2021-02-09T13:14:30Z
 	 exit code: 0
 	 termination reason: Completed
 ```
@@ -297,45 +296,41 @@ K8S_SERVER=$(kubectl config view --output=jsonpath='{.clusters[].cluster.server}
 ```
 
 ```text
-$ ./bin/spark-submit --status "spark-demo:spark-docker-example-*" --master k8s://$K8S_SERVER
-...
+./bin/spark-submit --status "spark-demo:$POD_NAME" --master k8s://$K8S_SERVER
+```
+
+```text
 Application status (driver):
-	 pod name: spark-docker-example-3c07aa766251ce43-driver
+	 pod name: meetup-spark-app
 	 namespace: spark-demo
-	 labels: spark-app-selector -> spark-b1f8840227074b62996f66b915044ee6, spark-role -> driver
-	 pod uid: a8c06d26-ad8a-4b78-96e1-3e0be00a4da8
-	 creation time: 2020-12-14T17:34:58Z
+	 labels: spark-app-selector -> spark-0df2be7b2d8d40299e7a406564c9833c, spark-role -> driver
+	 pod uid: 30a749a3-1060-49a7-b502-4a054ea33d30
+	 creation time: 2021-02-09T13:18:14Z
 	 service account name: spark
-	 volumes: spark-local-dir-1, spark-conf-volume, spark-token-tsd97
+	 volumes: spark-local-dir-1, spark-conf-volume-driver, spark-token-hqc6k
 	 node name: minikube
-	 start time: 2020-12-14T17:34:58Z
-	 phase: Succeeded
+	 start time: 2021-02-09T13:18:14Z
+	 phase: Running
 	 container status:
 		 container name: spark-kubernetes-driver
-		 container image: spark-docker-example:0.1.0
-		 container state: terminated
-		 container started at: 2020-12-14T17:34:59Z
-		 container finished at: 2020-12-14T17:35:05Z
-		 exit code: 0
-		 termination reason: Completed
+		 container image: meetup-spark-app:0.1.0
+		 container state: running
+		 container started at: 2021-02-09T13:18:15Z
 ```
 
 ## Listing Services
 
 ```text
-$ k get services
+k get services
+```
+
+```text
 NAME                                               TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)                      AGE
 spark-docker-example-3de43976e3a46fcf-driver-svc   ClusterIP   None         <none>        7078/TCP,7079/TCP,4040/TCP   101s
 ```
 
-## Stopping Cluster
+## Clean Up
 
-```text
-minikube stop
-```
+Clean up the cluster as described in [Demo: spark-shell on minikube](spark-shell-on-minikube.md#clean-up).
 
-Optionally (e.g. to start from scratch next time), delete all of the minikube clusters:
-
-```text
-minikube delete --all
-```
+_That's it. Congratulations!_

@@ -14,11 +14,7 @@ This demo shows how to run `spark-shell` on [minikube](https://minikube.sigs.k8s
 
 ## Start minikube
 
-Quoting [Prerequisites]({{ spark.doc }}/running-on-kubernetes.html#prerequisites) in the official documentation of Apache Spark:
-
-> We recommend 3 CPUs and 4g of memory to be able to start a simple Spark application with a single executor.
-
-Let's start `minikube` with the recommended resources.
+Let's start `minikube` with the recommended resources (based on the [Prerequisites]({{ spark.doc }}/running-on-kubernetes.html#prerequisites) in the official documentation of Apache Spark).
 
 ```text
 minikube start --cpus 4 --memory 8192
@@ -136,8 +132,8 @@ docker images spark
 ```
 
 ```text
-REPOSITORY   TAG          IMAGE ID       CREATED          SIZE
-spark        v{{ spark.version }}   ad49befe3d09   19 seconds ago   509MB
+REPOSITORY   TAG          IMAGE ID       CREATED              SIZE
+spark        v{{ spark.version }}   51ec6001bdb2   About a minute ago   524MB
 ```
 
 ### docker image inspect
@@ -153,7 +149,7 @@ docker image inspect spark:v{{ spark.version }}
 This step is optional, but gives a better exposure to the Kubernetes features supported by Apache Spark and is highly recommended.
 
 !!! tip
-    Learn more in [Creating a new namespace]({{ k8s.doc }}/tasks/administer-cluster/namespaces/#creating-a-new-namespace).
+    Learn more about [Creating a new namespace]({{ k8s.doc }}/tasks/administer-cluster/namespaces/#creating-a-new-namespace) in the official documentation of Kubernetes.
 
 ```text
 k create ns spark-demo
