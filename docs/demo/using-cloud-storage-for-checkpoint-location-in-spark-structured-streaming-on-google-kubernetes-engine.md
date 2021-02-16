@@ -61,7 +61,7 @@ gcloud container images list-tags $GCP_CR/spark
 Go to your Spark application project and build the image.
 
 ```text
-sbt spark-streams-google-storage-demo/docker:publishLocal
+sbt spark-streams-demo/docker:publishLocal spark-streams-google-storage-demo/docker:publishLocal
 ```
 
 ```text
@@ -69,8 +69,8 @@ docker images $GCP_CR/spark-streams-google-storage-demo
 ```
 
 ```text
-REPOSITORY                                                             TAG       IMAGE ID       CREATED      SIZE
-eu.gcr.io/spark-on-kubernetes-2021/spark-streams-google-storage-demo   0.1.0     e9b3ee2bb2e0   2 days ago   533MB
+REPOSITORY                                                             TAG       IMAGE ID       CREATED         SIZE
+eu.gcr.io/spark-on-kubernetes-2021/spark-streams-google-storage-demo   0.1.0     b9dd310765ba   3 minutes ago   542MB
 ```
 
 ??? tip "docker tag"
@@ -115,12 +115,9 @@ Wait a few minutes before the cluster is ready.
 In the end, you should see the messages as follows:
 
 ```text
-Creating cluster spark-examples-cluster in europe-west3-b... Cluster is being health-checked (master is healthy)...done.
-Created [https://container.googleapis.com/v1/projects/...
-To inspect the contents of your cluster, go to: https://console.cloud.google.com/kubernetes/workload_/gcloud/...
 kubeconfig entry generated for spark-examples-cluster.
-NAME                    LOCATION        MASTER_VERSION    MASTER_IP     MACHINE_TYPE  NODE_VERSION      NUM_NODES  STATUS
-spark-examples-cluster  europe-west3-b  1.18.14-gke.1600  34.107.83.39  e2-medium     1.18.14-gke.1600  3          RUNNING
+NAME                    LOCATION        MASTER_VERSION    MASTER_IP      MACHINE_TYPE  NODE_VERSION      NUM_NODES  STATUS
+spark-examples-cluster  europe-west3-b  1.18.15-gke.1100  34.107.115.78  e2-medium     1.18.15-gke.1100  3          RUNNING
 ```
 
 ## Create Cloud Storage Bucket

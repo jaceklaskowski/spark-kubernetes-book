@@ -136,8 +136,8 @@ Wait a few minutes before the GKE cluster is ready. In the end, you should see a
 
 ```text
 kubeconfig entry generated for spark-examples-cluster.
-NAME                    LOCATION        MASTER_VERSION    MASTER_IP       MACHINE_TYPE  NODE_VERSION      NUM_NODES  STATUS
-spark-examples-cluster  europe-west3-b  1.18.14-gke.1600  35.242.198.169  e2-medium     1.18.14-gke.1600  3          RUNNING
+NAME                    LOCATION        MASTER_VERSION    MASTER_IP      MACHINE_TYPE  NODE_VERSION      NUM_NODES  STATUS
+spark-examples-cluster  europe-west3-b  1.18.15-gke.1100  34.107.115.78  e2-medium     1.18.15-gke.1100  3          RUNNING
 ```
 
 Review the configuration of the GKE cluster.
