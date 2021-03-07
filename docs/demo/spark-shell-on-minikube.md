@@ -64,21 +64,21 @@ eval $(minikube -p minikube docker-env)
 List available container images.
 
 ```text
-docker images
+docker images | sort
 ```
 
 ```text
 REPOSITORY                                TAG        IMAGE ID       CREATED         SIZE
-k8s.gcr.io/kube-proxy                     v1.20.2    43154ddb57a8   12 days ago     118MB
-k8s.gcr.io/kube-controller-manager        v1.20.2    a27166429d98   12 days ago     116MB
-k8s.gcr.io/kube-apiserver                 v1.20.2    a8c2fdb8bf76   12 days ago     122MB
-k8s.gcr.io/kube-scheduler                 v1.20.2    ed2c44fbdd78   12 days ago     46.4MB
-kubernetesui/dashboard                    v2.1.0     9a07b5b4bfac   6 weeks ago     226MB
-gcr.io/k8s-minikube/storage-provisioner   v4         85069258b98a   7 weeks ago     29.7MB
-k8s.gcr.io/etcd                           3.4.13-0   0369cf4303ff   5 months ago    253MB
-k8s.gcr.io/coredns                        1.7.0      bfe3a36ebd25   7 months ago    45.2MB
-kubernetesui/metrics-scraper              v1.0.4     86262685d9ab   10 months ago   36.9MB
-k8s.gcr.io/pause                          3.2        80d28bedfe5d   11 months ago   683kB
+gcr.io/k8s-minikube/storage-provisioner   v4         85069258b98a   3 months ago    29.7MB
+k8s.gcr.io/coredns                        1.7.0      bfe3a36ebd25   8 months ago    45.2MB
+k8s.gcr.io/etcd                           3.4.13-0   0369cf4303ff   6 months ago    253MB
+k8s.gcr.io/kube-apiserver                 v1.20.2    a8c2fdb8bf76   7 weeks ago     122MB
+k8s.gcr.io/kube-controller-manager        v1.20.2    a27166429d98   7 weeks ago     116MB
+k8s.gcr.io/kube-proxy                     v1.20.2    43154ddb57a8   7 weeks ago     118MB
+k8s.gcr.io/kube-scheduler                 v1.20.2    ed2c44fbdd78   7 weeks ago     46.4MB
+k8s.gcr.io/pause                          3.2        80d28bedfe5d   12 months ago   683kB
+kubernetesui/dashboard                    v2.1.0     9a07b5b4bfac   2 months ago    226MB
+kubernetesui/metrics-scraper              v1.0.4     86262685d9ab   11 months ago   36.9MB
 ```
 
 ### Kubernetes Dashboard
@@ -114,8 +114,8 @@ Build and publish the Spark image. Note `-m` option to point the shell script to
   build
 ```
 
-!!! note
-    As of Spark 3.1.1, `java_image_tag` argument is assumed `11-jre-slim` (and so `-b java_image_tag=11-jre-slim` could've been skipped in the above command).
+??? note "11-jre-slim is the default"
+    As of Spark 3.1.1, `java_image_tag` argument is assumed `11-jre-slim`. You could safely skip `-b java_image_tag=11-jre-slim` in the above command.
 
 ### docker images
 
@@ -132,8 +132,8 @@ docker images spark
 ```
 
 ```text
-REPOSITORY   TAG          IMAGE ID       CREATED              SIZE
-spark        v{{ spark.version }}   51ec6001bdb2   About a minute ago   524MB
+REPOSITORY   TAG       IMAGE ID       CREATED         SIZE
+spark        v{{ spark.version }}    b3412e410d67   3 minutes ago   524MB
 ```
 
 ### docker image inspect
@@ -170,6 +170,7 @@ Add the following line to `conf/log4j.properties`:
 ```text
 log4j.logger.org.apache.spark.deploy.k8s=ALL
 log4j.logger.org.apache.spark.scheduler.cluster.k8s=ALL
+log4j.logger.org.apache.spark.scheduler.cluster.k8s.ExecutorPodsAllocator=INFO
 ```
 
 Refer to [Logging](../spark-logging.md).
@@ -245,7 +246,17 @@ minikube stop
 Optionally (e.g. to start from scratch next time), delete all of the minikube clusters:
 
 ```text
-minikube delete --all
+minikube delete --all --purge
+```
+
+You may want to remove minikube's Docker images too.
+
+```text
+docker rmi $(docker image ls 'gcr.io/k8s-minikube/*' -q)
+```
+
+```text
+docker image prune --force
 ```
 
 _That's it. Congratulations!_

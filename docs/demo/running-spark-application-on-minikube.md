@@ -7,8 +7,11 @@ hide:
 
 This demo shows how to deploy a Spark application to [Kubernetes](../overview.md) (using [minikube](https://minikube.sigs.k8s.io/docs/)).
 
-!!! tip
-    Start with [Demo: spark-shell on minikube](spark-shell-on-minikube.md).
+## Before you begin
+
+It is assumed that you have finished the following:
+
+- [Demo: spark-shell on minikube](spark-shell-on-minikube.md)
 
 ## Start Cluster
 

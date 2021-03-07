@@ -1,4 +1,4 @@
-# Spark on Kubernetes
+# {{ book.title }}
 
 [Kubernetes](https://kubernetes.io/) is an open-source system for automating deployment, scaling, and management of containerized applications.
 
@@ -6,12 +6,9 @@ Apache Spark supports `Kubernetes` resource manager using [KubernetesClusterMana
 
 Spark on Kubernetes uses `TaskSchedulerImpl` ([Apache Spark]({{ book.spark_core }}/scheduler/TaskSchedulerImpl/)) for task scheduling.
 
-## Kubernetes GA in Spark 3.1.1
+## Kubernetes GA
 
-As per [SPARK-33005 Kubernetes GA Preparation](https://issues.apache.org/jira/browse/SPARK-33005), Spark 3.1.1 comes with many improvements for Kubernetes support and is expected to get **General Availability (GA)** marker 🎉
-
-!!! note
-    [There will never be 3.1.0](http://spark.apache.org/news/next-official-release-spark-3.1.1.html).
+As per [SPARK-33005 Kubernetes GA Preparation](https://issues.apache.org/jira/browse/SPARK-33005), Spark on Kubernetes is fully supported and production ready! 🎉
 
 ## <span id="SPARK_EXECUTOR_INACTIVE_LABEL"> Inactive Executor Pods
 
