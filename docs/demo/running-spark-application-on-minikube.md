@@ -38,8 +38,8 @@ docker images spark
 ```
 
 ```text
-REPOSITORY   TAG          IMAGE ID       CREATED             SIZE
-spark        v{{ spark.version }}   e64950545e8f   About an hour ago   509MB
+REPOSITORY   TAG       IMAGE ID       CREATED       SIZE
+spark        v{{ spark.version }}    b3412e410d67   2 hours ago   524MB
 ```
 
 Use this image in your Spark application:
@@ -48,10 +48,12 @@ Use this image in your Spark application:
 FROM spark:v{{ spark.version }}
 ```
 
-In your Spark application project execute the command to build and push a Docker image to minikube's Docker repository.
+Build and push the Docker image of your Spark application project to minikube's Docker repository. The following command assumes that you use [Spark on Kubernetes Demos](https://github.com/jaceklaskowski/spark-meetups) project.
 
 ```text
-sbt clean 'set Docker/dockerRepository in `meetup-spark-app` := None' meetup-spark-app/docker:publishLocal
+sbt clean \
+    'set Docker/dockerRepository in `meetup-spark-app` := None' \
+    meetup-spark-app/docker:publishLocal
 ```
 
 List the images and make sure that the image of your Spark application project is available.
@@ -88,7 +90,7 @@ Create required Kubernetes resources to run a Spark application.
 ??? tip "Spark official documentation"
     Learn more from the [Spark official documentation]({{ spark.doc }}/running-on-kubernetes.html#rbac).
 
-A namespace is optional, but the service account and the cluster role binding with proper permissions would lead to the following exception message:
+Make sure to create the required Kubernetes resources (a service account and a cluster role binding) as without them you surely run into the following exception message:
 
 ```text
 Forbidden!Configured service account doesn't have access. Service account may have been revoked.
@@ -96,7 +98,7 @@ Forbidden!Configured service account doesn't have access. Service account may ha
 
 ### Declaratively
 
-Use the following `rbac.yml` file.
+Use the following `k8s/rbac.yml` file (from the [Spark on Kubernetes Demos](https://github.com/jaceklaskowski/spark-meetups) project).
 
 ```text
 apiVersion: v1
@@ -181,42 +183,49 @@ Please note the [configuration properties](../configuration-properties.md) (some
   --conf spark.kubernetes.namespace=spark-demo \
   --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \
   --verbose \
-  local:///opt/spark/jars/meetup.meetup-spark-app-0.1.0.jar THIS_STOPS_THE_DRIVER
+  local:///opt/spark/jars/meetup.meetup-spark-app-0.1.0.jar STOP_THE_SPARKCONTEXT
 ```
 
-If all went fine you should soon see `termination reason: Completed` message.
+!!! important
+    `STOP_THE_SPARKCONTEXT` application argument is to stop the `SparkContext` and the driver. The following commands may not work if executed with the argument since the Spark application is stopped.
+
+    Leave it out if you want to play with the commands that follow.
+
+If all goes fine you should soon see `termination reason: Completed` message.
 
 ```text
-21/02/09 14:14:30 INFO LoggingPodStatusWatcherImpl: State changed, new state:
+21/03/08 14:35:35 INFO LoggingPodStatusWatcherImpl: State changed, new state:
 	 pod name: meetup-spark-app
 	 namespace: spark-demo
-	 labels: spark-app-selector -> spark-e4f6628f5c384a4dbdddf4a0b51c3fbe, spark-role -> driver
-	 pod uid: 5f0de3fd-f366-4c05-9866-d51c4b5dfc93
-	 creation time: 2021-02-09T13:14:20Z
+	 labels: spark-app-selector -> spark-5eba470d52c64518a555951d011ca785, spark-role -> driver
+	 pod uid: d61085f6-5764-4320-b77e-02dcd8334382
+	 creation time: 2021-03-08T13:35:25Z
 	 service account name: spark
-	 volumes: spark-local-dir-1, spark-conf-volume-driver, spark-token-hqc6k
+	 volumes: spark-local-dir-1, spark-conf-volume-driver, spark-token-kzmdd
 	 node name: minikube
-	 start time: 2021-02-09T13:14:20Z
+	 start time: 2021-03-08T13:35:25Z
 	 phase: Succeeded
 	 container status:
 		 container name: spark-kubernetes-driver
 		 container image: meetup-spark-app:0.1.0
 		 container state: terminated
-		 container started at: 2021-02-09T13:14:21Z
-		 container finished at: 2021-02-09T13:14:30Z
+		 container started at: 2021-03-08T13:35:27Z
+		 container finished at: 2021-03-08T13:35:35Z
 		 exit code: 0
 		 termination reason: Completed
-21/02/09 14:14:30 INFO LoggingPodStatusWatcherImpl: Application status for spark-e4f6628f5c384a4dbdddf4a0b51c3fbe (phase: Succeeded)
-21/02/09 14:14:30 INFO LoggingPodStatusWatcherImpl: Container final statuses:
+21/03/08 14:35:35 INFO LoggingPodStatusWatcherImpl: Application status for spark-5eba470d52c64518a555951d011ca785 (phase: Succeeded)
+21/03/08 14:35:35 INFO LoggingPodStatusWatcherImpl: Container final statuses:
 
 
 	 container name: spark-kubernetes-driver
 	 container image: meetup-spark-app:0.1.0
 	 container state: terminated
-	 container started at: 2021-02-09T13:14:21Z
-	 container finished at: 2021-02-09T13:14:30Z
+	 container started at: 2021-03-08T13:35:27Z
+	 container finished at: 2021-03-08T13:35:35Z
 	 exit code: 0
 	 termination reason: Completed
+21/03/08 14:35:35 INFO LoggingPodStatusWatcherImpl: Application meetup-spark-app with submission ID spark-demo:meetup-spark-app finished
+21/03/08 14:35:35 DEBUG LoggingPodStatusWatcherImpl: Stopping watching application spark-5eba470d52c64518a555951d011ca785 with last-observed phase Succeeded
 ```
 
 ## Accessing web UI
@@ -224,6 +233,8 @@ If all went fine you should soon see `termination reason: Completed` message.
 ```text
 k port-forward $POD_NAME 4040:4040
 ```
+
+Open http://localhost:4040.
 
 ## Accessing Logs
 
@@ -292,14 +303,29 @@ $ k get po $POD_NAME -o=jsonpath='{.spec.containers[].volumeMounts}' | jq
 ]
 ```
 
+## Listing Services
+
+```text
+k get services
+```
+
+```text
+NAME                                               TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)                      AGE
+spark-docker-example-3de43976e3a46fcf-driver-svc   ClusterIP   None         <none>        7078/TCP,7079/TCP,4040/TCP   101s
+```
+
 ## Spark Application Management
 
 ```text
 K8S_SERVER=$(kubectl config view --output=jsonpath='{.clusters[].cluster.server}')
 ```
 
+### Application Status
+
 ```text
-./bin/spark-submit --status "spark-demo:$POD_NAME" --master k8s://$K8S_SERVER
+./bin/spark-submit \
+  --master k8s://$K8S_SERVER \
+  --status "spark-demo:$POD_NAME"
 ```
 
 ```text
@@ -321,15 +347,18 @@ Application status (driver):
 		 container started at: 2021-02-09T13:18:15Z
 ```
 
-## Listing Services
+### Stop Spark Application
 
 ```text
-k get services
+./bin/spark-submit \
+  --master k8s://$K8S_SERVER \
+  --kill "spark-demo:$POD_NAME"
 ```
 
 ```text
-NAME                                               TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)                      AGE
-spark-docker-example-3de43976e3a46fcf-driver-svc   ClusterIP   None         <none>        7078/TCP,7079/TCP,4040/TCP   101s
+./bin/spark-submit \
+  --master k8s://$K8S_SERVER \
+  --status "spark-demo:$POD_NAME"
 ```
 
 ## Clean Up
