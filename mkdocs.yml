@@ -142,6 +142,7 @@ nav:
       - MountVolumesFeatureStep: MountVolumesFeatureStep.md
       - PodTemplateConfigMapStep: PodTemplateConfigMapStep.md
     - K8SSparkSubmitOperation: K8SSparkSubmitOperation.md
+    - KubernetesVolumeSpec: KubernetesVolumeSpec.md
     - Utilities:
       - KubernetesUtils: KubernetesUtils.md
       - KubernetesClientUtils: KubernetesClientUtils.md
