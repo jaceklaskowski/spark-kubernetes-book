@@ -66,19 +66,13 @@ Used when:
 
 * `MountSecretsFeatureStep` is requested to [configurePod](MountSecretsFeatureStep.md#configurePod)
 
-### <span id="volumes"> Volume Specs
+### <span id="volumes"> Volumes
 
 ```scala
 volumes: Seq[KubernetesVolumeSpec]
 ```
 
-`KubernetesVolumeSpec`s with the following:
-
-* `volumeName`
-* `mountPath`
-* `mountSubPath`
-* `mountReadOnly`
-* `volumeConf`
+[KubernetesVolumeSpec](KubernetesVolumeSpec.md)s
 
 Used when:
 

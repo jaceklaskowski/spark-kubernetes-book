@@ -16,7 +16,7 @@
 
 * `KubernetesClientApplication` is requested to [start](KubernetesClientApplication.md#start) (via [KubernetesConf utility](KubernetesConf.md#createDriverConf))
 
-## <span id="volumes"> Volume Specs
+## <span id="volumes"> Volumes
 
 ```scala
 volumes: Seq[KubernetesVolumeSpec]

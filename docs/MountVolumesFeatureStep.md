@@ -35,19 +35,15 @@ constructVolumes(
   volumeSpecs: Iterable[KubernetesVolumeSpec]): Iterable[(VolumeMount, Volume)]
 ```
 
-`constructVolumes` creates Kubernetes `VolumeMount`s and `Volume`s based on the given `KubernetesVolumeSpec` specs.
+`constructVolumes` creates Kubernetes `VolumeMount`s and `Volume`s for the given [KubernetesVolumeSpec](KubernetesVolumeSpec.md)s.
 
-`VolumeMount`s are built based on the following:
+`VolumeMount`s are built based on the following (4 of 5 properties):
 
-* `mountPath`
-* `mountReadOnly`
-* `mountSubPath`
-* `volumeName`
+* [mountPath](KubernetesVolumeSpec.md#mountPath)
+* [mountReadOnly](KubernetesVolumeSpec.md#mountReadOnly)
+* [mountSubPath](KubernetesVolumeSpec.md#mountSubPath)
+* [volumeName](KubernetesVolumeSpec.md#volumeName)
 
-`Volume`s are build based on the type of the volume:
-
-* `HostPath`
-* `PersistentVolumeClaim`
-* `EmptyDir`
+`Volume`s are build based on the [type of the volume](KubernetesVolumeSpec.md#volumeConf) (the remaining 5th property).
 
 In the end, `Volume`s and `VolumeMount`s are wired together using `volumeName`.

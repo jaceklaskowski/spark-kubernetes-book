@@ -149,6 +149,8 @@ nav:
       - KubernetesVolumeUtils: KubernetesVolumeUtils.md
       - SparkKubernetesClientFactory: SparkKubernetesClientFactory.md
     - Logging: spark-logging.md
+  - Features:
+    - Volumes: volumes.md
   - Demos:
     - Welcome: demo/index.md
     - minikube:

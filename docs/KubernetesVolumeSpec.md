@@ -5,14 +5,18 @@
 * <span id="volumeName"> Volume Name
 * <span id="mountPath"> Mount Path
 * <span id="mountSubPath"> Mount SubPath
-* <span id="mountReadOnly"> `mountReadOnly` flag
+* <span id="mountReadOnly"> `readOnly` flag
 * <span id="volumeConf"> [KubernetesVolumeSpecificConf](#KubernetesVolumeSpecificConf)
+
+`KubernetesVolumeSpec` is part of [KubernetesConf](KubernetesConf.md#volumes) abstraction.
+
+`KubernetesVolumeSpec` is created using [KubernetesVolumeUtils](KubernetesVolumeUtils.md#parseVolumesWithPrefix) utility.
 
 ## <span id="KubernetesVolumeSpecificConf"> KubernetesVolumeSpecificConf
 
 `KubernetesVolumeSpecificConf` complements `KubernetesVolumeSpec` with a [volume type-specific configuration](#volumeConf).
 
-`KubernetesVolumeSpecificConf` is created using [KubernetesVolumeUtils.parseVolumeSpecificConf](KubernetesVolumeUtils.md#parseVolumeSpecificConf) utility.
+`KubernetesVolumeSpecificConf` is created using [KubernetesVolumeUtils](KubernetesVolumeUtils.md#parseVolumeSpecificConf) utility.
 
 ??? note "Sealed Trait"
     `KubernetesVolumeSpecificConf` is a Scala **sealed trait** which means that all of the implementations are in the same compilation unit (a single file).
@@ -40,3 +44,7 @@
 * `claimName`
 * Optional `storageClass` (default: undefined)
 * Optional `size` (default: undefined)
+
+`KubernetesPVCVolumeConf` is used when:
+
+* `MountVolumesFeatureStep` is requested to [constructVolumes](MountVolumesFeatureStep.md#constructVolumes) (that creates a [PersistentVolumeClaim]({{ k8s.doc }}/concepts/storage/persistent-volumes/) for the given `claimName`)

@@ -17,7 +17,7 @@
 
 * `ExecutorPodsAllocator` is requested to [handle executor pods snapshots](ExecutorPodsAllocator.md#onNewSnapshots) (and requests missing executors from Kubernetes via [KubernetesConf utility](KubernetesConf.md#createExecutorConf))
 
-## <span id="volumes"> Volume Specs
+## <span id="volumes"> Volumes
 
 ```scala
 volumes: Seq[KubernetesVolumeSpec]
