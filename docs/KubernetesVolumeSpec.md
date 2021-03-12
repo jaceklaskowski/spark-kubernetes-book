@@ -21,12 +21,12 @@
 ??? note "Sealed Trait"
     `KubernetesVolumeSpecificConf` is a Scala **sealed trait** which means that all of the implementations are in the same compilation unit (a single file).
 
-### <span id="KubernetesEmptyDirVolumeConf"> KubernetesEmptyDirVolumeConf
+## <span id="KubernetesEmptyDirVolumeConf"> KubernetesEmptyDirVolumeConf
 
 * Optional `medium`
 * Optional `sizeLimit`
 
-### <span id="KubernetesHostPathVolumeConf"> KubernetesHostPathVolumeConf
+## <span id="KubernetesHostPathVolumeConf"> KubernetesHostPathVolumeConf
 
 * `hostPath` (based on `hostPath.[volumeName].options.path` configuration property)
 
@@ -34,16 +34,26 @@
 
 * `MountVolumesFeatureStep` is requested to [constructVolumes](MountVolumesFeatureStep.md#constructVolumes) (that creates a hostPath volume for the given `hostPath` volume source path and an empty type)
 
-### <span id="KubernetesNFSVolumeConf"> KubernetesNFSVolumeConf
+## <span id="KubernetesNFSVolumeConf"> KubernetesNFSVolumeConf
 
 * `path`
 * `server`
 
-### <span id="KubernetesPVCVolumeConf"> KubernetesPVCVolumeConf
+## <span id="KubernetesPVCVolumeConf"> KubernetesPVCVolumeConf
+
+`KubernetesPVCVolumeConf` is a [KubernetesVolumeSpecificConf](#KubernetesVolumeSpecificConf) with the following:
 
 * `claimName`
 * Optional `storageClass` (default: undefined)
 * Optional `size` (default: undefined)
+
+`KubernetesPVCVolumeConf` is created (using [KubernetesVolumeUtils](KubernetesVolumeUtils.md#parseVolumeSpecificConf) utility) based on configuration properties with `persistentVolumeClaim` volume type prefix.
+
+Attribute       | Configuration Property
+----------------|-----------------------
+ `claimName`    | `persistentVolumeClaim.[volumeName].options.claimName`
+ `storageClass` | `persistentVolumeClaim.[volumeName].options.storageClass`
+ `size`         | `persistentVolumeClaim.[volumeName].options.sizeLimit`
 
 `KubernetesPVCVolumeConf` is used when:
 

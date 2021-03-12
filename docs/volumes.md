@@ -1,6 +1,6 @@
 # Storage Volumes
 
-**Storage Volumes** ([Kubernetes]({{ k8s.doc }}/concepts/storage/volumes/)) are configured using [MountVolumesFeatureStep](MountVolumesFeatureStep.md) using [KubernetesVolumeSpec](KubernetesVolumeSpec.md).
+**Storage Volumes** ([Kubernetes]({{ k8s.doc }}/concepts/storage/volumes/)) are configured using [MountVolumesFeatureStep](MountVolumesFeatureStep.md) and [KubernetesVolumeSpec](KubernetesVolumeSpec.md).
 
 ## Types of Volumes
 

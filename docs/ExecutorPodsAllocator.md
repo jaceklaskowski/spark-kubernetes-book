@@ -49,15 +49,13 @@ driverPod: Option[Pod]
 No pod was found named [kubernetesDriverPodName] in the cluster in the namespace [namespace] (this was supposed to be the driver pod.).
 ```
 
-### <span id="kubernetesDriverPodName"> spark.kubernetes.driver.pod.name
+## <span id="kubernetesDriverPodName"> spark.kubernetes.driver.pod.name
 
 `ExecutorPodsAllocator` uses [spark.kubernetes.driver.pod.name](configuration-properties.md#spark.kubernetes.driver.pod.name) configuration property to [look up the driver pod by name](#driverPod) when [created](#creating-instance).
 
 ## <span id="podAllocationSize"> spark.kubernetes.allocation.batch.size
 
-`ExecutorPodsAllocator` uses [spark.kubernetes.allocation.batch.size](configuration-properties.md#spark.kubernetes.allocation.batch.size) configuration property in the following:
-
-* [onNewSnapshots](#onNewSnapshots)
+`ExecutorPodsAllocator` uses [spark.kubernetes.allocation.batch.size](configuration-properties.md#spark.kubernetes.allocation.batch.size) configuration property when [allocating executor pods](#requestNewExecutors).
 
 ## <span id="podAllocationDelay"> spark.kubernetes.allocation.batch.delay
 
@@ -138,6 +136,45 @@ Otherwise, when there are executor pods pending (_outstanding_), `onNewSnapshots
 ```text
 Still waiting for [outstanding] executors before requesting more.
 ```
+
+### <span id="requestNewExecutors"> Requesting Executors from Kubernetes
+
+``` scala
+requestNewExecutors(
+  expected: Int,
+  running: Int,
+  applicationId: String,
+  resourceProfileId: Int): Unit
+```
+
+`requestNewExecutors` determines the number of executor pods to allocate based on the given `expected` and `running` and [spark.kubernetes.allocation.batch.size](#podAllocationSize) configuration property.
+
+`requestNewExecutors` prints out the following INFO message to the logs:
+
+``` text
+Going to request [numExecutorsToAllocate] executors from Kubernetes for ResourceProfile Id: [resourceProfileId], target: [expected] running: [running].
+```
+
+For every new executor pod, `requestNewExecutors` does the following:
+
+1. Increments the [executor ID counter](#EXECUTOR_ID_COUNTER)
+1. [Creates a KubernetesExecutorConf](KubernetesConf.md#createExecutorConf) for the executor ID, the given `applicationId` and `resourceProfileId`, and the [driver pod](#driverPod)
+1. Requests the [KubernetesExecutorBuilder](#executorBuilder) to [build the pod spec for executors](KubernetesExecutorBuilder.md#buildFromFeatures)
+1. Requests the [KubernetesClient](#kubernetesClient) to create an executor pod with an executor container attached
+1. Requests the [KubernetesClient](#kubernetesClient) to create `PersistentVolumeClaim` resources if there are any defined (as [additional resources](KubernetesFeatureConfigStep.md#getAdditionalKubernetesResources)) and prints out the following INFO message to the logs:
+
+    ``` text
+    Trying to create PersistentVolumeClaim [name] with StorageClass [storageClassName]
+    ```
+
+1. Registers the new executor ID in the [newlyCreatedExecutors](#newlyCreatedExecutors) registry
+1. Prints out the following DEBUG message to the logs:
+
+    ``` text
+    Requested executor with id [newExecutorId] from Kubernetes.
+    ```
+
+In case of any exceptions, `requestNewExecutors` requests the [KubernetesClient](#kubernetesClient) to delete the failed executor pod.
 
 ## <span id="totalExpectedExecutors"> Total Expected Executors
 

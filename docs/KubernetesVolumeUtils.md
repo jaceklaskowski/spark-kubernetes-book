@@ -1,5 +1,7 @@
 # KubernetesVolumeUtils
 
+`KubernetesVolumeUtils` utility is used to [parseVolumesWithPrefix](#parseVolumesWithPrefix).
+
 ## <span id="parseVolumesWithPrefix"> parseVolumesWithPrefix
 
 ```scala
@@ -7,6 +9,8 @@ parseVolumesWithPrefix(
   sparkConf: SparkConf,
   prefix: String): Seq[KubernetesVolumeSpec]
 ```
+
+`parseVolumesWithPrefix` creates [KubernetesVolumeSpec](KubernetesVolumeSpec.md)s based on the configuration properties (in the given `SparkConf`) with the `prefix`.
 
 `parseVolumesWithPrefix` requests the `SparkConf` to get all properties with the given `prefix`.
 
@@ -24,16 +28,18 @@ parseVolumesWithPrefix(
 * `KubernetesExecutorConf` is requested for [volumes](KubernetesExecutorConf.md#volumes)
 * `KubernetesConf` utility is used to [create a KubernetesDriverConf](KubernetesConf.md#createDriverConf)
 
-### <span id="getVolumeTypesAndNames"> Extracting Volume Types and Names
+## <span id="getVolumeTypesAndNames"> getVolumeTypesAndNames
 
 ```scala
 getVolumeTypesAndNames(
   properties: Map[String, String]): Set[(String, String)]
 ```
 
+`getVolumeTypesAndNames` extracts volume types and names.
+
 `getVolumeTypesAndNames` splits the keys (in the given `properties` key-value collection) by `.` to volume type and name pairs.
 
-### <span id="parseVolumeSpecificConf"> Extracting Volume Configuration
+## <span id="parseVolumeSpecificConf"> parseVolumeSpecificConf
 
 ```scala
 parseVolumeSpecificConf(
@@ -42,14 +48,9 @@ parseVolumeSpecificConf(
   volumeName: String): KubernetesVolumeSpecificConf
 ```
 
-`parseVolumeSpecificConf` creates a [KubernetesVolumeSpecificConf](KubernetesVolumeSpec.md#KubernetesVolumeSpecificConf) based on the given `volumeType`.
+`parseVolumeSpecificConf` extracts volume configuration given the volume type and name.
 
-volumeType  | Keys
-------------|---------
- `hostPath` | `[volumeType].[volumeName].options.path`
- `persistentVolumeClaim` | `[volumeType].[volumeName].options.claimName`
- `emptyDir` | `[volumeType].[volumeName].options.medium`
- &nbsp;     | `[volumeType].[volumeName].options.sizeLimit`
+`parseVolumeSpecificConf` creates a [KubernetesVolumeSpecificConf](KubernetesVolumeSpec.md#KubernetesVolumeSpecificConf) based on the given `volumeType`.
 
 `parseVolumeSpecificConf` throws an `IllegalArgumentException` for unsupported `volumeType`:
 

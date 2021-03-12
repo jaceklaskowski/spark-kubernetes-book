@@ -22,13 +22,13 @@ Used when:
 
 ## <span id="spark.kubernetes.allocation.batch.size"><span id="KUBERNETES_ALLOCATION_BATCH_SIZE"> spark.kubernetes.allocation.batch.size
 
-Minimum number of executor pods to allocate at once in each round of executor allocation
+Maximum number of executor pods to allocate at once in each round of executor allocation
 
 Default: `5`
 
 Used when:
 
-* `ExecutorPodsAllocator` is [created](ExecutorPodsAllocator.md#podAllocationSize)
+* `ExecutorPodsAllocator` is requested to [allocate executor pods](ExecutorPodsAllocator.md#podAllocationSize)
 
 ## <span id="spark.kubernetes.allocation.executor.timeout"><span id="KUBERNETES_ALLOCATION_EXECUTOR_TIMEOUT"> spark.kubernetes.allocation.executor.timeout
 
