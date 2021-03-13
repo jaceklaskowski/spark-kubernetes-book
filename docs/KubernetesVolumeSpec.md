@@ -4,8 +4,8 @@
 
 * <span id="volumeName"> Volume Name
 * <span id="mountPath"> Mount Path
-* <span id="mountSubPath"> Mount SubPath
-* <span id="mountReadOnly"> `readOnly` flag
+* <span id="mountSubPath"> Mount SubPath (default: empty)
+* <span id="mountReadOnly"> `readOnly` flag (default: `false`)
 * <span id="volumeConf"> [KubernetesVolumeSpecificConf](#KubernetesVolumeSpecificConf)
 
 `KubernetesVolumeSpec` is part of [KubernetesConf](KubernetesConf.md#volumes) abstraction.

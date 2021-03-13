@@ -26,8 +26,6 @@ It is assumed that you have finished the following:
 
 ## Start Cluster
 
-Unless already started, start minikube.
-
 ```text
 minikube start
 ```

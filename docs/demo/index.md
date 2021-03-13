@@ -10,6 +10,7 @@ hide:
 - [spark-shell on minikube](spark-shell-on-minikube.md)
 - [Running Spark Application on minikube](running-spark-application-on-minikube.md)
 - [Spark and Local Filesystem in minikube](spark-and-local-filesystem-in-minikube.md)
+- [PersistentVolumeClaims](persistentvolumeclaims.md)
 - [Running Spark Examples on minikube](running-spark-examples-on-minikube.md)
 - [Running Spark Structured Streaming on minikube](running-spark-structured-streaming-on-minikube.md)
 

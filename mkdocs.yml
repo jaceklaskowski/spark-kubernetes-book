@@ -157,6 +157,7 @@ nav:
       - spark-shell on minikube: demo/spark-shell-on-minikube.md
       - Running Spark Application on minikube: demo/running-spark-application-on-minikube.md
       - Spark and Local Filesystem in minikube: demo/spark-and-local-filesystem-in-minikube.md
+      - PersistentVolumeClaims: demo/persistentvolumeclaims.md
       - Running Spark Examples on minikube: demo/running-spark-examples-on-minikube.md
       - Running Spark Structured Streaming on minikube: demo/running-spark-structured-streaming-on-minikube.md
     - Google Kubernetes Engine:
