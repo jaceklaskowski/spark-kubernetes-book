@@ -243,13 +243,19 @@ Review the number of executors at http://localhost:4040/executors/ and in the Ku
 minikube stop
 ```
 
-Optionally (e.g. to start from scratch next time), delete all of the minikube clusters:
+Close the terminal.
+
+### Full Clean Up
+
+Optionally you may want to clean up all the application resources (e.g. to start from scratch next time).
+
+Delete all of the minikube clusters.
 
 ```text
 minikube delete --all --purge
 ```
 
-You may want to remove minikube's Docker images too.
+Remove minikube's Docker images.
 
 ```text
 docker rmi $(docker image ls 'gcr.io/k8s-minikube/*' -q)

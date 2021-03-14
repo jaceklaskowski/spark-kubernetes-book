@@ -244,15 +244,19 @@ Access the logs of the driver.
 k logs -f $POD_NAME
 ```
 
-## Reviewing Spark Application Configuration (ConfigMap)
+## Reviewing Spark Application Configuration
+
+### ConfigMap
 
 ```text
-k get cm
+CONFIG_MAP=$(k get cm -o name | grep spark-drv)
 ```
 
 ```text
-k describe cm [driverPod]-conf-map
+k describe $CONFIG_MAP
 ```
+
+### Volumes
 
 Describe the driver pod and review volumes (`.spec.volumes`) and volume mounts (`.spec.containers[].volumeMounts`).
 
@@ -261,7 +265,10 @@ k describe po $POD_NAME
 ```
 
 ```text
-$ k get po $POD_NAME -o=jsonpath='{.spec.volumes}' | jq
+k get po $POD_NAME -o=jsonpath='{.spec.volumes}' | jq
+```
+
+```text
 [
   {
     "emptyDir": {},
@@ -270,48 +277,65 @@ $ k get po $POD_NAME -o=jsonpath='{.spec.volumes}' | jq
   {
     "configMap": {
       "defaultMode": 420,
-      "name": "spark-docker-example-f76bf776ec818be5-driver-conf-map"
+      "items": [
+        {
+          "key": "log4j.properties",
+          "mode": 420,
+          "path": "log4j.properties"
+        },
+        {
+          "key": "spark.properties",
+          "mode": 420,
+          "path": "spark.properties"
+        }
+      ],
+      "name": "spark-drv-b5cf5b7834f5a32d-conf-map"
     },
-    "name": "spark-conf-volume"
+    "name": "spark-conf-volume-driver"
   },
   {
-    "name": "spark-token-24krm",
+    "name": "spark-token-sfqc9",
     "secret": {
       "defaultMode": 420,
-      "secretName": "spark-token-24krm"
+      "secretName": "spark-token-sfqc9"
     }
   }
 ]
 ```
 
+### Volume Mounts
+
 ```text
-$ k get po $POD_NAME -o=jsonpath='{.spec.containers[].volumeMounts}' | jq
+k get po $POD_NAME -o=jsonpath='{.spec.containers[].volumeMounts}' | jq
+```
+
+```text
 [
   {
-    "mountPath": "/var/data/spark-b5d0a070-ff9a-41a3-91aa-82059ceba5b0",
+    "mountPath": "/var/data/spark-e32e4d73-af0e-43ce-8ffa-f4b64c642b86",
     "name": "spark-local-dir-1"
   },
   {
     "mountPath": "/opt/spark/conf",
-    "name": "spark-conf-volume"
+    "name": "spark-conf-volume-driver"
   },
   {
     "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
-    "name": "spark-token-24krm",
+    "name": "spark-token-sfqc9",
     "readOnly": true
   }
 ]
 ```
 
-## Listing Services
+### Services
 
 ```text
 k get services
 ```
 
 ```text
-NAME                                               TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)                      AGE
-spark-docker-example-3de43976e3a46fcf-driver-svc   ClusterIP   None         <none>        7078/TCP,7079/TCP,4040/TCP   101s
+NAME                                           TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)                      AGE
+meetup-spark-app-ab8a3a7834f5a022-driver-svc   ClusterIP   None         <none>        7078/TCP,7079/TCP,4040/TCP   31m
 ```
 
 ## Spark Application Management
@@ -353,12 +377,6 @@ Application status (driver):
 ./bin/spark-submit \
   --master k8s://$K8S_SERVER \
   --kill "spark-demo:$POD_NAME"
-```
-
-```text
-./bin/spark-submit \
-  --master k8s://$K8S_SERVER \
-  --status "spark-demo:$POD_NAME"
 ```
 
 ## Clean Up
