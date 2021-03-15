@@ -162,9 +162,7 @@ cd $SPARK_HOME
 
 ```text
 K8S_SERVER=$(k config view --output=jsonpath='{.clusters[].cluster.server}')
-```
 
-```text
 export POD_NAME=meetup-spark-app
 export IMAGE_NAME=$POD_NAME:0.1.0
 ```
@@ -250,9 +248,7 @@ k logs -f $POD_NAME
 
 ```text
 CONFIG_MAP=$(k get cm -o name | grep spark-drv)
-```
 
-```text
 k describe $CONFIG_MAP
 ```
 

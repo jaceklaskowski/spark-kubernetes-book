@@ -96,6 +96,8 @@ extra:
     version: 4.12.0
     api: https://www.javadoc.io/doc/io.fabric8/kubernetes-client/4.12.0
     doc: https://kubernetes.io/docs
+  minikube:
+    docs: https://minikube.sigs.k8s.io/docs
   book:
     title: Spark on Kubernetes
     spark_core: https://books.japila.pl/apache-spark-internals

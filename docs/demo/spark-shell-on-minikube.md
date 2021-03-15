@@ -183,9 +183,7 @@ cd $SPARK_HOME
 
 ```text
 K8S_SERVER=$(k config view --output=jsonpath='{.clusters[].cluster.server}')
-```
 
-```text
 ./bin/spark-shell \
   --master k8s://$K8S_SERVER \
   --conf spark.kubernetes.container.image=spark:v{{ spark.version }} \
