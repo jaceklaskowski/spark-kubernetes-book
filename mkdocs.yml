@@ -16,12 +16,15 @@ theme:
     logo: material/book-open-page-variant
     repo: fontawesome/brands/github
   features:
-    - navigation.tabs
-    - navigation.instant
-    - search.suggest
-    - search.share
-    - search.highlight
     - navigation.indexes
+    - navigation.instant
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.top
+    - navigation.tracking
+    - search.highlight
+    - search.share
+    - search.suggest
   palette:
     - scheme: default
       primary: indigo
