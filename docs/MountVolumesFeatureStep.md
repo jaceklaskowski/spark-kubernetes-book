@@ -47,3 +47,18 @@ constructVolumes(
 `Volume`s are build based on the [type of the volume](KubernetesVolumeSpec.md#volumeConf) (the remaining 5th property).
 
 In the end, `Volume`s and `VolumeMount`s are wired together using `volumeName`.
+
+## <span id="OnDemand"><span id="PVC_ON_DEMAND"><span id="SPARK_EXECUTOR_ID"> Claim Name Placeholders
+
+`MountVolumesFeatureStep` defines **OnDemand** and **SPARK_EXECUTOR_ID** as placeholders for runtime-replaceable parts of the claim name of a [KubernetesPVCVolumeConf](KubernetesVolumeSpec.md#KubernetesPVCVolumeConf).
+
+These placeholders allow for templating claim names to include parts to be replaced at deployment.
+
+When [constructVolumes](#constructVolumes) `MountVolumesFeatureStep` replaces all `OnDemand`s with the following (using [resourceNamePrefix](KubernetesConf.md#resourceNamePrefix) and [executorId](KubernetesExecutorConf.md#executorId) of the [KubernetesConf](#conf)):
+
+Pod          | Replacement
+-------------|---------
+ driver      | `[resourceNamePrefix]-exec-[executorId]-pvc-[volumeIndex]`
+ executors   | `[resourceNamePrefix]-driver-pvc-[volumeIndex]`
+
+When [constructVolumes](#constructVolumes) `MountVolumesFeatureStep` replaces all `SPARK_EXECUTOR_ID`s with [executorId](KubernetesExecutorConf.md#executorId) of the [KubernetesConf](#conf).
