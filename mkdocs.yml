@@ -74,6 +74,24 @@ plugins:
   - macros
 
 extra:
+  analytics:
+    provider: google
+    property: !!python/object/apply:os.getenv ["GOOGLE_ANALYTICS_KEY"]
+  book:
+    title: Spark on Kubernetes
+    spark_core: https://books.japila.pl/apache-spark-internals
+  hadoop:
+    version: 3.2.0
+    docs: https://hadoop.apache.org/docs/r3.2.0
+    api: https://hadoop.apache.org/docs/r3.2.0/api
+  java:
+    api: https://docs.oracle.com/en/java/javase/11/docs/api
+  k8s:
+    version: 4.12.0
+    api: https://www.javadoc.io/doc/io.fabric8/kubernetes-client/4.12.0
+    doc: https://kubernetes.io/docs
+  minikube:
+    docs: https://minikube.sigs.k8s.io/docs
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/jaceklaskowski
@@ -85,22 +103,6 @@ extra:
     version: 3.1.1
     github: https://github.com/apache/spark/tree/v3.1.1
     doc: http://spark.apache.org/docs/3.1.1
-  hadoop:
-    version: 3.2.0
-    doc: https://hadoop.apache.org/docs/r3.2.0
-    api: https://hadoop.apache.org/docs/r3.2.0/api
-  java:
-    version: 11
-    api: https://docs.oracle.com/en/java/javase/11/docs/api
-  k8s:
-    version: 4.12.0
-    api: https://www.javadoc.io/doc/io.fabric8/kubernetes-client/4.12.0
-    doc: https://kubernetes.io/docs
-  minikube:
-    docs: https://minikube.sigs.k8s.io/docs
-  book:
-    title: Spark on Kubernetes
-    spark_core: https://books.japila.pl/apache-spark-internals
 
 nav:
   - Home: index.md
