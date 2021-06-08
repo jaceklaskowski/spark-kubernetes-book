@@ -100,9 +100,9 @@ extra:
     - icon: fontawesome/brands/linkedin
       link: https://linkedin.com/in/jaceklaskowski
   spark:
-    version: 3.1.1
-    github: https://github.com/apache/spark/tree/v3.1.1
-    doc: http://spark.apache.org/docs/3.1.1
+    version: 3.1.2
+    github: https://github.com/apache/spark/tree/v3.1.2
+    doc: http://spark.apache.org/docs/3.1.2
 
 nav:
   - Home: index.md
