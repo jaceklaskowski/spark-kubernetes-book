@@ -44,8 +44,7 @@ cd $SPARK_HOME
 List the images using [docker images](https://docs.docker.com/engine/reference/commandline/images/) command (and some other fancy options).
 
 ```text
-docker images "$GCP_CR/*" \
-  --format "table {{ '{{' }}.Repository}}\t{{ '{{' }}.Tag}}"
+docker images "$GCP_CR/*" --format "table {{ '{{' }}.Repository}}\t{{ '{{' }}.Tag}}"
 ```
 
 ```text
@@ -134,17 +133,26 @@ gcloud container clusters create $CLUSTER_NAME \
 
 Wait a few minutes before the GKE cluster is ready. In the end, you should see a summary of the cluster.
 
+### List Clusters
+
 ```text
-kubeconfig entry generated for spark-examples-cluster.
-NAME                    LOCATION        MASTER_VERSION    MASTER_IP      MACHINE_TYPE  NODE_VERSION      NUM_NODES  STATUS
-spark-examples-cluster  europe-west3-b  1.18.15-gke.1100  34.107.115.78  e2-medium     1.18.15-gke.1100  3          RUNNING
+gcloud container clusters list
 ```
+
+```text
+NAME                    LOCATION        MASTER_VERSION   MASTER_IP       MACHINE_TYPE  NODE_VERSION     NUM_NODES  STATUS
+spark-examples-cluster  europe-west3-b  1.20.7-gke.1800  35.246.230.110  e2-medium     1.20.7-gke.1800  3          RUNNING
+```
+
+### Config View
 
 Review the configuration of the GKE cluster.
 
 ```text
 k config view
 ```
+
+### Compute Instances
 
 Review the cluster's VM instances.
 
@@ -207,6 +215,12 @@ export POD_NAME=spark-examples-pod
 export SPARK_IMAGE=$GCP_CR/spark:v{{ spark.version }}
 ```
 
+Before the real `spark-submit` happens, open another terminal and watch the pods being created and terminated while the Spark application is going up and down. Don't forget to use `spark-demo` namespace.
+
+```text
+k get po -n spark-demo -w
+```
+
 !!! important
     For the time being we're going to use `spark-submit` not `run-example`. See [Demo: Running Spark Examples on minikube](running-spark-examples-on-minikube.md#running-sparkpi-on-minikube) for more information.
 
@@ -223,22 +237,57 @@ export SPARK_IMAGE=$GCP_CR/spark:v{{ spark.version }}
   --conf spark.kubernetes.namespace=spark-demo \
   --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \
   --verbose \
-  local:///opt/spark/examples/jars/spark-examples_2.12-3.1.1.jar 10
+  local:///opt/spark/examples/jars/spark-examples_2.12-{{ spark.version }}.jar 10
 ```
 
 !!! note
     `spark.kubernetes.*.request.cores` configuration properties were required due to the default machine type of a GKE cluster is too small CPU-wise. You may consider another machine type for a GKE cluster (e.g. `c2-standard-4`).
 
-Open another terminal and watch the pods being created and terminated. Don't forget about the `spark-demo` namespace.
-
-```text
-k get po -n spark-demo -w
-```
-
 In the end, review the logs.
 
 ```text
 k logs -n spark-demo $POD_NAME
+```
+
+### KubernetesClientException: pods "spark-examples-pod" already exists
+
+While executing the demo you may run into the following exception:
+
+```text
+Exception in thread "main" io.fabric8.kubernetes.client.KubernetesClientException: Failure executing: POST at: https://35.246.230.110/api/v1/namespaces/spark-demo/pods. Message: pods "spark-examples-pod" already exists. Received status: Status(apiVersion=v1, code=409, details=StatusDetails(causes=[], group=null, kind=pods, name=spark-examples-pod, retryAfterSeconds=null, uid=null, additionalProperties={}), kind=Status, message=pods "spark-examples-pod" already exists, metadata=ListMeta(_continue=null, remainingItemCount=null, resourceVersion=null, selfLink=null, additionalProperties={}), reason=AlreadyExists, status=Failure, additionalProperties={}).
+	at io.fabric8.kubernetes.client.dsl.base.OperationSupport.requestFailure(OperationSupport.java:589)
+	at io.fabric8.kubernetes.client.dsl.base.OperationSupport.assertResponseCode(OperationSupport.java:528)
+	at io.fabric8.kubernetes.client.dsl.base.OperationSupport.handleResponse(OperationSupport.java:492)
+	at io.fabric8.kubernetes.client.dsl.base.OperationSupport.handleResponse(OperationSupport.java:451)
+	at io.fabric8.kubernetes.client.dsl.base.OperationSupport.handleCreate(OperationSupport.java:252)
+	at io.fabric8.kubernetes.client.dsl.base.BaseOperation.handleCreate(BaseOperation.java:879)
+	at io.fabric8.kubernetes.client.dsl.base.BaseOperation.create(BaseOperation.java:341)
+	at io.fabric8.kubernetes.client.dsl.base.BaseOperation.create(BaseOperation.java:84)
+	at org.apache.spark.deploy.k8s.submit.Client.run(KubernetesClientApplication.scala:139)
+	at org.apache.spark.deploy.k8s.submit.KubernetesClientApplication.$anonfun$run$3(KubernetesClientApplication.scala:213)
+	at org.apache.spark.deploy.k8s.submit.KubernetesClientApplication.$anonfun$run$3$adapted(KubernetesClientApplication.scala:207)
+	at org.apache.spark.util.Utils$.tryWithResource(Utils.scala:2622)
+	at org.apache.spark.deploy.k8s.submit.KubernetesClientApplication.run(KubernetesClientApplication.scala:207)
+	at org.apache.spark.deploy.k8s.submit.KubernetesClientApplication.start(KubernetesClientApplication.scala:179)
+	at org.apache.spark.deploy.SparkSubmit.org$apache$spark$deploy$SparkSubmit$$runMain(SparkSubmit.scala:951)
+	at org.apache.spark.deploy.SparkSubmit.doRunMain$1(SparkSubmit.scala:180)
+	at org.apache.spark.deploy.SparkSubmit.submit(SparkSubmit.scala:203)
+	at org.apache.spark.deploy.SparkSubmit.doSubmit(SparkSubmit.scala:90)
+	at org.apache.spark.deploy.SparkSubmit$$anon$2.doSubmit(SparkSubmit.scala:1039)
+	at org.apache.spark.deploy.SparkSubmit$.main(SparkSubmit.scala:1048)
+	at org.apache.spark.deploy.SparkSubmit.main(SparkSubmit.scala)
+```
+
+As the error message says:
+
+```text
+Message: pods "spark-examples-pod" already exists.
+```
+
+You are supposed to delete the pod before any other future demo attempts. The driver pods are left over (after a Spark application is finished) for log or configuration review.
+
+```text
+k delete po -n spark-demo $POD_NAME
 ```
 
 ## Clean Up
