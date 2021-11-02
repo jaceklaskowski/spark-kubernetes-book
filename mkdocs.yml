@@ -16,6 +16,8 @@ theme:
     logo: material/book-open-page-variant
     repo: fontawesome/brands/github
   features:
+    # https://squidfunk.github.io/mkdocs-material/reference/code-blocks/#adding-annotations
+    - content.code.annotate
     - navigation.indexes
     - navigation.instant
     - navigation.tabs
@@ -68,27 +70,27 @@ plugins:
   - search
   - minify:
       minify_html: true
-  - git-revision-date:
-      enabled_if_env: CI
   - awesome-pages
   - macros
+  # https://squidfunk.github.io/mkdocs-material/setup/setting-up-tags/
+  - tags
 
 extra:
   analytics:
     provider: google
-    property: !!python/object/apply:os.getenv ["GOOGLE_ANALYTICS_KEY"]
+    property: !ENV GOOGLE_ANALYTICS_KEY
   book:
     title: Spark on Kubernetes
     spark_core: https://books.japila.pl/apache-spark-internals
   hadoop:
-    version: 3.2.0
-    docs: https://hadoop.apache.org/docs/r3.2.0
-    api: https://hadoop.apache.org/docs/r3.2.0/api
+    version: 3.3.1
+    docs: https://hadoop.apache.org/docs/r3.3.1
+    api: https://hadoop.apache.org/docs/r3.3.1/api
   java:
     api: https://docs.oracle.com/en/java/javase/11/docs/api
   k8s:
-    version: 4.12.0
-    api: https://www.javadoc.io/doc/io.fabric8/kubernetes-client/4.12.0
+    version: 5.4.1
+    api: https://www.javadoc.io/doc/io.fabric8/kubernetes-client/5.4.1
     doc: https://kubernetes.io/docs
   minikube:
     docs: https://minikube.sigs.k8s.io/docs
@@ -99,10 +101,12 @@ extra:
       link: https://twitter.com/jaceklaskowski
     - icon: fontawesome/brands/linkedin
       link: https://linkedin.com/in/jaceklaskowski
+    - icon: fontawesome/brands/medium
+      link: https://jaceklaskowski.medium.com
   spark:
-    version: 3.1.2
-    github: https://github.com/apache/spark/tree/v3.1.2
-    doc: http://spark.apache.org/docs/3.1.2
+    version: 3.2.0
+    github: https://github.com/apache/spark/tree/v3.2.0
+    doc: http://spark.apache.org/docs/3.2.0
 
 nav:
   - Home: index.md

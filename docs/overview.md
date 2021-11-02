@@ -6,10 +6,6 @@ Apache Spark supports `Kubernetes` resource manager using [KubernetesClusterMana
 
 Spark on Kubernetes uses `TaskSchedulerImpl` ([Apache Spark]({{ book.spark_core }}/scheduler/TaskSchedulerImpl/)) for task scheduling.
 
-## Kubernetes GA
-
-As per [SPARK-33005 Kubernetes GA Preparation](https://issues.apache.org/jira/browse/SPARK-33005), Spark on Kubernetes is fully supported and production ready! 🎉
-
 ## <span id="SPARK_EXECUTOR_INACTIVE_LABEL"> Inactive Executor Pods
 
 Spark on Kubernetes defines **spark-exec-inactive** label to mark executor pods as inactive after they have finished (successfully or not) but [spark.kubernetes.executor.deleteOnTermination](configuration-properties.md#spark.kubernetes.executor.deleteOnTermination) configuration property is `false` (when `ExecutorPodsLifecycleManager` is requested to [handle executor pods snapshots](ExecutorPodsLifecycleManager.md#onNewSnapshots)).
@@ -127,5 +123,6 @@ Containers:
 ## Resources
 
 * [Official documentation]({{ spark.doc }}/running-on-kubernetes.html)
+* [SPARK-33005 Kubernetes GA Preparation](https://issues.apache.org/jira/browse/SPARK-33005)
 * [Spark on Kubernetes](https://levelup.gitconnected.com/spark-on-kubernetes-3d822969f85b) by Scott Haines
 * (video) [Getting Started with Apache Spark on Kubernetes](https://www.youtube.com/watch?v=xo7BIkFWQP4) by Jean-Yves Stephan and Julien Dumazert
