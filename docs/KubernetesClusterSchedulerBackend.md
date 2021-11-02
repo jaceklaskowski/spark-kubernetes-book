@@ -36,15 +36,21 @@ When requested for the [expected number of executors](#doRequestTotalExecutors),
 
 When requested to [isBlacklisted](#isBlacklisted), `KubernetesClusterSchedulerBackend` requests the `ExecutorPodsAllocator` to [isDeleted](ExecutorPodsAllocator.md#isDeleted) with a given executor.
 
-## <span id="initialExecutors"> Initial Executors
+## <span id="initialExecutors"> Number of Initial Executors
 
 ```scala
 initialExecutors: Int
 ```
 
-`KubernetesClusterSchedulerBackend` calculates the initial target number of executors when [created](#creating-instance).
+`KubernetesClusterSchedulerBackend` calculates the initial target number of executors (cf. [SchedulerBackendUtils]({{ book.spark_core }}/scheduler/SchedulerBackendUtils#getInitialTargetExecutorNumber)) when [created](#creating-instance).
 
 `initialExecutors` is used when `KubernetesClusterSchedulerBackend` is requested to [start](#start) and [whether or not sufficient resources registered](#sufficientResourcesRegistered).
+
+## <span id="defaultProfile"> Default ResourceProfile
+
+`KubernetesClusterSchedulerBackend` requests the [TaskSchedulerImpl](#scheduler) for the `SparkContext` that is in turn requested for the `ResourceProfileManager` ([Apache Spark]({{ book.spark_core }}/stage-level-scheduling/ResourceProfileManager)) for the default `ResourceProfile` ([Apache Spark]({{ book.spark_core }}/stage-level-scheduling/ResourceProfile)).
+
+When [started](#start), `KubernetesClusterSchedulerBackend` uses the default `ResourceProfile` (along with the [initialExecutors](#initialExecutors)) for the [ExecutorPodsAllocator](#podAllocator) to [setTotalExpectedExecutors](ExecutorPodsAllocator.md#setTotalExpectedExecutors).
 
 ## <span id="applicationId"> Application Id
 
