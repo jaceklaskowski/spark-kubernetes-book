@@ -232,7 +232,7 @@ Used when:
 
 ## <span id="spark.kubernetes.executor.podNamePrefix"><span id="KUBERNETES_EXECUTOR_POD_NAME_PREFIX"> spark.kubernetes.executor.podNamePrefix
 
-**(internal)** Prefix of the executor pod names
+Prefix of the name of executor pods
 
 Default: (undefined)
 

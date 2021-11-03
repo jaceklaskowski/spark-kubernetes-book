@@ -174,3 +174,22 @@ getResourceNamePrefix(
 * `KubernetesDriverConf` is requested for the [resourceNamePrefix](KubernetesDriverConf.md#resourceNamePrefix)
 * `KubernetesExecutorConf` is requested for the [resourceNamePrefix](KubernetesExecutorConf.md#resourceNamePrefix)
 * `KubernetesClusterManager` is requested to [createSchedulerBackend](KubernetesClusterManager.md#createSchedulerBackend)
+
+## <span id="buildKubernetesResourceName"> Building Kubernetes Resource Name
+
+```scala
+buildKubernetesResourceName(
+  vendorDomain: String,
+  resourceName: String): String
+```
+
+`buildKubernetesResourceName` creates the following text (resource name):
+
+```text
+[vendorDomain]/[resourceName]
+```
+
+`buildKubernetesResourceName` is used when:
+
+* `KubernetesUtils` is requested to [buildResourcesQuantities](KubernetesUtils.md#buildResourcesQuantities)
+* `BasicExecutorFeatureStep` is requested to [buildExecutorResourcesQuantities](BasicExecutorFeatureStep.md#buildExecutorResourcesQuantities)

@@ -185,6 +185,22 @@ isLocalDependency(
 
 An input `URI` is a **local dependency** when the scheme is `null` (undefined) or `file`.
 
+## <span id="buildKubernetesResourceName"> Building Kubernetes Resource Name
+
+```scala
+buildResourcesQuantities(
+  componentName: String,
+  sparkConf: SparkConf): Map[String, Quantity]
+```
+
+`buildResourcesQuantities` finds all the resource requests (the properties with keys with `[componentName].resource` prefix) in the given `SparkConf`.
+
+For every `ResourceRequest`, `buildResourcesQuantities` [builds a Kubernetes resource name](KubernetesConf.md#buildKubernetesResourceName) (based on the `vendor` and the `resourceName` of the `ResourceRequest`) and maps it to the `amount` (of the `ResourceRequest`).
+
+`buildResourcesQuantities` is used when:
+
+* `BasicDriverFeatureStep` is requested to [configurePod](BasicDriverFeatureStep.md#configurePod)
+
 ## Logging
 
 Enable `ALL` logging level for `org.apache.spark.deploy.k8s.KubernetesUtils` logger to see what happens inside.
