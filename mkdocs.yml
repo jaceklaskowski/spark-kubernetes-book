@@ -104,9 +104,9 @@ extra:
     - icon: fontawesome/brands/medium
       link: https://jaceklaskowski.medium.com
   spark:
-    version: 3.2.0
-    github: https://github.com/apache/spark/tree/v3.2.0
-    doc: http://spark.apache.org/docs/3.2.0
+    version: 3.2.1
+    github: https://github.com/apache/spark/tree/v3.2.1
+    doc: http://spark.apache.org/docs/3.2.1
 
 nav:
   - Home: index.md
