@@ -23,7 +23,8 @@ minikube start
 
 ## Build Spark Application Image
 
-Make sure you've got a Spark image available in minikube's Docker registry.
+!!! important
+    Make sure you've got a Spark image available in minikube's Docker registry (as described in [Demo: spark-shell on minikube](spark-shell-on-minikube.md#build-spark-image)).
 
 Point the shell to minikube's Docker daemon and make sure there is the Spark image (that your Spark application project uses).
 
@@ -42,13 +43,16 @@ REPOSITORY   TAG       IMAGE ID       CREATED       SIZE
 spark        v{{ spark.version }}    b3412e410d67   2 hours ago   524MB
 ```
 
-Use this image in your Spark application:
+Use this image in the `Dockerfile` of your Spark application:
 
 ```text
 FROM spark:v{{ spark.version }}
 ```
 
-Build and push the Docker image of your Spark application project to minikube's Docker repository. The following command assumes that you use [Spark on Kubernetes Demos](https://github.com/jaceklaskowski/spark-meetups) project.
+Build and push the Docker image of your Spark application project to minikube's Docker repository.
+
+!!! important
+    The following command assumes that you use [Spark on Kubernetes Demos](https://github.com/jaceklaskowski/spark-meetups) project.
 
 ```text
 sbt clean \

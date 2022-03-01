@@ -68,17 +68,17 @@ docker images | sort
 ```
 
 ```text
-REPOSITORY                                TAG        IMAGE ID       CREATED         SIZE
-gcr.io/k8s-minikube/storage-provisioner   v4         85069258b98a   3 months ago    29.7MB
-k8s.gcr.io/coredns                        1.7.0      bfe3a36ebd25   8 months ago    45.2MB
-k8s.gcr.io/etcd                           3.4.13-0   0369cf4303ff   6 months ago    253MB
-k8s.gcr.io/kube-apiserver                 v1.20.2    a8c2fdb8bf76   7 weeks ago     122MB
-k8s.gcr.io/kube-controller-manager        v1.20.2    a27166429d98   7 weeks ago     116MB
-k8s.gcr.io/kube-proxy                     v1.20.2    43154ddb57a8   7 weeks ago     118MB
-k8s.gcr.io/kube-scheduler                 v1.20.2    ed2c44fbdd78   7 weeks ago     46.4MB
-k8s.gcr.io/pause                          3.2        80d28bedfe5d   12 months ago   683kB
-kubernetesui/dashboard                    v2.1.0     9a07b5b4bfac   2 months ago    226MB
-kubernetesui/metrics-scraper              v1.0.4     86262685d9ab   11 months ago   36.9MB
+REPOSITORY                                TAG       IMAGE ID       CREATED         SIZE
+gcr.io/k8s-minikube/storage-provisioner   v5        6e38f40d628d   11 months ago   31.5MB
+k8s.gcr.io/coredns/coredns                v1.8.6    a4ca41631cc7   4 months ago    46.8MB
+k8s.gcr.io/etcd                           3.5.1-0   25f8c7f3da61   3 months ago    293MB
+k8s.gcr.io/kube-apiserver                 v1.23.3   f40be0088a83   4 weeks ago     135MB
+k8s.gcr.io/kube-controller-manager        v1.23.3   b07520cd7ab7   4 weeks ago     125MB
+k8s.gcr.io/kube-proxy                     v1.23.3   9b7cc9982109   4 weeks ago     112MB
+k8s.gcr.io/kube-scheduler                 v1.23.3   99a3486be4f2   4 weeks ago     53.5MB
+k8s.gcr.io/pause                          3.6       6270bb605e12   6 months ago    683kB
+kubernetesui/dashboard                    v2.3.1    e1482a24335a   8 months ago    220MB
+kubernetesui/metrics-scraper              v1.0.7    7801cfc6d5c0   8 months ago    34.4MB
 ```
 
 ### Kubernetes Dashboard
@@ -100,7 +100,7 @@ cd $SPARK_HOME
 ```
 
 !!! tip
-    Review `kubernetes/dockerfiles/spark` (in your Spark installation) or `resource-managers/kubernetes/docker` (in the Spark source code).
+    Review `kubernetes/dockerfiles/spark` (in your Spark installation) or `resource-managers/kubernetes/docker/src/main/dockerfiles/spark` (in the Spark source code).
 
 ### docker-image-tool
 
@@ -109,13 +109,12 @@ Build and publish the Spark image. Note `-m` option to point the shell script to
 ```text
 ./bin/docker-image-tool.sh \
   -m \
-  -b java_image_tag=11-jre-slim \
   -t v{{ spark.version }} \
   build
 ```
 
 ??? note "11-jre-slim is the default"
-    As of Spark 3.1.1, `java_image_tag` argument is assumed `11-jre-slim`. You could safely skip `-b java_image_tag=11-jre-slim` in the above command.
+    As of Spark 3.1.1, `java_image_tag` argument is assumed `11-jre-slim`. You can use `-b java_image_tag=11-jre-slim` or similar to specify the Java version.
 
 ### docker images
 
@@ -132,8 +131,8 @@ docker images spark
 ```
 
 ```text
-REPOSITORY   TAG       IMAGE ID       CREATED         SIZE
-spark        v{{ spark.version }}    b3412e410d67   3 minutes ago   524MB
+REPOSITORY   TAG       IMAGE ID       CREATED              SIZE
+spark        v3.2.1    5f31df7ad9ea   About a minute ago   802MB
 ```
 
 ### docker image inspect
@@ -141,7 +140,7 @@ spark        v{{ spark.version }}    b3412e410d67   3 minutes ago   524MB
 Use [docker image inspect](https://docs.docker.com/engine/reference/commandline/image_inspect/) command to display detailed information on the Spark image.
 
 ```text
-docker image inspect spark:v{{ spark.version }}
+docker image inspect spark:v3.2.1
 ```
 
 ## Create Namespace
@@ -186,7 +185,7 @@ K8S_SERVER=$(k config view --output=jsonpath='{.clusters[].cluster.server}')
 
 ./bin/spark-shell \
   --master k8s://$K8S_SERVER \
-  --conf spark.kubernetes.container.image=spark:v{{ spark.version }} \
+  --conf spark.kubernetes.container.image=spark:v3.2.1 \
   --conf spark.kubernetes.context=minikube \
   --conf spark.kubernetes.namespace=spark-demo \
   --verbose
@@ -199,18 +198,24 @@ Welcome to
       ____              __
      / __/__  ___ _____/ /__
     _\ \/ _ \/ _ `/ __/  '_/
-   /___/ .__/\_,_/_/ /_/\_\   version 3.1.1
+   /___/ .__/\_,_/_/ /_/\_\   version 3.2.1
       /_/
 
-Using Scala version 2.12.10 (OpenJDK 64-Bit Server VM, Java 11.0.10)
+Using Scala version 2.12.15 (OpenJDK 64-Bit Server VM, Java 11.0.13)
 Type in expressions to have them evaluated.
 Type :help for more information.
+```
 
-scala> spark.version
-res0: String = 3.1.1
+Check out the versions.
 
-scala> sc.master
-res1: String = k8s://https://127.0.0.1:55020
+```text
+scala> println(spark.version)
+3.2.1
+```
+
+```text
+scala> println(sc.master)
+k8s://https://127.0.0.1:58193
 ```
 
 ## web UIs
