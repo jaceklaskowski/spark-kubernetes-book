@@ -9,6 +9,8 @@ This demo shows how to run the Spark example applications on minikube to advance
 
 This demo lets you explore deploying a Spark application (e.g. `SparkPi`) to Kubernetes in `cluster` deploy mode.
 
+We will list steps for you to run from scratch, and will also introduce an open source [punch tool](https://github.com/datapunchorg/punch) to provide a one-click way to run a Spark application on minikube.
+
 ## Before you begin
 
 Start up minikube with necessary Kubernetes resources.
@@ -186,3 +188,27 @@ $ k get po $POD_NAME -o=jsonpath='{.spec.containers[0].resources}' | jq
   }
 }
 ```
+
+
+# One click to run on minikube
+
+You could try [DataPunch Project](https://github.com/datapunchorg/punch) with following steps:
+
+Clone the code repo:
+
+```
+git clone https://github.com/datapunchorg/punch.git
+```
+
+Then run:
+
+```
+make release
+cd dist
+./punch install SparkOnEks --env withMinikube=true --patch spec.apiGateway.userPassword=password1 --print-usage-example
+./sparkcli --user user1 --password password1 --insecure --url https://localhost:32443/sparkapi/v1 submit --class org.apache.spark.examples.SparkPi --spark-version 3.2 --driver-memory 512m --executor-memory 512m local:///opt/spark/examples/jars/spark-examples_2.12-3.2.1.jar
+```
+
+See its [Quick Start Guide](https://github.com/datapunchorg/punch/blob/main/QuickStart_Spark_Minikube.md) for more details.
+
+
